@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "PostQuestion";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<style>
+    .ck.ck-editor__editable_inline > :last-child {
+        margin-bottom: 120px;
+    }
+
+    body {
+        font-family: Arial
+    }
+</style>
+<script src="~/assets/ckeditor5/build/ckeditor.js"></script>
+@Html.Action("Select2T", "ShareView")
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Đặt câu hỏi</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/Home/Index">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Đặt câu hỏi</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    <div class="row">
+
+        <div class="col-xl-4 order-xl-2">
+            <div class="card p-3">
+                <div class="">
+                    <h2>Trích.</h2>
+                </div>
+                <div>
+                    <i>_Câu hỏi?</i>
+                </div>
+                <div>
+                    Đặt tiêu đề của câu hỏi ngắn gọn, xúc tích, có các từ khóa chính của câu hỏi, để việc tìm kiếm sẽ dễ dàng hơn.
+                </div>
+                <div>
+                    <i>_Chi tiết .</i>
+                </div>
+                <div>
+                    Ghi đầy đủ, rỏ ràng câu hỏi của bạn, nếu có code thì càng tốt.
+                </div>
+                <div>
+                    <i>_Công nghệ .</i>
+                </div>
+                <div>
+                    Chọn cách công nghệ mà bài viết này có liên quan để tiện cho việc tìm kiếm, phân chia rỏ ràng các câu hỏi theo từng công nghệ.
+                </div>
+                <div>
+                    <i>_Seo .</i>
+                </div>
+                <div>
+                    Chọn những từ khóa chính của câu hỏi, ghi gắn gọn, để mọi người có thể dễ dàng tìm kiếm câu hỏi của bạn.
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8 order-xl-1">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0"> Bạn có thắc mắc gì? <i class="far fa-meh-rolling-eyes"></i></h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="#!" class="btn btn-sm btn-primary">Quản lý câu hỏi</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form onsubmit="return CheckPost()" action="@Url.Action("IndexPostQuestion","PostQuestion")" method="post">
+
+                        <h6 class="heading-small text-muted mb-4">Đặt câu hỏi?</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address"><i class="fas fa-pen-alt"></i> Tiêu để câu hỏi?</label>
+                                        <input id="titlePost" value="" required="" name="post_title" class="form-control" placeholder="................................" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address"><i class="far fa-edit"></i> Chi tiết</label>
+                                        <textarea class="form-control" id="editor" name="post_content" placeholder="................................"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address"><i class="fas fa-laptop-code"></i> Công nghệ</label>
+                                        <select class="form-control" required="" name="postTechnology" id="selectTechnology" multiple="multiple">
+                                            <option>công nghệ 1</option>
+                                            <option value="2">công nghệ 1</option>
+                                            <option>công nghệ 1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address"><i class="fas fa-tags"></i> Seo</label>
+                                        <select class="form-control" required="" name="postTags" id="selectTags" multiple="multiple">
+                                            <option selected>từ khóa seo 1</option>
+                                            <option selected>từ khóa seo 1</option>
+                                            <option selected>từ khóa seo 1</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success w-100"><i class="far fa-paper-plane"></i> Đăng câu hỏi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" />
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $("#selectTags").select2({
+        tags: true,
+        tokenSeparators: [',', ''],
+        maximumSelectionLength: 20,
+        placeholder: 'Chọn tối đa (20 thẻ tag)...'
+    });
+</script>
+<script>
+    $("#selectTechnology").select2({
+        placeholder: 'Nhập công nghệ (tối đa 3 công nghệ)..',
+        maximumSelectionLength: 3,
+        allowClear: true
+    });
+</script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: ['heading', '|', 'codeBlock', 'code', '|', 'bold', 'italic', 'Link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'ImageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo']
+        })
+        .catch(error => {
+            console.log(error);
+        });
+</script>

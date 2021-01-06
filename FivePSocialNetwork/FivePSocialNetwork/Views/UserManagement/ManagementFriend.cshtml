@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "ManagementFriend";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0"> Bạn bè</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Bạn bè</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    <a href="@Url.Action("PostQuestion","Question")" class="btn btn-sm btn-neutral"><i class="far fa-paper-plane"></i> Đặt câu hỏi?</a>
+                    <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>
+                </div>
+                <div class="col-xl-12">
+                    <div class="col-xl-7">
+                        <p style="color:white">Những người bạn đã kết bạn, hay nói chuyện trao đổi kiến thức với họ để tốt lên, họ sẽ luôn sẵn sàng.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class=col-xl-12>
+            <div class="row">
+                <div class="col-xl-7">
+                    <div class="btn-group float-left mb-3 mt--4" role="group" aria-label="Basic example">
+                        <a href="@Url.Action("Friend","Display")" class="btn btn-secondary">Tất cả</a>
+                        <a href="@Url.Action("FriendRecently","Display")" class="btn btn-secondary">Gần đây</a>
+                        <a href="@Url.Action("FriendInvitation","Display")" class="btn btn-secondary">Lời mời</a>
+                        <a href="@Url.Action("FriendSend","Display")" class="btn btn-secondary">Gửi đi</a>
+                    </div>
+                </div>
+                <div class="col-xl-5 text-right">
+                    <div class="mb-3 mt--4">
+                        <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative input-group-merge">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Tìm ..." type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12 card">
+            <div class="row">
+
+                <div class="col-xl-3 p-3 cardlist">
+                    <div class="row">
+                        <div class="col-5">
+                            <a href="cateview.php" class="w-100">
+                                <img src="~/Content/LayoutCenter/ImgUser/user1.jpg" class="mx-auto d-block mb-1 addcartimg" style="width:104px;height:104px" />
+                            </a>
+                        </div>
+                        <div class="col-7">
+                            <div class="d-block text-truncate mb-1">
+                                <a href="cateview.php" class="cartproname">
+                                    ..
+                                </a>
+                            </div>
+                            <div class="seller d-block">
+                                <span>..<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> </span>
+                                <span>...<i class="fas fa-medal" style="color:yellow"></i></span>
+
+                            </div>
+                            <div class="seller d-block">
+                                <span>
+                                    ..<i class="fas fa-medal" style="color:silver"></i>
+                                </span>
+                                <span>
+                                    ..<i class="fas fa-medal" style="color:#e88d15"></i>
+                                </span>
+                            </div>
+                            <div class="cartviewprice d-block">
+                                <span class="disamt"><i class="fas fa-fire-alt"></i>..</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

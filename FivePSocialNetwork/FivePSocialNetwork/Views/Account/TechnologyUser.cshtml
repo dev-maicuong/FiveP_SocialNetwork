@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "TechnologyUser";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<style>
+    .bg-primary {
+        background-color: #525f7f !important;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #00A0C6;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+@Html.Action("Select2T", "ShareView")
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Tùy chỉnh công nghệ</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tùy chỉnh công nghệ</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-6 col-5 text-right">
+                    ...
+                </div>
+                <div class="col-xl-12">
+                    <u style="color:white">Cho chúng tôi biết công nghệ bạn dùng, để hiển thị nội dung phù hợp .</u>
+                </div>
+                <div class="col-xl-12 mt-3">
+                    <div class="row" style="color:white">
+                        <div class="col-xl-7">
+                            <a data-toggle="collapse" href="#collapseExampleName" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fab fa-react"></i> Công nghệ của bạn - ...,..,..
+                            </a>
+                            <div class="collapse" id="collapseExampleName">
+                                <div class="card card-body">
+                                    <form action="#" method="post">
+                                        <select name="#" class="form-control" id="selectTechnology" multiple="multiple">
+                                            <option>test1</option>
+                                            <option>test2</option>
+                                            <option>test3</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-success float-right mt-3"><i class="far fa-save"></i> Lưu</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#selectTechnology").select2({
+        placeholder: 'Nhập công nghệ (tối đa 3 công nghệ)..',
+        maximumSelectionLength: 3,
+        allowClear: true
+    });
+</script>
+
