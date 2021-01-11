@@ -1,0 +1,232 @@
+﻿@model IEnumerable<FivePSocialNetwork.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.user_pass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_lastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_token)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_avatar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_coverImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_activate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_recycleBin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_dateCreate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_dateEdit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_dateLogin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_emailAuthentication)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_verifyPhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_loginAuthentication)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_addressRemaining)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_linkFacebook)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_linkGithub)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_anotherWeb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_hobbyWork)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_hobby)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_birthday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_popular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_goldMedal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_silverMedal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_brozeMedal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_vipMedal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Commune.commune_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District.district_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Provincial.provincial_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role_User.role_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sex_User.sex_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_pass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_firstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_lastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_token)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_avatar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_coverImage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_activate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_recycleBin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_dateCreate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_dateEdit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_dateLogin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_emailAuthentication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_verifyPhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_loginAuthentication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_addressRemaining)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_linkFacebook)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_linkGithub)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_anotherWeb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_hobbyWork)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_hobby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_birthday)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_popular)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_goldMedal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_silverMedal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_brozeMedal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_vipMedal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Commune.commune_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.District.district_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Provincial.provincial_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role_User.role_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sex_User.sex_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.user_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.user_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.user_id })
+        </td>
+    </tr>
+}
+
+</table>

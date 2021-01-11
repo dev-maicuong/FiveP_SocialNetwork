@@ -1,7 +1,16 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
 @{
+    if (Request.Cookies["user_id"] == null)
+    {
+        Response.Redirect("/Center/IndexCenter");
+    }
+    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    User user = db.Users.Find(user_id);
+
     ViewBag.Title = "TechnologyUser";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
 }
 
 <style>
@@ -49,11 +58,16 @@
                             </a>
                             <div class="collapse" id="collapseExampleName">
                                 <div class="card card-body">
-                                    <form action="#" method="post">
-                                        <select name="#" class="form-control" id="selectTechnology" multiple="multiple">
-                                            <option>test1</option>
-                                            <option>test2</option>
-                                            <option>test3</option>
+                                    @{ 
+                                        List<Technology> technology = db.Technologies.Where(n => n.technology_activate == true && n.technology_recycleBin == false).ToList();
+                                    }
+                                    <form method="post">
+                                        @Html.AntiForgeryToken()
+                                        <select name="technology_id" class="form-control" id="selectTechnology" multiple="multiple">
+                                            @foreach (var item in technology)
+                                            {
+                                                <option value="@item.technology_id">@item.technology_name</option>
+                                            }
                                         </select>
                                         <button type="submit" class="btn btn-success float-right mt-3"><i class="far fa-save"></i> Lưu</button>
                                     </form>

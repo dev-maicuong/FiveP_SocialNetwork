@@ -1,5 +1,12 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
 @{
+    if (Request.Cookies["user_id"] == null)
+    {
+        Response.Redirect("/Center/IndexCenter");
+    }
+    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    User user = db.Users.Find(user_id);
     ViewBag.Title = "LinkWebAnother";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
@@ -49,8 +56,9 @@
                             </a>
                             <div class="collapse" id="collapseExampleFacebook">
                                 <div class="card card-body">
-                                    <form action="#" method="post">
-                                        <input type="text" name="#" class="form-control" placeholder="Facebook của bạn" />
+                                    <form action="@Url.Action("LinkFacebook","Account")" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="text" name="linkFacebook" class="form-control" value="@user.user_linkFacebook" placeholder="Facebook của bạn" />
                                         <br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>
@@ -63,8 +71,9 @@
                             </a>
                             <div class="collapse" id="collapseExampleGithub">
                                 <div class="card card-body">
-                                    <form action="#" method="post">
-                                        <input type="text" name="#" class="form-control" placeholder="Github của bạn" />
+                                    <form action="@Url.Action("LinkGithub","Account")" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="text" name="linkGithub" class="form-control" value="@user.user_linkGithub" placeholder="Github của bạn" />
                                         <br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>
@@ -77,8 +86,9 @@
                             </a>
                             <div class="collapse" id="collapseExampleWebsiteAnother">
                                 <div class="card card-body">
-                                    <form action="#" method="post">
-                                        <textarea name="#" class="form-control" placeholder="Website khác của bạn" ></textarea>
+                                    <form method="post">
+                                        @Html.AntiForgeryToken()
+                                        <textarea name="linkWebAnother" class="form-control" placeholder="Website khác của bạn">@user.user_anotherWeb</textarea>
                                         <br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>

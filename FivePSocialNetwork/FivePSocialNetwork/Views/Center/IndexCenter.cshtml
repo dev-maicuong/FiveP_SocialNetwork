@@ -1,7 +1,13 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
 @{
     ViewBag.Title = "IndexCenter";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+    if(Request.Cookies["user_id"] != null)
+    {
+        int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+        FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+        User user = db.Users.Find(user_id);
+    }
 }
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
@@ -161,7 +167,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="card-body">
                     <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> ...</div>
@@ -196,19 +201,9 @@
 
         </div>
         <div class="col-xl-4">
-            <div class="card gedf-card">
-                <div class="card-body">
-                    <h4 class="card-title">Quảng cáo</h4>
-                    <div class="row">
-                        <div class="col-2 mr--1">
-                            <i class="fas fa-info-circle"></i>
-                        </div>
-                        <div class="col-xl-10 ml--3">
-                            ...
-                        </div>
-                    </div>
-                    <span style="font-size:28px">...</span>
-                </div>
+            <div class="">
+
+                <img src="~/Image/Advertisement/khoa-hoc-data-science-khtn.png" class="w-100 h-100 card"/>
             </div>
 
             <div class="card gedf-card">

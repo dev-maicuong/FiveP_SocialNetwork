@@ -78,8 +78,12 @@ F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\System.Net.Http
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\System.Web.Http.xml
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\System.Web.Http.WebHost.xml
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.csprojAssemblyReference.cache
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.csproj.CoreCompileInputs.cache
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.csproj.CopyComplete
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.dll
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.pdb
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\EntityFramework.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\EntityFramework.SqlServer.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\EntityFramework.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\EntityFramework.SqlServer.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.csprojAssemblyReference.cache

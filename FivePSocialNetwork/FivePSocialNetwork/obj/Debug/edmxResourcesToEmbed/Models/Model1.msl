@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FivePSocialNetWorkModelStoreContainer" CdmEntityContainer="FivePSocialNetWorkEntities">
+    <EntitySetMapping Name="Advertisements">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Advertisement">
+        <MappingFragment StoreEntitySet="Advertisement">
+          <ScalarProperty Name="advertisiment_id" ColumnName="advertisiment_id" />
+          <ScalarProperty Name="advertisiment_companyname" ColumnName="advertisiment_companyname" />
+          <ScalarProperty Name="advertisiment_note" ColumnName="advertisiment_note" />
+          <ScalarProperty Name="advertisiment_activate" ColumnName="advertisiment_activate" />
+          <ScalarProperty Name="advertisiment_dateCreate" ColumnName="advertisiment_dateCreate" />
+          <ScalarProperty Name="advertisiment_dateEdit" ColumnName="advertisiment_dateEdit" />
+          <ScalarProperty Name="advertisiment_recycleBin" ColumnName="advertisiment_recycleBin" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Answers">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Answer">
+        <MappingFragment StoreEntitySet="Answer">
+          <ScalarProperty Name="answer_id" ColumnName="answer_id" />
+          <ScalarProperty Name="answer_content" ColumnName="answer_content" />
+          <ScalarProperty Name="answer_dateCreate" ColumnName="answer_dateCreate" />
+          <ScalarProperty Name="answer_dateEdit" ColumnName="answer_dateEdit" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="answer_activate" ColumnName="answer_activate" />
+          <ScalarProperty Name="answer_userStatus" ColumnName="answer_userStatus" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="answer_totalRate" ColumnName="answer_totalRate" />
+          <ScalarProperty Name="answer_medalCalculate" ColumnName="answer_medalCalculate" />
+          <ScalarProperty Name="answer_recycleBin" ColumnName="answer_recycleBin" />
+          <ScalarProperty Name="answer_admin_recycleBin" ColumnName="answer_admin_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comment_Answer">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Comment_Answer">
+        <MappingFragment StoreEntitySet="Comment_Answer">
+          <ScalarProperty Name="commentAnswer_id" ColumnName="commentAnswer_id" />
+          <ScalarProperty Name="commentAnswer_content" ColumnName="commentAnswer_content" />
+          <ScalarProperty Name="commentAnswer_dateCreate" ColumnName="commentAnswer_dateCreate" />
+          <ScalarProperty Name="commentAnswer_dateEdit" ColumnName="commentAnswer_dateEdit" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="answer_id" ColumnName="answer_id" />
+          <ScalarProperty Name="commentAnswer_recycleBin" ColumnName="commentAnswer_recycleBin" />
+          <ScalarProperty Name="commentAnswer_activate" ColumnName="commentAnswer_activate" />
+          <ScalarProperty Name="commentAnswer_userStatus" ColumnName="commentAnswer_userStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Communes">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Commune">
+        <MappingFragment StoreEntitySet="Commune">
+          <ScalarProperty Name="commune_id" ColumnName="commune_id" />
+          <ScalarProperty Name="commune_name" ColumnName="commune_name" />
+          <ScalarProperty Name="commune_activate" ColumnName="commune_activate" />
+          <ScalarProperty Name="commune_dateCreate" ColumnName="commune_dateCreate" />
+          <ScalarProperty Name="commune_dateEdit" ColumnName="commune_dateEdit" />
+          <ScalarProperty Name="commune_recycleBin" ColumnName="commune_recycleBin" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Denounce_User">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Denounce_User">
+        <MappingFragment StoreEntitySet="Denounce_User">
+          <ScalarProperty Name="denounceUser_id" ColumnName="denounceUser_id" />
+          <ScalarProperty Name="accuser_id" ColumnName="accuser_id" />
+          <ScalarProperty Name="discredit_id" ColumnName="discredit_id" />
+          <ScalarProperty Name="denounceUser_content" ColumnName="denounceUser_content" />
+          <ScalarProperty Name="denounceUser_dateCreate" ColumnName="denounceUser_dateCreate" />
+          <ScalarProperty Name="denounceUser_recycleBin" ColumnName="denounceUser_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Districts">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.District">
+        <MappingFragment StoreEntitySet="District">
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+          <ScalarProperty Name="district_name" ColumnName="district_name" />
+          <ScalarProperty Name="district_activate" ColumnName="district_activate" />
+          <ScalarProperty Name="district_dateCreate" ColumnName="district_dateCreate" />
+          <ScalarProperty Name="district_dateEdit" ColumnName="district_dateEdit" />
+          <ScalarProperty Name="district_recycleBin" ColumnName="district_recycleBin" />
+          <ScalarProperty Name="provincial_id" ColumnName="provincial_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Friends">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Friend">
+        <MappingFragment StoreEntitySet="Friend">
+          <ScalarProperty Name="friend_id" ColumnName="friend_id" />
+          <ScalarProperty Name="userRequest_id" ColumnName="userRequest_id" />
+          <ScalarProperty Name="userResponse_id" ColumnName="userResponse_id" />
+          <ScalarProperty Name="friend_status" ColumnName="friend_status" />
+          <ScalarProperty Name="friend_dateRequest" ColumnName="friend_dateRequest" />
+          <ScalarProperty Name="friend_dateResponse" ColumnName="friend_dateResponse" />
+          <ScalarProperty Name="friend_dateUnfriend" ColumnName="friend_dateUnfriend" />
+          <ScalarProperty Name="friend_recycleBin" ColumnName="friend_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Image_Advertisement">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Image_Advertisement">
+        <MappingFragment StoreEntitySet="Image_Advertisement">
+          <ScalarProperty Name="ImageAdvertisement_id" ColumnName="ImageAdvertisement_id" />
+          <ScalarProperty Name="ImageAdvertisement_image" ColumnName="ImageAdvertisement_image" />
+          <ScalarProperty Name="advertisement_id" ColumnName="advertisement_id" />
+          <ScalarProperty Name="ImageAdvertisement_note" ColumnName="ImageAdvertisement_note" />
+          <ScalarProperty Name="ImageAdvertisement_activate" ColumnName="ImageAdvertisement_activate" />
+          <ScalarProperty Name="ImageAdvertisement_dateCreate" ColumnName="ImageAdvertisement_dateCreate" />
+          <ScalarProperty Name="ImageAdvertisement_dateEdit" ColumnName="ImageAdvertisement_dateEdit" />
+          <ScalarProperty Name="ImageAdvertisement_recycleBin" ColumnName="ImageAdvertisement_recycleBin" />
+          <ScalarProperty Name="positionAdvertisement_id" ColumnName="positionAdvertisement_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Keyword_Search">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Keyword_Search">
+        <MappingFragment StoreEntitySet="Keyword_Search">
+          <ScalarProperty Name="keywordSearch_id" ColumnName="keywordSearch_id" />
+          <ScalarProperty Name="keywordSearch_keyword" ColumnName="keywordSearch_keyword" />
+          <ScalarProperty Name="keywordSearch_datetCreate" ColumnName="keywordSearch_datetCreate" />
+          <ScalarProperty Name="keywordSearch_dateEdit" ColumnName="keywordSearch_dateEdit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Letters">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Letter">
+        <MappingFragment StoreEntitySet="Letters">
+          <ScalarProperty Name="letters_id" ColumnName="letters_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="letters_content" ColumnName="letters_content" />
+          <ScalarProperty Name="letters_status" ColumnName="letters_status" />
+          <ScalarProperty Name="letters_recycleBin" ColumnName="letters_recycleBin" />
+          <ScalarProperty Name="letters_dateCreate" ColumnName="letters_dateCreate" />
+          <ScalarProperty Name="letters_dateEdit" ColumnName="letters_dateEdit" />
+          <ScalarProperty Name="letters_statusSee" ColumnName="letters_statusSee" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Letters_Idea">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Letters_Idea">
+        <MappingFragment StoreEntitySet="Letters_Idea">
+          <ScalarProperty Name="lettersIdea_id" ColumnName="lettersIdea_id" />
+          <ScalarProperty Name="lettersIdea_content" ColumnName="lettersIdea_content" />
+          <ScalarProperty Name="lettersIdea_activate" ColumnName="lettersIdea_activate" />
+          <ScalarProperty Name="lettersIdea_dateCreate" ColumnName="lettersIdea_dateCreate" />
+          <ScalarProperty Name="lettersIdea_dateEdit" ColumnName="lettersIdea_dateEdit" />
+          <ScalarProperty Name="lettersIdea_recycleBin" ColumnName="lettersIdea_recycleBin" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Message">
+        <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="message_id" ColumnName="message_id" />
+          <ScalarProperty Name="message_content" ColumnName="message_content" />
+          <ScalarProperty Name="messageSender_id" ColumnName="messageSender_id" />
+          <ScalarProperty Name="messageRecipients_id" ColumnName="messageRecipients_id" />
+          <ScalarProperty Name="message_dateSend" ColumnName="message_dateSend" />
+          <ScalarProperty Name="message_recycleBin" ColumnName="message_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="notification_id" ColumnName="notification_id" />
+          <ScalarProperty Name="notification_content" ColumnName="notification_content" />
+          <ScalarProperty Name="receiver_id" ColumnName="receiver_id" />
+          <ScalarProperty Name="impactUser_id" ColumnName="impactUser_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="notification_status" ColumnName="notification_status" />
+          <ScalarProperty Name="notification_dateCreate" ColumnName="notification_dateCreate" />
+          <ScalarProperty Name="notification_recycleBin" ColumnName="notification_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Position_Advertisement">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Position_Advertisement">
+        <MappingFragment StoreEntitySet="Position_Advertisement">
+          <ScalarProperty Name="positionAdvertisement_id" ColumnName="positionAdvertisement_id" />
+          <ScalarProperty Name="positionAdvertisement_positionName" ColumnName="positionAdvertisement_positionName" />
+          <ScalarProperty Name="positionAdvertisement_note" ColumnName="positionAdvertisement_note" />
+          <ScalarProperty Name="positionAdvertisement_activate" ColumnName="positionAdvertisement_activate" />
+          <ScalarProperty Name="positionAdvertisement_dateCreate" ColumnName="positionAdvertisement_dateCreate" />
+          <ScalarProperty Name="positionAdvertisement_dateEdit" ColumnName="positionAdvertisement_dateEdit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Posts">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Post">
+        <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="post_id" ColumnName="post_id" />
+          <ScalarProperty Name="post_content" ColumnName="post_content" />
+          <ScalarProperty Name="post_dateCreate" ColumnName="post_dateCreate" />
+          <ScalarProperty Name="post_dateEdit" ColumnName="post_dateEdit" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="post_activate" ColumnName="post_activate" />
+          <ScalarProperty Name="post_title" ColumnName="post_title" />
+          <ScalarProperty Name="post_view" ColumnName="post_view" />
+          <ScalarProperty Name="post_totalLike" ColumnName="post_totalLike" />
+          <ScalarProperty Name="post_totalDislike" ColumnName="post_totalDislike" />
+          <ScalarProperty Name="post_recycleBin" ColumnName="post_recycleBin" />
+          <ScalarProperty Name="post_userStatus" ColumnName="post_userStatus" />
+          <ScalarProperty Name="post_admin_recycleBin" ColumnName="post_admin_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provincials">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Provincial">
+        <MappingFragment StoreEntitySet="Provincial">
+          <ScalarProperty Name="provincial_id" ColumnName="provincial_id" />
+          <ScalarProperty Name="provincial_name" ColumnName="provincial_name" />
+          <ScalarProperty Name="provincial_activate" ColumnName="provincial_activate" />
+          <ScalarProperty Name="provincial_dateCreate" ColumnName="provincial_dateCreate" />
+          <ScalarProperty Name="provincial_dateEdit" ColumnName="provincial_dateEdit" />
+          <ScalarProperty Name="provincial_recycleBin" ColumnName="provincial_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Question">
+        <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="question_content" ColumnName="question_content" />
+          <ScalarProperty Name="question_dateCreate" ColumnName="question_dateCreate" />
+          <ScalarProperty Name="question_dateEdit" ColumnName="question_dateEdit" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="question_activate" ColumnName="question_activate" />
+          <ScalarProperty Name="question_title" ColumnName="question_title" />
+          <ScalarProperty Name="question_Answer" ColumnName="question_Answer" />
+          <ScalarProperty Name="question_totalComment" ColumnName="question_totalComment" />
+          <ScalarProperty Name="question_view" ColumnName="question_view" />
+          <ScalarProperty Name="question_totalRate" ColumnName="question_totalRate" />
+          <ScalarProperty Name="question_medalCalculator" ColumnName="question_medalCalculator" />
+          <ScalarProperty Name="question_recycleBin" ColumnName="question_recycleBin" />
+          <ScalarProperty Name="question_userStatus" ColumnName="question_userStatus" />
+          <ScalarProperty Name="question_popular" ColumnName="question_popular" />
+          <ScalarProperty Name="question_admin_recycleBin" ColumnName="question_admin_recycleBin" />
+          <ScalarProperty Name="keywordSearch_id" ColumnName="keywordSearch_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rate_Answer">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Rate_Answer">
+        <MappingFragment StoreEntitySet="Rate_Answer">
+          <ScalarProperty Name="rateAnswer_id" ColumnName="rateAnswer_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="answer_id" ColumnName="answer_id" />
+          <ScalarProperty Name="rateAnswer_rateStatus" ColumnName="rateAnswer_rateStatus" />
+          <ScalarProperty Name="rateAnswer_dateCreate" ColumnName="rateAnswer_dateCreate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rate_Post">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Rate_Post">
+        <MappingFragment StoreEntitySet="Rate_Post">
+          <ScalarProperty Name="ratePost_id" ColumnName="ratePost_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="post_id" ColumnName="post_id" />
+          <ScalarProperty Name="ratePost_rateStatus" ColumnName="ratePost_rateStatus" />
+          <ScalarProperty Name="ratePost_dateCreate" ColumnName="ratePost_dateCreate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rate_Question">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Rate_Question">
+        <MappingFragment StoreEntitySet="Rate_Question">
+          <ScalarProperty Name="rateQuestion_id" ColumnName="rateQuestion_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="rateQuestion_rateStatus" ColumnName="rateQuestion_rateStatus" />
+          <ScalarProperty Name="rateQuestion_dateCreate" ColumnName="rateQuestion_dateCreate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Regulations">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Regulation">
+        <MappingFragment StoreEntitySet="Regulations">
+          <ScalarProperty Name="regulations_id" ColumnName="regulations_id" />
+          <ScalarProperty Name="regulations_name" ColumnName="regulations_name" />
+          <ScalarProperty Name="regulations_activate" ColumnName="regulations_activate" />
+          <ScalarProperty Name="regulations_recycleBin" ColumnName="regulations_recycleBin" />
+          <ScalarProperty Name="regulations_dateCreate" ColumnName="regulations_dateCreate" />
+          <ScalarProperty Name="regulations_dateEdit" ColumnName="regulations_dateEdit" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role_User">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Role_User">
+        <MappingFragment StoreEntitySet="Role_User">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+          <ScalarProperty Name="role_activate" ColumnName="role_activate" />
+          <ScalarProperty Name="role_dateCreate" ColumnName="role_dateCreate" />
+          <ScalarProperty Name="role_dateEdit" ColumnName="role_dateEdit" />
+          <ScalarProperty Name="role_recycleBin" ColumnName="role_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Searches">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Search">
+        <MappingFragment StoreEntitySet="Search">
+          <ScalarProperty Name="search_id" ColumnName="search_id" />
+          <ScalarProperty Name="search_content" ColumnName="search_content" />
+          <ScalarProperty Name="search_dateCreate" ColumnName="search_dateCreate" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sex_User">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Sex_User">
+        <MappingFragment StoreEntitySet="Sex_User">
+          <ScalarProperty Name="sex_id" ColumnName="sex_id" />
+          <ScalarProperty Name="sex_name" ColumnName="sex_name" />
+          <ScalarProperty Name="sex_activate" ColumnName="sex_activate" />
+          <ScalarProperty Name="sex_dateCreate" ColumnName="sex_dateCreate" />
+          <ScalarProperty Name="sex_dateEdit" ColumnName="sex_dateEdit" />
+          <ScalarProperty Name="sex_recycleBin" ColumnName="sex_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Show_Activate_Question">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Show_Activate_Question">
+        <MappingFragment StoreEntitySet="Show_Activate_Question">
+          <ScalarProperty Name="showActivateQ_id" ColumnName="showActivateQ_id" />
+          <ScalarProperty Name="showActivateQ_dateCreate" ColumnName="showActivateQ_dateCreate" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags_Question">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Tags_Question">
+        <MappingFragment StoreEntitySet="Tags_Question">
+          <ScalarProperty Name="tagsQuestion_id" ColumnName="tagsQuestion_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="tagsQuestion_name" ColumnName="tagsQuestion_name" />
+          <ScalarProperty Name="tagsQuestion_dateCreate" ColumnName="tagsQuestion_dateCreate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teachnology_Question">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Teachnology_Question">
+        <MappingFragment StoreEntitySet="Teachnology_Question">
+          <ScalarProperty Name="teachnologyQuestion_id" ColumnName="teachnologyQuestion_id" />
+          <ScalarProperty Name="technology_id" ColumnName="technology_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="teachnologyQuestion_recycleBin" ColumnName="teachnologyQuestion_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teachnology_User">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Teachnology_User">
+        <MappingFragment StoreEntitySet="Teachnology_User">
+          <ScalarProperty Name="technologyUser_id" ColumnName="technologyUser_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="technology_id" ColumnName="technology_id" />
+          <ScalarProperty Name="technology_dateCreate" ColumnName="technology_dateCreate" />
+          <ScalarProperty Name="technology_recycleBin" ColumnName="technology_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Technologies">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Technology">
+        <MappingFragment StoreEntitySet="Technology">
+          <ScalarProperty Name="technology_id" ColumnName="technology_id" />
+          <ScalarProperty Name="technology_name" ColumnName="technology_name" />
+          <ScalarProperty Name="technology_popular" ColumnName="technology_popular" />
+          <ScalarProperty Name="technology_activate" ColumnName="technology_activate" />
+          <ScalarProperty Name="technology_recycleBin" ColumnName="technology_recycleBin" />
+          <ScalarProperty Name="technology_dateCreate" ColumnName="technology_dateCreate" />
+          <ScalarProperty Name="technology_dateEdit" ColumnName="technology_dateEdit" />
+          <ScalarProperty Name="technology_note" ColumnName="technology_note" />
+          <ScalarProperty Name="technology_totalQuestion" ColumnName="technology_totalQuestion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tick_Question">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Tick_Question">
+        <MappingFragment StoreEntitySet="Tick_Question">
+          <ScalarProperty Name="tickQuestion_id" ColumnName="tickQuestion_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="tickQuestion_dateCreate" ColumnName="tickQuestion_dateCreate" />
+          <ScalarProperty Name="tickQuestion_recycleBin" ColumnName="tickQuestion_recycleBin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="user_pass" ColumnName="user_pass" />
+          <ScalarProperty Name="user_firstName" ColumnName="user_firstName" />
+          <ScalarProperty Name="user_lastName" ColumnName="user_lastName" />
+          <ScalarProperty Name="user_email" ColumnName="user_email" />
+          <ScalarProperty Name="user_token" ColumnName="user_token" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="user_code" ColumnName="user_code" />
+          <ScalarProperty Name="user_avatar" ColumnName="user_avatar" />
+          <ScalarProperty Name="user_coverImage" ColumnName="user_coverImage" />
+          <ScalarProperty Name="user_activate" ColumnName="user_activate" />
+          <ScalarProperty Name="user_recycleBin" ColumnName="user_recycleBin" />
+          <ScalarProperty Name="user_dateCreate" ColumnName="user_dateCreate" />
+          <ScalarProperty Name="user_dateEdit" ColumnName="user_dateEdit" />
+          <ScalarProperty Name="user_dateLogin" ColumnName="user_dateLogin" />
+          <ScalarProperty Name="user_emailAuthentication" ColumnName="user_emailAuthentication" />
+          <ScalarProperty Name="user_verifyPhoneNumber" ColumnName="user_verifyPhoneNumber" />
+          <ScalarProperty Name="user_loginAuthentication" ColumnName="user_loginAuthentication" />
+          <ScalarProperty Name="provincial_id" ColumnName="provincial_id" />
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
+          <ScalarProperty Name="commune_id" ColumnName="commune_id" />
+          <ScalarProperty Name="user_addressRemaining" ColumnName="user_addressRemaining" />
+          <ScalarProperty Name="sex_id" ColumnName="sex_id" />
+          <ScalarProperty Name="user_linkFacebook" ColumnName="user_linkFacebook" />
+          <ScalarProperty Name="user_linkGithub" ColumnName="user_linkGithub" />
+          <ScalarProperty Name="user_anotherWeb" ColumnName="user_anotherWeb" />
+          <ScalarProperty Name="user_hobbyWork" ColumnName="user_hobbyWork" />
+          <ScalarProperty Name="user_hobby" ColumnName="user_hobby" />
+          <ScalarProperty Name="user_birthday" ColumnName="user_birthday" />
+          <ScalarProperty Name="user_popular" ColumnName="user_popular" />
+          <ScalarProperty Name="user_goldMedal" ColumnName="user_goldMedal" />
+          <ScalarProperty Name="user_silverMedal" ColumnName="user_silverMedal" />
+          <ScalarProperty Name="user_brozeMedal" ColumnName="user_brozeMedal" />
+          <ScalarProperty Name="user_vipMedal" ColumnName="user_vipMedal" />
+          <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_Post">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.View_Post">
+        <MappingFragment StoreEntitySet="View_Post">
+          <ScalarProperty Name="viewPost_id" ColumnName="viewPost_id" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="post_id" ColumnName="post_id" />
+          <ScalarProperty Name="viewPost_dateCreate" ColumnName="viewPost_dateCreate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_Question">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.View_Question">
+        <MappingFragment StoreEntitySet="View_Question">
+          <ScalarProperty Name="viewQuestion_id" ColumnName="viewQuestion_id" />
+          <ScalarProperty Name="question_id" ColumnName="question_id" />
+          <ScalarProperty Name="viewQuestion_dateCreate" ColumnName="viewQuestion_dateCreate" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
