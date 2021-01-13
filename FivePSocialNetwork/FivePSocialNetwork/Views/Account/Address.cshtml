@@ -1,7 +1,15 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
 @{
+    if (Request.Cookies["user_id"] == null)
+    {
+        Response.Redirect("/Center/IndexCenter");
+    }
+    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    User user = db.Users.Find(user_id);
     ViewBag.Title = "Address";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+
 }
 
 <style>
@@ -20,7 +28,7 @@
             cursor: pointer;
         }
 </style>
-<div class="header bg-primary pb-6">
+<div class="header bg-primary pb-6" ng-app="myApp">
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -40,7 +48,7 @@
                 <div class="col-xl-12">
                     <u style="color:white">Bổ xung địa chỉ để chúng tôi có thể giúp bạn kết bạn với những người bạn gần.</u>
                 </div>
-                <div class="col-xl-12 mt-3">
+                <div class="col-xl-12 mt-3" ng-controller="myCtrl">
                     <div class="row" style="color:white">
                         <div class="col-xl-7">
                             <a data-toggle="collapse" href="#collapseExampleName" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -50,10 +58,12 @@
                                 <div class="card card-body">
                                     <form action="#" method="post">
                                         <select name="#" class="form-control">
-                                            <option>Chọn tỉnh ( thành phố )</option>
+                                            <option value="0">Chọn tỉnh ( thành phố )</option>
+                                            <option ng-repeat="x in listProvincail" value="{{x.provincial_id}}" >{{x.provincial_name}}</option>
                                         </select><br />
                                         <select name="#" class="form-control">
                                             <option>Huyện ( quận )</option>
+                                            <option ng-repeat="y in listDistrict" value="{{y.district_id}}">{{y.district_name}}</option>
                                         </select><br />
                                         <select name="#" class="form-control">
                                             <option>Xã</option>
@@ -71,4 +81,28 @@
         </div>
     </div>
 </div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http({
+            method: "GET",
+            url: "/Account/ListProvincial"
+        }).then(function mySuccess(response) {
+            $scope.listProvincail = response.data;
+        }, function myError(response) {
+            $scope.myWelcome = response.statusText;
+        });
+        $scope.district = function (id) {
+            $http({
+                method: "GET",
+                url: "/Account/ListDistrict?id=" + id
+            }).then(function mySuccess(response) {
+                $scope.listDistrict = response.data;
+            }, function myError(response) {
+                $scope.myWelcome = response.statusText;
+            });
+        };
+        
+    });
+</script>
 

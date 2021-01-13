@@ -13,5 +13,12 @@ namespace FivePSocialNetwork.Areas.Admin.Controllers
         {
             return View();
         }
+        public ActionResult LogoutAdmin()
+        {
+            HttpCookie cookie = new HttpCookie("admin_id");
+            cookie.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(cookie);
+            return Redirect("/Center/IndexCenter");
+        }
     }
 }

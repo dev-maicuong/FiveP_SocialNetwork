@@ -125,16 +125,6 @@
     <NavigationProperty Name="Advertisement" Relationship="Self.FK_Image_Advertisement_Advertisement" FromRole="Image_Advertisement" ToRole="Advertisement" />
     <NavigationProperty Name="Position_Advertisement" Relationship="Self.FK_Image_Advertisement_Position_Advertisement" FromRole="Image_Advertisement" ToRole="Position_Advertisement" />
   </EntityType>
-  <EntityType Name="Keyword_Search">
-    <Key>
-      <PropertyRef Name="keywordSearch_id" />
-    </Key>
-    <Property Name="keywordSearch_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="keywordSearch_keyword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="keywordSearch_datetCreate" Type="DateTime" Precision="3" />
-    <Property Name="keywordSearch_dateEdit" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Questions" Relationship="Self.FK_Question_Keyword_Search" FromRole="Keyword_Search" ToRole="Question" />
-  </EntityType>
   <EntityType Name="Letter">
     <Key>
       <PropertyRef Name="letters_id" />
@@ -259,9 +249,8 @@
     <Property Name="question_userStatus" Type="Boolean" />
     <Property Name="question_popular" Type="Int32" />
     <Property Name="question_admin_recycleBin" Type="Boolean" />
-    <Property Name="keywordSearch_id" Type="Int32" />
+    <Property Name="question_keywordSearch" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Answers" Relationship="Self.FK_Answer_Question" FromRole="Question" ToRole="Answer" />
-    <NavigationProperty Name="Keyword_Search" Relationship="Self.FK_Question_Keyword_Search" FromRole="Question" ToRole="Keyword_Search" />
     <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_Question" FromRole="Question" ToRole="Notification" />
     <NavigationProperty Name="User" Relationship="Self.FK_Question_User" FromRole="Question" ToRole="User" />
     <NavigationProperty Name="Rate_Question" Relationship="Self.FK_Rate_Question_Question" FromRole="Question" ToRole="Rate_Question" />
@@ -721,18 +710,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Question_Keyword_Search">
-    <End Role="Keyword_Search" Type="Self.Keyword_Search" Multiplicity="0..1" />
-    <End Role="Question" Type="Self.Question" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Keyword_Search">
-        <PropertyRef Name="keywordSearch_id" />
-      </Principal>
-      <Dependent Role="Question">
-        <PropertyRef Name="keywordSearch_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Letters_Role_User">
     <End Role="Role_User" Type="Self.Role_User" Multiplicity="0..1" />
     <End Role="Letters" Type="Self.Letter" Multiplicity="*" />
@@ -1138,7 +1115,6 @@
     <EntitySet Name="Districts" EntityType="Self.District" />
     <EntitySet Name="Friends" EntityType="Self.Friend" />
     <EntitySet Name="Image_Advertisement" EntityType="Self.Image_Advertisement" />
-    <EntitySet Name="Keyword_Search" EntityType="Self.Keyword_Search" />
     <EntitySet Name="Letters" EntityType="Self.Letter" />
     <EntitySet Name="Letters_Idea" EntityType="Self.Letters_Idea" />
     <EntitySet Name="Messages" EntityType="Self.Message" />
@@ -1227,10 +1203,6 @@
     <AssociationSet Name="FK_Image_Advertisement_Position_Advertisement" Association="Self.FK_Image_Advertisement_Position_Advertisement">
       <End Role="Position_Advertisement" EntitySet="Position_Advertisement" />
       <End Role="Image_Advertisement" EntitySet="Image_Advertisement" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Question_Keyword_Search" Association="Self.FK_Question_Keyword_Search">
-      <End Role="Keyword_Search" EntitySet="Keyword_Search" />
-      <End Role="Question" EntitySet="Questions" />
     </AssociationSet>
     <AssociationSet Name="FK_Letters_Role_User" Association="Self.FK_Letters_Role_User">
       <End Role="Role_User" EntitySet="Role_User" />

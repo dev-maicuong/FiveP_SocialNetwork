@@ -115,16 +115,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Keyword_Search">
-      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Keyword_Search">
-        <MappingFragment StoreEntitySet="Keyword_Search">
-          <ScalarProperty Name="keywordSearch_id" ColumnName="keywordSearch_id" />
-          <ScalarProperty Name="keywordSearch_keyword" ColumnName="keywordSearch_keyword" />
-          <ScalarProperty Name="keywordSearch_datetCreate" ColumnName="keywordSearch_datetCreate" />
-          <ScalarProperty Name="keywordSearch_dateEdit" ColumnName="keywordSearch_dateEdit" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Letters">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Letter">
         <MappingFragment StoreEntitySet="Letters">
@@ -241,7 +231,7 @@
           <ScalarProperty Name="question_userStatus" ColumnName="question_userStatus" />
           <ScalarProperty Name="question_popular" ColumnName="question_popular" />
           <ScalarProperty Name="question_admin_recycleBin" ColumnName="question_admin_recycleBin" />
-          <ScalarProperty Name="keywordSearch_id" ColumnName="keywordSearch_id" />
+          <ScalarProperty Name="question_keywordSearch" ColumnName="question_keywordSearch" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

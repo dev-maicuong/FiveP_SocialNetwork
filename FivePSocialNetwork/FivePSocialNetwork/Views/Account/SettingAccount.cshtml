@@ -77,6 +77,7 @@
                             <div class="collapse" id="collapseExampleSex">
                                 <div class="card card-body">
                                     <form action="@Url.Action("SexUser","Account")" method="post">
+                                        @Html.AntiForgeryToken()
                                         <select name="user_sex" class="form-control">
                                             <option value="0">
                                                 Chọn giới tính...
@@ -99,6 +100,7 @@
                             <div class="collapse" id="collapseExampleBirthDay">
                                 <div class="card card-body">
                                     <form action="@Url.Action("BrithDay","Account")" method="post">
+                                        @Html.AntiForgeryToken()
                                         <input type="date" name="user_birthday" class="form-control" placeholder="Ngày sinh .." value="@String.Format("{0:yyyy-MM-dd}", user.user_birthday)" /><br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>
@@ -113,6 +115,7 @@
                             <div class="collapse" id="collapseExampleLoveWork">
                                 <div class="card card-body">
                                     <form action="@Url.Action("HobbyWork","Account")" method="post">
+                                        @Html.AntiForgeryToken()
                                         <textarea name="user_hobbyWork" class="form-control" placeholder="Sở thích công việc ..">@user.user_hobbyWork</textarea>
                                         <br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
@@ -128,7 +131,8 @@
                             <div class="collapse" id="collapseExampleLove">
                                 <div class="card card-body hobby">
                                     <form action="@Url.Action("Hobby","Account")" method="post">
-                                        <textarea name="user_hobby" class="form-control" placeholder="Sở thích cá nhân .."></textarea><br />
+                                        @Html.AntiForgeryToken()
+                                        <textarea name="user_hobby" class="form-control" placeholder="Sở thích cá nhân ..">@user.user_hobby</textarea><br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>
                                 </div>

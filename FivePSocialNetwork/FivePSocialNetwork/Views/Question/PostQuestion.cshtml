@@ -1,5 +1,13 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
 @{
+    if (Request.Cookies["user_id"] == null)
+    {
+        Response.Redirect("/Center/IndexCenter");
+    }
+    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    User user = db.Users.Find(user_id);
+
     ViewBag.Title = "PostQuestion";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
@@ -83,15 +91,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form onsubmit="return CheckPost()" action="@Url.Action("IndexPostQuestion","PostQuestion")" method="post">
-
+                    <form method="post">
+                        @Html.AntiForgeryToken()
                         <h6 class="heading-small text-muted mb-4">Đặt câu hỏi?</h6>
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-address"><i class="fas fa-pen-alt"></i> Tiêu để câu hỏi?</label>
-                                        <input id="titlePost" value="" required="" name="post_title" class="form-control" placeholder="................................" type="text">
+                                        <input value="" required="" name="question_title" class="form-control" placeholder="................................" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -99,18 +107,23 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-address"><i class="far fa-edit"></i> Chi tiết</label>
-                                        <textarea class="form-control" id="editor" name="post_content" placeholder="................................"></textarea>
+                                        <textarea class="form-control" id="editor" name="question_content" placeholder="................................" required=""></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        @{ 
+                                            List<Technology> technologies = db.Technologies.Where(n => n.technology_activate == true && n.technology_recycleBin == false).ToList();
+                                        }
                                         <label class="form-control-label" for="input-address"><i class="fas fa-laptop-code"></i> Công nghệ</label>
-                                        <select class="form-control" required="" name="postTechnology" id="selectTechnology" multiple="multiple">
-                                            <option>công nghệ 1</option>
-                                            <option value="2">công nghệ 1</option>
-                                            <option>công nghệ 1</option>
+                                        <select class="form-control" required="" name="technologyQuestion" id="selectTechnology" multiple="multiple">
+                                            @foreach (var item in technologies)
+                                            {
+                                                <option value="@item.technology_id">@item.technology_name</option>
+
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -119,10 +132,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-address"><i class="fas fa-tags"></i> Seo</label>
-                                        <select class="form-control" required="" name="postTags" id="selectTags" multiple="multiple">
-                                            <option selected>từ khóa seo 1</option>
-                                            <option selected>từ khóa seo 1</option>
-                                            <option selected>từ khóa seo 1</option>
+                                        <select class="form-control" required="" name="tagsQuestion" id="selectTags" multiple="multiple">
+                                            
                                         </select>
                                     </div>
                                 </div>

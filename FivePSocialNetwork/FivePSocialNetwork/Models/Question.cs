@@ -43,11 +43,10 @@ namespace FivePSocialNetwork.Models
         public Nullable<bool> question_userStatus { get; set; }
         public Nullable<int> question_popular { get; set; }
         public Nullable<bool> question_admin_recycleBin { get; set; }
-        public Nullable<int> keywordSearch_id { get; set; }
+        public string question_keywordSearch { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }
-        public virtual Keyword_Search Keyword_Search { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
         public virtual User User { get; set; }

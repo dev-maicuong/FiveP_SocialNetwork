@@ -1,15 +1,21 @@
-﻿<div class="sidebar sidebar-style-2">
+﻿@using FivePSocialNetwork.Models;
+@{
+    int admin_id = int.Parse(Request.Cookies["admin_id"].Value.ToString());
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    User admin = db.Users.Find(admin_id);
+}
+<div class="sidebar sidebar-style-2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
                 <div class="avatar-sm float-left mr-2">
-                    <img src="~/assets/Admin/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                    <img src="~/Image/Users/@admin.user_avatar" alt="..." class="avatar-img rounded-circle">
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Hizrian
-                            <span class="user-level">Administrator</span>
+                            Chào @admin.user_firstName @admin.user_lastName
+                            <span class="user-level">@admin.Role_User.role_name</span>
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -40,19 +46,19 @@
                 <li class="nav-item active">
                     <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
                         <i class="fas fa-home"></i>
-                        <p>Dashboard</p>
-                        <span class="caret"></span>
+                        <p>Các trang<p>
+                            <span class="caret"></span>
                     </a>
                     <div class="collapse" id="dashboard">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="../demo1/index.html">
-                                    <span class="sub-item">Dashboard 1</span>
+                                <a href="/Center/IndexCenter">
+                                    <span class="sub-item">Trang user</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="../demo2/index.html">
-                                    <span class="sub-item">Dashboard 2</span>
+                                <a href="@Url.Action("IndexAdmin","HomeAdmin")">
+                                    <span class="sub-item">Trang admin</span>
                                 </a>
                             </li>
                         </ul>
@@ -62,64 +68,34 @@
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
-                    <h4 class="text-section">Components</h4>
+                    <h4 class="text-section">Các bảng database</h4>
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#base">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Base</p>
+                        <i class="fas fa-users"></i>
+                        <p>Users</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="components/avatars.html">
-                                    <span class="sub-item">Avatars</span>
+                                <a href="@Url.Action("Index","UsersAdmin")">
+                                    <span class="sub-item">Tổng quan</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="components/buttons.html">
-                                    <span class="sub-item">Buttons</span>
+                                <a href="@Url.Action("Friend","UsersAdmin")">
+                                    <span class="sub-item">Database bạn bè</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="components/gridsystem.html">
-                                    <span class="sub-item">Grid System</span>
+                                <a href="@Url.Action("Role","UsersAdmin")">
+                                    <span class="sub-item">Database vai trò</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="components/panels.html">
-                                    <span class="sub-item">Panels</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/notifications.html">
-                                    <span class="sub-item">Notifications</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/sweetalert.html">
-                                    <span class="sub-item">Sweet Alert</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/font-awesome-icons.html">
-                                    <span class="sub-item">Font Awesome Icons</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/simple-line-icons.html">
-                                    <span class="sub-item">Simple Line Icons</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/flaticons.html">
-                                    <span class="sub-item">Flaticons</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="components/typography.html">
-                                    <span class="sub-item">Typography</span>
+                                <a href="@Url.Action("Sex","UsersAdmin")">
+                                    <span class="sub-item">Database giới tính</span>
                                 </a>
                             </li>
                         </ul>
@@ -127,35 +103,50 @@
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#sidebarLayouts">
-                        <i class="fas fa-th-list"></i>
-                        <p>Sidebar Layouts</p>
+                        <i class="fas fa-question"></i>
+                        <p>Câu hỏi</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="sidebarLayouts">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="sidebar-style-1.html">
-                                    <span class="sub-item">Sidebar Style 1</span>
+                                <a href="@Url.Action("Index","QuestionsAdmin")">
+                                    <span class="sub-item">Tổng quan</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="overlay-sidebar.html">
-                                    <span class="sub-item">Overlay Sidebar</span>
+                                <a href="@Url.Action("UserView","QuestionsAdmin")">
+                                    <span class="sub-item">Databases người xem</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="compact-sidebar.html">
-                                    <span class="sub-item">Compact Sidebar</span>
+                                <a href="@Url.Action("Tick","QuestionsAdmin")">
+                                    <span class="sub-item">Databases đánh dấu câu hỏi</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="static-sidebar.html">
-                                    <span class="sub-item">Static Sidebar</span>
+                                <a href="@Url.Action("ShowActivate","QuestionsAdmin")">
+                                    <span class="sub-item">Databases họat động</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="icon-menu.html">
-                                    <span class="sub-item">Icon Menu</span>
+                                <a href="@Url.Action("Rate","QuestionsAdmin")">
+                                    <span class="sub-item">Databases đánh giá câu hỏi</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Answer","QuestionsAdmin")">
+                                    <span class="sub-item">Databases đáp án</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("RateAnswer","QuestionsAdmin")">
+                                    <span class="sub-item">Databases đánh giá đáp án</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Comment","QuestionsAdmin")">
+                                    <span class="sub-item">Databases comment</span>
                                 </a>
                             </li>
                         </ul>
@@ -163,15 +154,25 @@
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#forms">
-                        <i class="fas fa-pen-square"></i>
-                        <p>Forms</p>
+                        <i class="fab fa-react"></i>
+                        <p>Công nghệ</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="forms">
                         <ul class="nav nav-collapse">
                             <li>
+                                <a href="@Url.Action("Index","TechnologyAdmin")">
+                                    <span class="sub-item">Tổng quan</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="forms/forms.html">
-                                    <span class="sub-item">Basic Form</span>
+                                    <span class="sub-item">Công nghệ người dùng</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="forms/forms.html">
+                                    <span class="sub-item">Công nghệ câu hỏi</span>
                                 </a>
                             </li>
                         </ul>
@@ -179,36 +180,25 @@
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#tables">
-                        <i class="fas fa-table"></i>
-                        <p>Tables</p>
+                        <i class="fas fa-map-marked"></i>
+                        <p>Địa chỉ</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="tables">
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="tables/tables.html">
-                                    <span class="sub-item">Basic Table</span>
+                                    <span class="sub-item">Databases Tỉnh</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="tables/datatables.html">
-                                    <span class="sub-item">Datatables</span>
+                                    <span class="sub-item">Datatables huyện</span>
                                 </a>
                             </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#maps">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>Maps</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="maps">
-                        <ul class="nav nav-collapse">
                             <li>
-                                <a href="maps/jqvmap.html">
-                                    <span class="sub-item">JQVMap</span>
+                                <a href="tables/datatables.html">
+                                    <span class="sub-item">Datatables xã</span>
                                 </a>
                             </li>
                         </ul>
@@ -216,85 +206,109 @@
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#charts">
-                        <i class="far fa-chart-bar"></i>
-                        <p>Charts</p>
+                        <i class="fab fa-adversal"></i>
+                        <p>Quảng cáo</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="charts">
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="charts/charts.html">
-                                    <span class="sub-item">Chart Js</span>
+                                    <span class="sub-item">Tổng quan</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="charts/sparkline.html">
-                                    <span class="sub-item">Sparkline</span>
+                                    <span class="sub-item">Database ảnh quảng cáo</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="charts/sparkline.html">
+                                    <span class="sub-item">Database vị trí</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="widgets.html">
-                        <i class="fas fa-desktop"></i>
-                        <p>Widgets</p>
-                        <span class="badge badge-success">4</span>
+                    <a href="#">
+                        <i class="fas fa-gavel"></i>
+                        <p>Database điều khoảng</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a data-toggle="collapse" href="#submenu">
-                        <i class="fas fa-bars"></i>
-                        <p>Menu Levels</p>
+                    <a href="#">
+                        <i class="fas fa-bullhorn"></i>
+                        <p>Database thông báo</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fab fa-facebook-messenger"></i>
+                        <p>Database message</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fas fa-search"></i>
+                        <p>Database search</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fas fa-user-ninja"></i>
+                        <p>Database tố cáo</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#letters">
+                        <i class="far fa-envelope"></i>
+                        <p>Thư</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="submenu">
+                    <div class="collapse" id="letters">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a data-toggle="collapse" href="#subnav1">
-                                    <span class="sub-item">Level 1</span>
-                                    <span class="caret"></span>
+                                <a href="charts/charts.html">
+                                    <span class="sub-item">Database thư</span>
                                 </a>
-                                <div class="collapse" id="subnav1">
-                                    <ul class="nav nav-collapse subnav">
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </li>
                             <li>
-                                <a data-toggle="collapse" href="#subnav2">
-                                    <span class="sub-item">Level 1</span>
-                                    <span class="caret"></span>
+                                <a href="charts/sparkline.html">
+                                    <span class="sub-item">Database ý thư</span>
                                 </a>
-                                <div class="collapse" id="subnav2">
-                                    <ul class="nav nav-collapse subnav">
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#post">
+                        <i class="far fa-edit"></i>
+                        <p>Bài viết</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="post">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="charts/charts.html">
+                                    <span class="sub-item">Tổng quan</span>
+                                </a>
                             </li>
                             <li>
-                                <a href="#">
-                                    <span class="sub-item">Level 1</span>
+                                <a href="charts/sparkline.html">
+                                    <span class="sub-item">Database lượt xem</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="charts/sparkline.html">
+                                    <span class="sub-item">Database đánh giá</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="mx-4 mt-2">
-                    <a href="http://themekita.com/atlantis-bootstrap-dashboard.html" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Buy Pro</a>
+                    <a href="@Url.Action("IndexAdmin","HomeAdmin")" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Quay lại</a>
                 </li>
             </ul>
         </div>

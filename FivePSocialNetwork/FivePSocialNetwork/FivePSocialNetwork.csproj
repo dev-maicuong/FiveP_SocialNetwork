@@ -145,10 +145,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuestionsAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShareViewAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TechnologyAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersAdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CenterController.cs" />
+    <Compile Include="Controllers\ControllerFramword\TechnologiesController.cs" />
     <Compile Include="Controllers\ControllerFramword\UsersController.cs" />
     <Compile Include="Controllers\FunctionAtDetailQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -183,9 +186,12 @@
     <Compile Include="Models\Image_Advertisement.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Keyword_Search.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Json\ListCommune.cs" />
+    <Compile Include="Models\Json\ListDistrict.cs" />
+    <Compile Include="Models\Json\ListProvincial.cs" />
+    <Compile Include="Models\Json\RoleAdmin.cs" />
+    <Compile Include="Models\Json\SexAdmin.cs" />
+    <Compile Include="Models\Json\TeachnologyAdmin.cs" />
     <Compile Include="Models\Letter.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -3287,6 +3293,9 @@
     <Content Include="assets\Login\css\style.css" />
     <Content Include="assets\Login\images\1.png" />
     <Content Include="assets\Login\images\2.png" />
+    <Content Include="assets\PageList\list.js" />
+    <Content Include="assets\PageList\ui.css" />
+    <Content Include="assets\PageList\ui.js" />
     <Content Include="assets\Semantic-UI-CSS-master\components\accordion.css" />
     <Content Include="assets\Semantic-UI-CSS-master\components\accordion.js" />
     <Content Include="assets\Semantic-UI-CSS-master\components\accordion.min.css" />
@@ -4025,14 +4034,17 @@
     <Content Include="Image\Users\user.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -4064,13 +4076,6 @@
     <Content Include="assets\ckeditor5\README.md" />
     <Content Include="Areas\Admin\Views\ShareViewAdmin\PanelAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\ShareViewAdmin\MenuAdmin.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="assets\Semantic-UI-CSS-master\.versions" />
     <Content Include="assets\Semantic-UI-CSS-master\LICENSE" />
     <Content Include="assets\Semantic-UI-CSS-master\package.json" />
@@ -4088,6 +4093,27 @@
     <Content Include="assets\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.ttf" />
     <Content Include="assets\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.woff" />
     <Content Include="assets\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.woff2" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admin\Views\UsersAdmin\Role.cshtml" />
+    <Content Include="Areas\Admin\Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UsersAdmin\Friend.cshtml" />
+    <Content Include="Areas\Admin\Views\UsersAdmin\Sex.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\UserView.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\Tick.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\ShowActivate.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\Rate.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\Answer.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\Comment.cshtml" />
+    <Content Include="Areas\Admin\Views\QuestionsAdmin\RateAnswer.cshtml" />
+    <Content Include="Areas\Admin\Views\TechnologyAdmin\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -4222,11 +4248,15 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Technologies\Create.cshtml" />
+    <Content Include="Views\Technologies\Delete.cshtml" />
+    <Content Include="Views\Technologies\Details.cshtml" />
+    <Content Include="Views\Technologies\Edit.cshtml" />
+    <Content Include="Views\Technologies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\UsersAdmin\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

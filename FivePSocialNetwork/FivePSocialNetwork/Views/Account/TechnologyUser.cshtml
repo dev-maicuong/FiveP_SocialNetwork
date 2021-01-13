@@ -7,10 +7,10 @@
     int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
     User user = db.Users.Find(user_id);
+    string selected = "selected";
 
     ViewBag.Title = "TechnologyUser";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
-    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
 }
 
 <style>
@@ -60,13 +60,14 @@
                                 <div class="card card-body">
                                     @{ 
                                         List<Technology> technology = db.Technologies.Where(n => n.technology_activate == true && n.technology_recycleBin == false).ToList();
+                                        List<Teachnology_User> teachnology_User = db.Teachnology_User.Where(n => n.user_id == user_id).ToList();
                                     }
                                     <form method="post">
                                         @Html.AntiForgeryToken()
                                         <select name="technology_id" class="form-control" id="selectTechnology" multiple="multiple">
                                             @foreach (var item in technology)
                                             {
-                                                <option value="@item.technology_id">@item.technology_name</option>
+                                                <option value="@item.technology_id" @foreach (var item2 in teachnology_User) { if (item.technology_id == item2.technology_id) { @selected} }>@item.technology_name</option>
                                             }
                                         </select>
                                         <button type="submit" class="btn btn-success float-right mt-3"><i class="far fa-save"></i> Lưu</button>

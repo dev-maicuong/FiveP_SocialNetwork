@@ -33,7 +33,6 @@ namespace FivePSocialNetwork.Models
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<Friend> Friends { get; set; }
         public virtual DbSet<Image_Advertisement> Image_Advertisement { get; set; }
-        public virtual DbSet<Keyword_Search> Keyword_Search { get; set; }
         public virtual DbSet<Letter> Letters { get; set; }
         public virtual DbSet<Letters_Idea> Letters_Idea { get; set; }
         public virtual DbSet<Message> Messages { get; set; }

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<FivePSocialNetwork.Models.Technology>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_popular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_activate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_recycleBin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_dateCreate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_dateEdit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_note)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.technology_totalQuestion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_popular)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_activate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_recycleBin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_dateCreate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_dateEdit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.technology_totalQuestion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.technology_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.technology_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.technology_id })
+        </td>
+    </tr>
+}
+
+</table>
