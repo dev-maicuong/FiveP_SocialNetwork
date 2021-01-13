@@ -53,5 +53,19 @@ namespace FivePSocialNetwork.Areas.Admin.Controllers
             }).ToList();
             return Json(listUsers, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult RecycleBin(int? id)
+        {
+            Technology technology = db.Technologies.Find(id);
+            technology.technology_recycleBin = true;
+            db.SaveChanges();
+            return Json(technology, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Activate(int? id)
+        {
+            Technology technology = db.Technologies.Find(id);
+            technology.technology_activate = !technology.technology_activate;
+            db.SaveChanges();
+            return Json(technology, JsonRequestBehavior.AllowGet);
+        }
     }
 }
