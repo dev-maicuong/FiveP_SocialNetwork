@@ -10,107 +10,107 @@ using FivePSocialNetwork.Models;
 
 namespace FivePSocialNetwork.Controllers.ControllerFramword
 {
-    public class TechnologiesController : Controller
+    public class ProvincialsController : Controller
     {
         private FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
 
-        // GET: Technologies
+        // GET: Provincials
         public ActionResult Index()
         {
-            return View(db.Technologies.ToList());
+            return View(db.Provincials.ToList());
         }
 
-        // GET: Technologies/Details/5
+        // GET: Provincials/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Technology technology = db.Technologies.Find(id);
-            if (technology == null)
+            Provincial provincial = db.Provincials.Find(id);
+            if (provincial == null)
             {
                 return HttpNotFound();
             }
-            return View(technology);
+            return View(provincial);
         }
 
-        // GET: Technologies/Create
+        // GET: Provincials/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Technologies/Create
+        // POST: Provincials/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "technology_id,technology_name,technology_popular,technology_activate,technology_recycleBin,technology_dateCreate,technology_dateEdit,technology_note,technology_totalQuestion")] Technology technology)
+        public ActionResult Create([Bind(Include = "provincial_id,provincial_name,provincial_activate,provincial_dateCreate,provincial_dateEdit,provincial_recycleBin")] Provincial provincial)
         {
             if (ModelState.IsValid)
             {
-                db.Technologies.Add(technology);
+                db.Provincials.Add(provincial);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(technology);
+            return View(provincial);
         }
 
-        // GET: Technologies/Edit/5
+        // GET: Provincials/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Technology technology = db.Technologies.Find(id);
-            if (technology == null)
+            Provincial provincial = db.Provincials.Find(id);
+            if (provincial == null)
             {
                 return HttpNotFound();
             }
-            return View(technology);
+            return View(provincial);
         }
 
-        // POST: Technologies/Edit/5
+        // POST: Provincials/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "technology_id,technology_name,technology_popular,technology_activate,technology_recycleBin,technology_dateCreate,technology_dateEdit,technology_note,technology_totalQuestion")] Technology technology)
+        public ActionResult Edit([Bind(Include = "provincial_id,provincial_name,provincial_activate,provincial_dateCreate,provincial_dateEdit,provincial_recycleBin")] Provincial provincial)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(technology).State = EntityState.Modified;
+                db.Entry(provincial).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(technology);
+            return View(provincial);
         }
 
-        // GET: Technologies/Delete/5
+        // GET: Provincials/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Technology technology = db.Technologies.Find(id);
-            if (technology == null)
+            Provincial provincial = db.Provincials.Find(id);
+            if (provincial == null)
             {
                 return HttpNotFound();
             }
-            return View(technology);
+            return View(provincial);
         }
 
-        // POST: Technologies/Delete/5
+        // POST: Provincials/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Technology technology = db.Technologies.Find(id);
-            db.Technologies.Remove(technology);
+            Provincial provincial = db.Provincials.Find(id);
+            db.Provincials.Remove(provincial);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

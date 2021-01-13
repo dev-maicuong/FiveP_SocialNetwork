@@ -46,43 +46,46 @@
                 </ul>
                 <!-- Divider -->
                 <hr class="my-3">
-                <!-- Heading -->
-                <h6 class="navbar-heading p-0 text-muted">
-                    <span class="docs-normal">Quản lý cá nhân</span>
-                </h6>
-                <!-- Navigation -->
-                <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ManagementQuestion","UserManagement")" target="_blank">
-                            <i class="far fa-question-circle"></i>
-                            <span class="nav-link-text">Câu hỏi</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ManagementFriend","UserManagement")" target="_blank">
-                            <i class="fas fa-user-friends"></i>
-                            <span class="nav-link-text">Bạn bè</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ManagementTick","UserManagement")" target="_blank">
-                            <i class="ni ni-book-bookmark"></i>
-                            <span class="nav-link-text">Đánh dấu</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ManagementNotification","UserManagement")" target="_blank">
-                            <i class="far fa-bell"></i>
-                            <span class="nav-link-text">Thông báo</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("ManagementPost","UserManagement")" target="_blank">
-                            <i class="far fa-newspaper"></i>
-                            <span class="nav-link-text">Bài viết</span>
-                        </a>
-                    </li>
-                </ul>
+                @if (Request.Cookies["user_id"] != null)
+                {
+                    <!-- Heading -->
+                    <h6 class="navbar-heading p-0 text-muted">
+                        <span class="docs-normal">Quản lý cá nhân</span>
+                    </h6>
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ManagementQuestion","UserManagement")" target="_blank">
+                                <i class="far fa-question-circle"></i>
+                                <span class="nav-link-text">Câu hỏi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ManagementFriend","UserManagement")" target="_blank">
+                                <i class="fas fa-user-friends"></i>
+                                <span class="nav-link-text">Bạn bè</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ManagementTick","UserManagement")" target="_blank">
+                                <i class="ni ni-book-bookmark"></i>
+                                <span class="nav-link-text">Đánh dấu</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ManagementNotification","UserManagement")" target="_blank">
+                                <i class="far fa-bell"></i>
+                                <span class="nav-link-text">Thông báo</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ManagementPost","UserManagement")" target="_blank">
+                                <i class="far fa-newspaper"></i>
+                                <span class="nav-link-text">Bài viết</span>
+                            </a>
+                        </li>
+                    </ul>
+                }
             </div>
         </div>
     </div>

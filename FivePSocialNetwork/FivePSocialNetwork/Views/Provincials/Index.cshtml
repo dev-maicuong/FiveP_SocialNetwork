@@ -1,0 +1,58 @@
+﻿@model IEnumerable<FivePSocialNetwork.Models.Provincial>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.provincial_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.provincial_activate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.provincial_dateCreate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.provincial_dateEdit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.provincial_recycleBin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.provincial_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.provincial_activate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.provincial_dateCreate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.provincial_dateEdit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.provincial_recycleBin)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.provincial_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.provincial_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.provincial_id })
+        </td>
+    </tr>
+}
+
+</table>

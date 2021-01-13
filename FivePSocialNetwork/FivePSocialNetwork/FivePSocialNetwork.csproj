@@ -144,6 +144,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AddressAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuestionsAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShareViewAdminController.cs" />
@@ -151,7 +152,7 @@
     <Compile Include="Areas\Admin\Controllers\UsersAdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CenterController.cs" />
-    <Compile Include="Controllers\ControllerFramword\TechnologiesController.cs" />
+    <Compile Include="Controllers\ControllerFramword\ProvincialsController.cs" />
     <Compile Include="Controllers\ControllerFramword\UsersController.cs" />
     <Compile Include="Controllers\FunctionAtDetailQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -186,9 +187,12 @@
     <Compile Include="Models\Image_Advertisement.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Json\ComuneAdmin.cs" />
+    <Compile Include="Models\Json\DistrictAdmin.cs" />
     <Compile Include="Models\Json\ListCommune.cs" />
     <Compile Include="Models\Json\ListDistrict.cs" />
     <Compile Include="Models\Json\ListProvincial.cs" />
+    <Compile Include="Models\Json\ProvincialAdmin.cs" />
     <Compile Include="Models\Json\RoleAdmin.cs" />
     <Compile Include="Models\Json\SexAdmin.cs" />
     <Compile Include="Models\Json\TeachnologyAdmin.cs" />
@@ -4114,6 +4118,7 @@
     <Content Include="Areas\Admin\Views\QuestionsAdmin\Comment.cshtml" />
     <Content Include="Areas\Admin\Views\QuestionsAdmin\RateAnswer.cshtml" />
     <Content Include="Areas\Admin\Views\TechnologyAdmin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AddressAdmin\Provincial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -4229,7 +4234,6 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Account\TechnologyUser.cshtml" />
     <Content Include="Views\Account\Security.cshtml" />
-    <Content Include="Views\ShareView\Select2T.cshtml" />
     <Content Include="Views\Account\Address.cshtml" />
     <Content Include="Views\Account\LinkWebAnother.cshtml" />
     <Content Include="Views\Question\PostQuestion.cshtml" />
@@ -4248,11 +4252,12 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Technologies\Create.cshtml" />
-    <Content Include="Views\Technologies\Delete.cshtml" />
-    <Content Include="Views\Technologies\Details.cshtml" />
-    <Content Include="Views\Technologies\Edit.cshtml" />
-    <Content Include="Views\Technologies\Index.cshtml" />
+    <Content Include="Views\Provincials\Create.cshtml" />
+    <Content Include="Views\Provincials\Delete.cshtml" />
+    <Content Include="Views\Provincials\Details.cshtml" />
+    <Content Include="Views\Provincials\Edit.cshtml" />
+    <Content Include="Views\Provincials\Index.cshtml" />
+    <Content Include="Views\ShareView\SelectMuntiple.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

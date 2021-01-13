@@ -26,7 +26,7 @@ namespace FivePSocialNetwork.Controllers
         }
         //Thống kê của center
 
-        public PartialViewResult Select2T()
+        public PartialViewResult SelectMuntiple()
         {
             return PartialView();
         }
