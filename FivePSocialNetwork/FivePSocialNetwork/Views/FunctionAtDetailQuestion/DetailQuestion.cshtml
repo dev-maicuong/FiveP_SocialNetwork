@@ -1,10 +1,12 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
+@model Question
 @{
     ViewBag.Title = "DetailQuestion";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+    FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/stackoverflow-light.min.css">
 <script src="~/assets/ckeditor5/build/ckeditor.js"></script>
-
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -98,9 +100,9 @@
     </div>
 </div>
 <!-- Page content -->
-<div class="container-fluid mt--6">
+<div class="container-fluid mt--6" ng-app="myApp">
 
-    <div class="row">
+    <div class="row" ng-controller="myCtrl">
 
         <div class="col-xl-8">
             <!-- Post Begins -->
@@ -111,7 +113,7 @@
                         <div class="col-xl-12">
                             <div class="alert alert-info alert-dismissible fade show" role="alert">
                                 <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-                                <span class="alert-text"><strong>Danh tiếng!</strong> Các bạn trả lời bài viết này, được sự đồng thuận cao của mọi người, điểm danh tiếng của các bạn sẽ tăng lên</span>
+                                <span class="alert-text"><strong>Danh tiếng!</strong> Các bạn trả lời bài viết này, được sự đồng thuận cao của mọi người, điểm danh tiếng của các bạn sẽ tăng lên ..</span>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -161,18 +163,14 @@
                             <div class="row m-0">
                                 <div class="">
                                     <a class="text-decoration-none" href="">
-                                        <img class="" src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png" width="50" height="50" alt="...">
-
-                                        <img class="profile-pic" src="~/Content/LayoutCenter/ImgUser/.." width="50" height="50" alt="...">
-
-
+                                        <img class="profile-pic" src="~/Image/Users/@Model.User.user_avatar" width="50" height="50" alt="...">
                                     </a>
                                 </div>
                                 <div class="flex-grow-1 pl-2">
                                     <a class="text-decoration-none" href="">
-                                        <h2 class="text-capitalize h5 mb-0">..</h2>
+                                        <h2 class="text-capitalize h5 mb-0">@Model.User.user_firstName @Model.User.user_lastName</h2>
                                     </a>
-                                    <p class="small text-dark m-0 mt-1">..<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> ..<i class="fas fa-medal" style="color:yellow"></i>..<i class="fas fa-medal" style="color:silver"></i>.l<i class="fas fa-medal" style="color:#e88d15"></i>  </p>
+                                    <p class="small text-dark m-0 mt-1">@Model.User.user_vipMedal<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> @Model.User.user_goldMedal<i class="fas fa-medal" style="color:yellow"></i>@Model.User.user_silverMedal<i class="fas fa-medal" style="color:silver"></i> @Model.User.user_brozeMedal<i class="fas fa-medal" style="color:#e88d15"></i>  </p>
 
                                 </div>
 
@@ -191,24 +189,31 @@
                             <!-- post body -->
                             <div class="">
                                 <p class="my-2" style="font-weight:600">
-                                    <h1....</h1>
+                                    <h1>
+                                        @Model.question_title
+                                    </h1>
                                 </p>
                             </div>
                             <div class="">
                                 <p class="my-2">
-                                    ..
+                                    @Html.Raw(Model.question_content)
                                 </p>
+
                             </div>
                             <div class="text-right">
                                 <div class="fb-like" data-href="https://localhost:44351/DetailQuestion/IndexDetailQuestion/MTEwNw%3d%3d" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
                             </div>
                             <div class="text-right">
-                                <p>...... <i class="far fa-calendar-alt"></i></p>
+                                <p>@Model.question_dateEdit <i class="far fa-calendar-alt"></i></p>
                             </div>
-
+                            @{
+                                List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n => n.question_id == Model.question_id).ToList();
+                            }
                             <div>
-                                <span class="badge badge-primary">...</span>
-
+                                @foreach (var item in teachnology_Questions)
+                                {
+                                    <span class="badge badge-primary">@item.Technology.technology_name</span>
+                                }
                             </div>
                         </div>
                     </div>
@@ -221,17 +226,20 @@
 
                                 <li class="list-group-item flex-fill text-center p-0 px-lg-2 border border-0">
                                     <a class="small text-decoration-none">
-                                        <i class="fas fa-reply"></i> trả lời ..
+                                        @{
+                                            List<Answer> answers = db.Answers.Where(n => n.answer_activate == true && n.answer_userStatus == true && n.answer_admin_recycleBin == false && n.answer_recycleBin == false && n.question_id == Model.question_id).ToList();
+                                        }
+                                        <i class="fas fa-reply"></i> trả lời @answers.Count()
                                     </a>
                                 </li>
                                 <li class="list-group-item flex-fill text-center p-0 px-lg-2 border border-right-0 border-top-0 border-bottom-0">
                                     <a class="small text-decoration-none" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="fas fa-comment-alt"></i> comment ...
+                                        <i class="fas fa-comment-alt"></i> comment @Model.question_totalComment
                                     </a>
                                 </li>
                                 <li class="list-group-item flex-fill text-center p-0 px-lg-2 border border-right-0 border-top-0 border-bottom-0 ">
                                     <a class="small text-decoration-none">
-                                        <i class="fas fa-eye"></i> xem ..
+                                        <i class="fas fa-eye"></i> xem @Model.question_view
                                     </a>
                                 </li>
                             </ul>
@@ -244,8 +252,181 @@
             <div>
                 <p>Trả lời <i class="fas fa-reply-all"></i></p>
             </div>
-            <!--TRả lời-->
-            .........link tới câu trả lời ( làm gợi ý kết bạn sen kẽ dòng for)
+            
+            @foreach (var item in answers)
+            {
+                <section class="card mt-4">
+                    <div class="border p-2">
+                        <!-- post header -->
+                        <div class="row">
+                            <div class="col-2">
+                                <center>
+                                    <form id="formRateReplyPostT" class="changSizeButtonRatePost">
+                                        <input type="hidden" name="reply_post_id" value="" />
+                                        <button class="btn btn-sm"><i class="fa fa-chevron-up" style="font-size:200%"></i></button>
+                                    </form>
+                                </center>
+                                <center>
+                                    <div style="text-align: center">
+                                        <p style="margin-top:8px;">55</p>
+                                    </div>
+                                </center>
+                                <center>
+                                    <form id="formRateReplyPostF" class="changSizeButtonRatePost">
+                                        <input type="hidden" name="reply_post_id" value="" />
+                                        <button type="button" id="btnRateReplyPostF" class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:200%;" id="RateReplyPostF"></i></button>
+                                    </form>
+                                </center>
+
+                                <!--Hoạt động-->
+                                <center>
+                                    <form id="" class="changSizeButtonRatePost">
+                                        <input type="hidden" name="reply_post_id" value="" />
+                                        <button type="button" class="btn btn-sm"><i class="ni ni-compass-04" style="font-size:200%"></i></button>
+                                    </form>
+                                </center>
+                                <!--hien thị hoạt động bài viết này-->
+
+                            </div>
+                            <div class="col-10">
+                                <div class="row m-0">
+                                    <div class="">
+                                        <a class="text-decoration-none" href="#">
+                                            <img class="profile-pic" src="~/Image/Users/@item.User.user_avatar" width="50" height="50" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="flex-grow-1 pl-2">
+                                        <a class="text-decoration-none" href="#">
+                                            <h2 class="text-capitalize h5 mb-0"> @item.User.user_firstName @item.User.user_lastName</h2>
+                                        </a>
+                                        <p class="small text-dark m-0 mt-1">
+                                            @item.User.user_vipMedal<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i>@item.User.user_goldMedal<i class="fas fa-medal" style="color:yellow"></i>@item.User.user_silverMedal <i class="fas fa-medal" style="color:silver"></i> @item.User.user_brozeMedal
+                                            <i class="fas fa-medal" style="color:#e88d15"></i>
+                                        </p>
+
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item text-primary" href="#">Edit</a>
+                                            <a class="dropdown-item text-primary" href="#">Delete</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- post body -->
+                                <div class="">
+                                    <p class="my-2">
+                                        @Html.Raw(item.answer_content)
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p>... <i class="far fa-calendar-alt"></i></p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-1">
+                        <!-- post footer begins -->
+                        <footer class="">
+                            <!-- post actions -->
+                            <div class="">
+                                <span class="text-right"></span>
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item flex-fill text-center p-0 px-lg-2 border border-0">
+
+                                    </li>
+
+
+                                    <li class="list-group-item flex-fill text-center p-0 px-lg-2 border border-0">
+
+                                    </li>
+                                    <li class="list-group-item flex-fill text-center p-0 px-lg-2 border border-0">
+                                        <a class="small text-decoration-none float-right" data-toggle="collapse" href="#collapseExample@(item.answer_id)" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <i class="fas fa-comment-alt"> &nbsp;comment</i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                            <!-- collapsed comments begins -->
+                            <div class="collapse" id="collapseExample@(item.answer_id)">
+                                <div class="border border-right-0 border-left-0 border-bottom-0 mt-1">
+                                    <!-- new comment form -->
+                                    <section class="mt-3">
+                                        <!--Tạo comment-->
+                                        <form action="@Url.Action("CreateComment","Answer")" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <div class="input-group input-group">
+                                                <input type="hidden" name="answer_id" value="@item.answer_id" />
+                                                <input type="hidden" name="question_id" value="@Model.question_id" />
+                                                <input type="text" name="commentAnswer_content" required="" class="form-control" placeholder="Write Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="text-decoration-none text-white btn btn-primary" role="button">Comment</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </section>
+                                    <!-- comment card bgins -->
+                                    @{
+                                        List<Comment_Answer> comment_Answers = db.Comment_Answer.Where(n => n.answer_id == item.answer_id && n.commentAnswer_activate == true && n.commentAnswer_recycleBin == false && n.commentAnswer_userStatus == true).ToList();
+                                    }
+                                    @foreach (var itemComment in comment_Answers)
+                                    {
+                                        <section>
+                                            <div class="p-2 mt-1">
+                                                <!-- comment header -->
+                                                <div class="d-flex">
+                                                    <div class="">
+                                                        <a class="text-decoration-none" href="#">
+                                                            <img class="profile-pic" src="~/Image/Users/@itemComment.User.user_avatar" width="50" height="50" alt="...">
+
+                                                        </a>
+                                                    </div>
+                                                    <div class="flex-grow-1 pl-2">
+                                                        <a class="text-decoration-none text-capitalize h6 m-0" href="@Url.Action("","")">@itemComment.User.user_firstName @item.User.user_lastName</a>
+                                                        <p class="small m-0 text-muted">@itemComment.commentAnswer_dateEdit.Value.ToShortDateString()</p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="dropdown">
+                                                            <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-chevron-down"></i>
+                                                            </a>
+
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                                <a class="dropdown-item text-primary" href="#">Edit</a>
+                                                                <a class="dropdown-item text-primary" href="#">Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- comment header -->
+                                                <!-- comment body -->
+                                                <div class="card-body p-0">
+                                                    <p class="card-text h7 mb-1">@itemComment.commentAnswer_content</p>
+
+                                                </div>
+                                            </div>
+                                        </section>
+                                    }
+
+                                    <!-- comment card ends -->
+
+                                </div>
+                            </div>
+
+                            <!-- collapsed comments ends -->
+                        </footer>
+                        <!-- post footer ends -->
+                    </div>
+                </section>
+            }
+
+
             <!-- Post Ends -->
             <!--- Post Form Begins -->
             <section class="card">
@@ -259,24 +440,20 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="@Url.Action("PostAnswer","Answer")" method="post">
+                        @Html.AntiForgeryToken()
+
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                            <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="posts-tab">
                                 <div class="form-group">
                                     <label class="sr-only" for="message">post</label>
-                                    <input type="hidden" name="post_id" value="" />
-                                    <textarea class="form-control" name="reply_post_content" id="message" rows="3" placeholder="Suy nghĩ của bạn về bài viết .."></textarea>
+                                    <input type="hidden" name="question_id" value="@Model.question_id" />
+                                    <textarea class="form-control" name="answer_content" id="message" rows="3" placeholder="Suy nghĩ của bạn về bài viết .."></textarea>
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary"><i class="far fa-paper-plane"></i> Góp ý</button>
-
-                            <button type="button" onclick="alert('Bạn cần đăng nhập trước để mọi người biết bạn là ai.');" class="btn btn-primary"><i class="far fa-paper-plane"></i> Góp ý</button>
-
-
                         </div>
                     </form>
 
@@ -291,21 +468,9 @@
             <div class="card mt-4">
                 <div class="card-body p-3">
 
-                    <h5 class="card-title m-0">Thẻ câu hỏi</h5>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action text-primary">
-                            <div class="row">
-                                <div class="col-2 mr--1">
-                                    <i class="fab fa-usps"></i>
-                                </div>
-                                <div class="col-xl-10 ml--3">
-                                    ..
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="" class="btn btn-sm btn-primary">View All</a>
-                    </div>
+                    <span class="badge badge-primary" ng-repeat="x in listTags">
+                        <i class="fas fa-tag"> &nbsp; {{x.tagsQuestion_name}} </i>
+                    </span>
                 </div>
             </div>
             <div class="card mt-4">
@@ -313,17 +478,16 @@
 
                     <h5 class="card-title m-0">Các câu hỏi liên quan</h5>
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action text-primary">
+                        <a ng-repeat="x in listQuestionRelationship" href="#" class="list-group-item list-group-item-action text-primary" >
                             <div class="row">
                                 <div class="col-2 mr--1">
-                                    <i class="fab fa-usps"></i>
+                                    <i class="far fa-question-circle"></i>
                                 </div>
                                 <div class="col-xl-10 ml--3">
-                                    ..
+                                    {{x.question_title}}
                                 </div>
                             </div>
                         </a>
-
                         <a href="" class="btn btn-sm btn-primary">View All</a>
                     </div>
                 </div>
@@ -336,7 +500,7 @@
                         <a href="#" class="list-group-item list-group-item-action text-primary">
                             <div class="row">
                                 <div class="col-2 mr--1">
-                                    <i class="fab fa-usps"></i>
+                                    <i class="far fa-newspaper"></i>
                                 </div>
                                 <div class="col-xl-10 ml--3">
                                     ..
@@ -386,4 +550,39 @@
             console.log(error);
         });
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+        var app = angular.module('myApp', ['ngSanitize']);
+        app.controller('myCtrl', function ($scope, $http) {
+            @*// show đáp án
+            $http.get("/Answer/AnswerJson/@Model.question_id")
+                .then(function (response) {
+                    // First function handles success
+                    $scope.listAnswerJson = response.data;
+                }, function (response) {
+                    // Second function handles error
+                    $scope.listAnswerJson = "Something went wrong";
+                });*@
+            //show thẻ tags
+            $http.get("/FunctionAtDetailQuestion/TagsQuestionJson/@Model.question_id")
+                .then(function (response) {
+                    // First function handles success
+                    $scope.listTags = response.data;
+                }, function (response) {
+                    // Second function handles error
+                        $scope.listTags = "Something went wrong";
+                });
+            //công nghệ liên quan
+            $http.get("/FunctionAtDetailQuestion/QuestionRelationship/@Model.question_id")
+                .then(function (response) {
+                    // First function handles success
+                    $scope.listQuestionRelationship = response.data;
+                }, function (response) {
+                    // Second function handles error
+                        $scope.listQuestionRelationship = "Something went wrong";
+                });
+        });
+</script>
+
 

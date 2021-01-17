@@ -84,13 +84,126 @@ namespace FivePSocialNetwork.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Provincial");
         }
+        //--------------------------phần Huyện ---------------------------------------
         public ActionResult District()
         {
             return View();
         }
+        // hiển thị danh sách huyện
+        public JsonResult DistrictJson()
+        {
+            List<District> districts = db.Districts.Where(n => n.district_recycleBin == false).ToList();
+            List<DistrictAdmin> districtAdmins = districts.Select(n => new DistrictAdmin
+            {
+                district_id = n.district_id,
+                district_name = n.district_name,
+                district_activate = n.district_activate,
+                district_dateCreate = n.district_dateCreate.ToString(),
+                district_dateEdit = n.district_dateEdit.ToString(),
+                district_recycleBin = n.district_recycleBin,
+                provincial_id = n.provincial_id,
+                provincial_name = n.Provincial.provincial_name
+
+            }).ToList();
+            return Json(districtAdmins, JsonRequestBehavior.AllowGet);
+        }
+        //Thêm huyện
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult CreateDistrict([Bind(Include = "district_id,district_name,district_activate,district_dateCreate,district_dateEdit,district_recycleBin,provincial_id")] District district)
+        {
+            district.district_activate = true;
+            district.district_dateCreate = DateTime.Now;
+            district.district_dateEdit = DateTime.Now;
+            district.district_recycleBin = false;
+            db.Districts.Add(district);
+            db.SaveChanges();
+            return RedirectToAction("District");
+        }
+        public JsonResult ActivateDistrict(int? id)
+        {
+            District district = db.Districts.Find(id);
+            district.district_activate = !district.district_activate;
+            db.SaveChanges();
+            return Json(district,JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult RecycleBinDistrict(int? id)
+        {
+            District district = db.Districts.Find(id);
+            district.district_recycleBin = !district.district_recycleBin;
+            db.SaveChanges();
+            return Json(district, JsonRequestBehavior.AllowGet);
+        }
+        // danh sách đã xóa
+        public JsonResult RecycleBinDistrictJson()
+        {
+            List<District> districts = db.Districts.Where(n => n.district_recycleBin == true).ToList();
+            List<DistrictAdmin> districtAdmins = districts.Select(n => new DistrictAdmin
+            {
+                district_id = n.district_id,
+                district_name = n.district_name,
+                district_activate = n.district_activate,
+                district_dateCreate = n.district_dateCreate.ToString(),
+                district_dateEdit = n.district_dateEdit.ToString(),
+                district_recycleBin = n.district_recycleBin,
+                provincial_id = n.provincial_id,
+                provincial_name = n.Provincial.provincial_name
+
+            }).ToList();
+            return Json(districtAdmins, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult EditDistrict(int? provincial_id,string district_name, int? district_id)
+        {
+            District district = db.Districts.Find(district_id);
+            district.district_name = district_name;
+            district.provincial_id = provincial_id;
+            db.SaveChanges();
+            return RedirectToAction("District");
+        }
+        //--------------------------phần  Xã ---------------------------------------
+
         public ActionResult Commune()
         {
             return View();
+        }
+        // hiển thị
+        public JsonResult CommuneJson()
+        {
+            List<Commune> communes = db.Communes.Where(n => n.commune_recycleBin == false).ToList();
+            List<ComuneAdmin> comuneAdmins = communes.Select(n => new ComuneAdmin
+            {
+                commune_id = n.commune_id,
+                commune_name = n.commune_name,
+                commune_activate = n.commune_activate,
+                commune_dateCreate = n.commune_dateCreate.ToString(),
+                commune_dateEdit = n.commune_dateEdit.ToString(),
+                commune_recycleBin = n.commune_recycleBin,
+                district_id = n.district_id,
+                district_name = n.District.district_name
+
+            }).ToList();
+            return Json(comuneAdmins, JsonRequestBehavior.AllowGet);
+        }
+        //Thêm -----------
+        public ActionResult CreateCommune([Bind(Include = "commune_id,commune_name,commune_activate,commune_dateCreate,commune_dateEdit,commune_recycleBin,district_id")] Commune commune)
+        {
+            commune.commune_activate = true;
+            commune.commune_dateCreate = DateTime.Now;
+            commune.commune_dateEdit = DateTime.Now;
+            commune.commune_recycleBin = false;
+            db.Communes.Add(commune);
+            db.SaveChanges();
+            return RedirectToAction("Commune");
+        }
+        // Sửa----------
+        public ActionResult EditCommune(string commune_name, int? commune_id, int? district_id)
+        {
+            Commune commune = db.Communes.Find(commune_id);
+            commune.commune_name = commune_name;
+            commune.district_id = district_id;
+            db.SaveChanges();
+            return RedirectToAction("Commune");
         }
     }
 }

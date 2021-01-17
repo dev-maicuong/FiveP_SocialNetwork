@@ -10,8 +10,8 @@ namespace FivePSocialNetwork.Models.Json
         public int commune_id { get; set; }
         public string commune_name { get; set; }
         public Nullable<bool> commune_activate { get; set; }
-        public Nullable<System.DateTime> commune_dateCreate { get; set; }
-        public Nullable<System.DateTime> commune_dateEdit { get; set; }
+        public string commune_dateCreate { get; set; }
+        public string commune_dateEdit { get; set; }
         public Nullable<bool> commune_recycleBin { get; set; }
         public Nullable<int> district_id { get; set; }
 

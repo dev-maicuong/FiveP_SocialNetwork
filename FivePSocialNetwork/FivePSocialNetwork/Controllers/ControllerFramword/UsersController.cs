@@ -15,6 +15,14 @@ namespace FivePSocialNetwork.Controllers.ControllerFramword
         private FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
 
         // GET: Users
+        public PartialViewResult test1()
+        {
+            return PartialView();
+        }
+        public ActionResult testLayout()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             var users = db.Users.Include(u => u.Commune).Include(u => u.District).Include(u => u.Provincial).Include(u => u.Role_User).Include(u => u.Sex_User);

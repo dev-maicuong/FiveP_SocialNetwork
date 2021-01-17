@@ -151,8 +151,9 @@
     <Compile Include="Areas\Admin\Controllers\TechnologyAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersAdminController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AnswerController.cs" />
     <Compile Include="Controllers\CenterController.cs" />
-    <Compile Include="Controllers\ControllerFramword\ProvincialsController.cs" />
+    <Compile Include="Controllers\ControllerFramword\Comment_AnswerController.cs" />
     <Compile Include="Controllers\ControllerFramword\UsersController.cs" />
     <Compile Include="Controllers\FunctionAtDetailQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -189,10 +190,15 @@
     </Compile>
     <Compile Include="Models\Json\ComuneAdmin.cs" />
     <Compile Include="Models\Json\DistrictAdmin.cs" />
+    <Compile Include="Models\Json\IndexCemterStatistical.cs" />
+    <Compile Include="Models\Json\ListAnswer.cs" />
     <Compile Include="Models\Json\ListCommune.cs" />
     <Compile Include="Models\Json\ListDistrict.cs" />
     <Compile Include="Models\Json\ListProvincial.cs" />
+    <Compile Include="Models\Json\ListTags.cs" />
+    <Compile Include="Models\Json\ListTechnologyQuestion.cs" />
     <Compile Include="Models\Json\ProvincialAdmin.cs" />
+    <Compile Include="Models\Json\ListQuestions.cs" />
     <Compile Include="Models\Json\RoleAdmin.cs" />
     <Compile Include="Models\Json\SexAdmin.cs" />
     <Compile Include="Models\Json\TeachnologyAdmin.cs" />
@@ -4047,6 +4053,8 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -4054,6 +4062,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\CheckForm\CheckFormLogin.js" />
+    <Content Include="Scripts\CheckForm\CheckFormPostQuestion.js" />
     <Content Include="Scripts\CheckForm\CheckFormRegister.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -4119,6 +4128,9 @@
     <Content Include="Areas\Admin\Views\QuestionsAdmin\RateAnswer.cshtml" />
     <Content Include="Areas\Admin\Views\TechnologyAdmin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AddressAdmin\Provincial.cshtml" />
+    <Content Include="Areas\Admin\Views\AddressAdmin\District.cshtml" />
+    <Content Include="Areas\Admin\Views\AddressAdmin\Commune.cshtml" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -4252,17 +4264,20 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Provincials\Create.cshtml" />
-    <Content Include="Views\Provincials\Delete.cshtml" />
-    <Content Include="Views\Provincials\Details.cshtml" />
-    <Content Include="Views\Provincials\Edit.cshtml" />
-    <Content Include="Views\Provincials\Index.cshtml" />
     <Content Include="Views\ShareView\SelectMuntiple.cshtml" />
+    <Content Include="Views\Users\test1.cshtml" />
+    <Content Include="Views\Users\testLayout.cshtml" />
+    <Content Include="Views\Comment_Answer\Create.cshtml" />
+    <Content Include="Views\Comment_Answer\Delete.cshtml" />
+    <Content Include="Views\Comment_Answer\Details.cshtml" />
+    <Content Include="Views\Comment_Answer\Edit.cshtml" />
+    <Content Include="Views\Comment_Answer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Answer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

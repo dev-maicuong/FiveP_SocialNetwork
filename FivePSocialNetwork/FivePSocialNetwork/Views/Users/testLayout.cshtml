@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "testLayout";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+<div ng-app="myApp" ng-controller="myCtrl">
+
+    <p ng-bind-html="myText"></p>
+
+</div>
+
+<script>
+    var app = angular.module("myApp", ['ngSanitize']);
+    app.controller("myCtrl", function ($scope) {
+        $scope.myText = "My name is: <h5>John Doe</h5>";
+    });
+</script>

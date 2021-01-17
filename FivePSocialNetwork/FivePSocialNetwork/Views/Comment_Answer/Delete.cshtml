@@ -1,0 +1,89 @@
+﻿@model FivePSocialNetwork.Models.Comment_Answer
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Comment_Answer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.commentAnswer_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentAnswer_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commentAnswer_dateCreate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentAnswer_dateCreate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commentAnswer_dateEdit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentAnswer_dateEdit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commentAnswer_recycleBin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentAnswer_recycleBin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commentAnswer_activate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentAnswer_activate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commentAnswer_userStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commentAnswer_userStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Answer.answer_content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Answer.answer_content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.user_pass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.user_pass)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
