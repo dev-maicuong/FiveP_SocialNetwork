@@ -194,6 +194,7 @@
     <Compile Include="Models\Json\ListAnswer.cs" />
     <Compile Include="Models\Json\ListCommune.cs" />
     <Compile Include="Models\Json\ListDistrict.cs" />
+    <Compile Include="Models\Json\ListNotification.cs" />
     <Compile Include="Models\Json\ListProvincial.cs" />
     <Compile Include="Models\Json\ListTags.cs" />
     <Compile Include="Models\Json\ListTechnologyQuestion.cs" />

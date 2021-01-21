@@ -122,41 +122,40 @@
                     </div>
                     <div class="row">
                         <div class="col-2">
+                            <!--Đánh giá bài viết-->
                             <center>
-                                <form id="formRatePostT" class="changSizeButtonRatePost">
-                                    <input type="hidden" name="post_id" value="" />
-                                    <button type="button" id="btnRatePostT" onclick="btnButtonChangeRatePost()" class="btn btn-sm"><i id="RatePostT" style="font-size:200%;" class="fa fa-chevron-up"></i></button>
+                                <form ng-submit="rateQuestionT()" method="post" class="changSizeButtonRatePost">
+                                    <button type="submit" class="btn btn-sm"><i style="font-size:200%;" class="fa fa-chevron-up"></i></button>
                                 </form>
-
                             </center>
                             <center>
-
+                                @{
+                                    List<Rate_Question> rate_QuestionsT = db.Rate_Question.Where(n => n.question_id == Model.question_id && n.rateQuestion_rateStatus == true).ToList();
+                                    List<Rate_Question> rate_QuestionsF = db.Rate_Question.Where(n => n.question_id == Model.question_id && n.rateQuestion_rateStatus == false).ToList();
+                                    int intCoutT = rate_QuestionsT.Count();
+                                    int intCoutF = rate_QuestionsF.Count();
+                                    int intDivided = intCoutT - intCoutF;
+                                }
                                 <div style="text-align: center">
-                                    <p style="margin-top:8px;" id="coutRatePost">...</p>
+                                    <p style="margin-top:8px;">@intDivided</p>
                                 </div>
                             </center>
                             <center>
-
-                                <form id="formRatePostF" class="changSizeButtonRatePost">
-                                    <input type="hidden" name="post_id" value=".." />
-                                    <button onclick="btnButtonChangeRatePostF()" type="button" id="btnRatePostF" class="btn btn-sm"><i class="fa fa-chevron-down" id="RatePostF" style="font-size:200%;"></i></button>
+                                <form ng-submit="rateQuestionF()" class="changSizeButtonRatePost">
+                                    <button type="submit" class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:200%;"></i></button>
                                 </form>
                             </center>
+                            <!--đánh dấu-->
                             <center>
-
-                                <form id="formTickPost" class="changSizeButtonRatePost">
-                                    <input type="hidden" name="post_id" value="" />
-                                    <button onclick="btnButtonChangeTickPost()" id="btnTickPos" type="button" class="btn btn-sm"><i id="TickPost" class="ni ni-book-bookmark" style="font-size:200%;"></i></button>
+                                <form ng-submit="tickQuestion()" class="changSizeButtonRatePost">
+                                    <button type="submit" class="btn btn-sm"><i class="ni ni-book-bookmark" style="font-size:200%;"></i></button>
                                 </form>
-
                             </center>
+                            <!--show hoạt động-->
                             <center>
-
-                                <form id="formShowActivatePost" class="changSizeButtonRatePost">
-                                    <input type="hidden" name="post_id" value="" />
-                                    <button onclick="btnButtonChangeShowActivatePost()" id="btnShowActivatePost" type="button" class="btn btn-sm"><i id="ShowActivatePost" class="ni ni-compass-04" style="font-size:200%;"></i></button>
+                                <form ng-submit="showActivateQuestion()" class="changSizeButtonRatePost">
+                                    <button type="submit" class="btn btn-sm"><i class="ni ni-compass-04" style="font-size:200%;"></i></button>
                                 </form>
-
                             </center>
                         </div>
                         <div class="col-10">
@@ -261,28 +260,36 @@
                         <div class="row">
                             <div class="col-2">
                                 <center>
-                                    <form id="formRateReplyPostT" class="changSizeButtonRatePost">
-                                        <input type="hidden" name="reply_post_id" value="" />
-                                        <button class="btn btn-sm"><i class="fa fa-chevron-up" style="font-size:200%"></i></button>
+                                    <form ng-submit="rateAnswerT(@(item.answer_id))" class="changSizeButtonRatePost">
+                                        <button type="submit" class="btn btn-sm"><i class="fa fa-chevron-up" style="font-size:200%"></i></button>
                                     </form>
                                 </center>
+                                <script>
+
+                                </script>
+                                <!--Trung bình đánh giá-->
+                                @{
+                                    List<Rate_Answer> rate_AnswersT = db.Rate_Answer.Where(n => n.answer_id == item.answer_id && n.rateAnswer_rateStatus == true).ToList();
+                                    List<Rate_Answer> rate_AnswersF = db.Rate_Answer.Where(n => n.answer_id == item.answer_id && n.rateAnswer_rateStatus == false).ToList();
+                                    int intCoutAnswerT = rate_AnswersT.Count();
+                                    int intCoutAnswerF = rate_AnswersF.Count();
+                                    int intDividedAnswer = intCoutAnswerT - intCoutAnswerF;
+                                }
                                 <center>
                                     <div style="text-align: center">
-                                        <p style="margin-top:8px;">55</p>
+                                        <p style="margin-top:8px;">@intDividedAnswer</p>
                                     </div>
                                 </center>
                                 <center>
-                                    <form id="formRateReplyPostF" class="changSizeButtonRatePost">
-                                        <input type="hidden" name="reply_post_id" value="" />
-                                        <button type="button" id="btnRateReplyPostF" class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:200%;" id="RateReplyPostF"></i></button>
+                                    <form ng-submit="rateAnswerF(@(item.answer_id))" class="changSizeButtonRatePost">
+                                        <button type="submit" class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:200%;"></i></button>
                                     </form>
                                 </center>
 
                                 <!--Hoạt động-->
                                 <center>
-                                    <form id="" class="changSizeButtonRatePost">
-                                        <input type="hidden" name="reply_post_id" value="" />
-                                        <button type="button" class="btn btn-sm"><i class="ni ni-compass-04" style="font-size:200%"></i></button>
+                                    <form ng-submit="showActivateQuestion()" class="changSizeButtonRatePost">
+                                        <button type="submit" class="btn btn-sm"><i class="ni ni-compass-04" style="font-size:200%"></i></button>
                                     </form>
                                 </center>
                                 <!--hien thị hoạt động bài viết này-->
@@ -582,6 +589,24 @@
                     // Second function handles error
                         $scope.listQuestionRelationship = "Something went wrong";
                 });
+            $scope.rateQuestionT = function () {
+                $http.post("/FunctionAtDetailQuestion/RateQuestionT?question_id=" + @Model.question_id)
+            }
+            $scope.rateQuestionF = function () {
+                $http.post("/FunctionAtDetailQuestion/RateQuestionF?question_id=" + @Model.question_id)
+            }
+            $scope.tickQuestion = function () {
+                $http.post("/FunctionAtDetailQuestion/TickQuestion?question_id=" + @Model.question_id)
+            }
+            $scope.showActivateQuestion = function () {
+                $http.post("/FunctionAtDetailQuestion/ShowActivateQuestion?question_id=" + @Model.question_id)
+            }
+            $scope.rateAnswerT = function (id) {
+                $http.post("/Answer/RateAnswerT?answer_id="+ id)
+            }
+            $scope.rateAnswerF = function (id) {
+                $http.post("/Answer/RateAnswerF?answer_id=" + id)
+            }
         });
 </script>
 
