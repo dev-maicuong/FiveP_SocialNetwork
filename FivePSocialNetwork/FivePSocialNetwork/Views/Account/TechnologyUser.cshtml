@@ -29,7 +29,8 @@
             cursor: pointer;
         }
 </style>
-@Html.Action("Select2T", "ShareView")
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -58,7 +59,7 @@
                             </a>
                             <div class="collapse" id="collapseExampleName">
                                 <div class="card card-body">
-                                    @{ 
+                                    @{
                                         List<Technology> technology = db.Technologies.Where(n => n.technology_activate == true && n.technology_recycleBin == false).ToList();
                                         List<Teachnology_User> teachnology_User = db.Teachnology_User.Where(n => n.user_id == user_id).ToList();
                                     }
@@ -67,7 +68,7 @@
                                         <select name="technology_id" class="form-control" id="selectTechnology" multiple="multiple">
                                             @foreach (var item in technology)
                                             {
-                                                <option value="@item.technology_id" @foreach (var item2 in teachnology_User) { if (item.technology_id == item2.technology_id) { @selected} }>@item.technology_name</option>
+                                                <option value="@item.technology_id" @foreach (var item2 in teachnology_User) { if (item.technology_id == item2.technology_id) { @selected } }>@item.technology_name</option>
                                             }
                                         </select>
                                         <button type="submit" class="btn btn-success float-right mt-3"><i class="far fa-save"></i> Lưu</button>

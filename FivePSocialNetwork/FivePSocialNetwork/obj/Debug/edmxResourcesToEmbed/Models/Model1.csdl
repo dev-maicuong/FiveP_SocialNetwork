@@ -35,6 +35,7 @@
     <NavigationProperty Name="User" Relationship="Self.FK_Answer_User" FromRole="Answer" ToRole="User" />
     <NavigationProperty Name="Comment_Answer" Relationship="Self.FK_Comment_Answer_Answer" FromRole="Answer" ToRole="Comment_Answer" />
     <NavigationProperty Name="Rate_Answer" Relationship="Self.FK_Rate_Answer_Answer" FromRole="Answer" ToRole="Rate_Answer" />
+    <Property Name="answer_correct" Type="Boolean" />
   </EntityType>
   <EntityType Name="Comment_Answer">
     <Key>

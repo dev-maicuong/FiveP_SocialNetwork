@@ -31,8 +31,8 @@
         </div>
     </div>
 </div>
-<div class="container-fluid mt--6">
-    <div class="row">
+<div class="container-fluid mt--6" ng-app="myApp">
+    <div class="row" ng-controller="myCtrl">
         <div class=col-xl-12>
             <div class="row">
                 <div class="col-xl-7">
@@ -60,30 +60,30 @@
         <div class="col-xl-12 card">
             <div class="row">
 
-                <div class="col-xl-3 p-3 cardlist">
+                <div class="col-xl-3 p-3 cardlist" ng-repeat="x in listFriend">
                     <div class="row">
                         <div class="col-5">
                             <a href="cateview.php" class="w-100">
-                                <img src="~/Content/LayoutCenter/ImgUser/user1.jpg" class="mx-auto d-block mb-1 addcartimg" style="width:104px;height:104px" />
+                                <img src="~/Image/Users/{{x.user_avatar}}" class="mx-auto d-block mb-1 addcartimg" style="width:104px;height:104px" />
                             </a>
                         </div>
                         <div class="col-7">
                             <div class="d-block text-truncate mb-1">
                                 <a href="cateview.php" class="cartproname">
-                                    ..
+                                    {{x.user_firstName + " "+ x.user_lastName}}
                                 </a>
                             </div>
                             <div class="seller d-block">
-                                <span>..<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> </span>
-                                <span>...<i class="fas fa-medal" style="color:yellow"></i></span>
+                                <span>{{x.user_vipMedal}}<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> </span>
+                                <span>{{x.user_goldMedal}}<i class="fas fa-medal" style="color:yellow"></i></span>
 
                             </div>
                             <div class="seller d-block">
                                 <span>
-                                    ..<i class="fas fa-medal" style="color:silver"></i>
+                                    {{x.user_silverMedal}}<i class="fas fa-medal" style="color:silver"></i>
                                 </span>
                                 <span>
-                                    ..<i class="fas fa-medal" style="color:#e88d15"></i>
+                                    {{x.user_brozeMedal}}<i class="fas fa-medal" style="color:#e88d15"></i>
                                 </span>
                             </div>
                             <div class="cartviewprice d-block">
@@ -99,4 +99,16 @@
     </div>
 
 </div>
-
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/UserManagement/ListFriend")
+            .then(function (response) {
+                // First function handles success
+                $scope.listFriend = response.data;
+            }, function (response) {
+                // Second function handles error
+                    $scope.listFriend = "Something went wrong";
+            });
+    });
+</script>

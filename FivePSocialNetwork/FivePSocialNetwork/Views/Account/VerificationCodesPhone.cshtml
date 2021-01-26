@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "VerificationCodesPhone";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<h2>Mã xác thực sẽ hết sau 3 phút.</h2>
+<form method="post">
+    <h2 class="text-danger">@ViewBag.verificationCodesPhone</h2>
+    <input type="number" name="verificationCode" class="form-control w-50" required="" placeholder="nhập mã xác thực.." />
+    <button type="submit" class="btn btn-dark">Xác thực</button>
+</form>

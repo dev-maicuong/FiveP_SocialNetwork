@@ -98,8 +98,8 @@
 </div>
 
 <!-- Page content -->
-<div class="container-fluid mt--6">
-    <div class="row">
+<div class="container-fluid mt--6" ng-app="myApp">
+    <div class="row" ng-controller="myCtrl">
         <div class="col">
             <div class="card">
                 <!-- Card header -->
@@ -218,3 +218,16 @@
     </div>
 
 </div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/View/ListMenber")
+            .then(function (response) {
+                // First function handles success
+                $scope.listMember = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listMember = "Something went wrong";
+            });
+    });
+</script>

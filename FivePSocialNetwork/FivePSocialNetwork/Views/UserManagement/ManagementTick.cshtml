@@ -30,8 +30,8 @@
 </div>
 
 <!-- Page content -->
-<div class="container-fluid mt--6">
-    <div class="row">
+<div class="container-fluid mt--6" ng-app="myApp">
+    <div class="row" ng-controller="myCtrl">
         <div class="col">
             <div class="card">
                 <!-- Card header -->
@@ -74,7 +74,7 @@
                             </tr>
                         </thead>
                         <tbody class="list">
-                            <tr>
+                            <tr ng-repeat="x in listTick">
                                 <td scope="row">
                                     <div class="media align-items-center">
                                         <a class="mr-2">
@@ -91,7 +91,7 @@
                                         <div class="media-body">
                                             <div>
                                                 <p class="mb--2">
-                                                    ..
+                                                    {{x.question_title}}
                                                 </p>
                                             </div>
                                             <span class="name mb-0 text-sm">
@@ -132,4 +132,16 @@
         </div>
     </div>
 </div>
-
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/UserManagement/ListTick")
+            .then(function (response) {
+                // First function handles success
+                $scope.listTick = response.data;
+            }, function (response) {
+                // Second function handles error
+                    $scope.listTick = "Something went wrong";
+            });
+    });
+</script>

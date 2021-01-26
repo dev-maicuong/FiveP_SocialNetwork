@@ -63,6 +63,7 @@
                                         <input type="email" name="user_email" class="form-control" placeholder="Email .." value="@user.user_email"/><br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>
+                                    <a href="@Url.Action("EmailSend","Account")" class="btn btn-dark">Xác thực email</a>
                                 </div>
                             </div>
                         </div>
@@ -78,6 +79,8 @@
                                         <input type="number" name="user_phone" class="form-control" placeholder="Số điện thoại .." value="@user.user_phone"/><br />
                                         <button type="submit" class="btn btn-success float-right"><i class="far fa-save"></i> Lưu</button>
                                     </form>
+                                    <br />
+                                    <a href="@Url.Action("NumberPhoneVerification","Account")" class="btn btn-dark">Xác thực số điện thoại</a>
                                 </div>
                             </div>
                         </div>

@@ -3,9 +3,9 @@
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
     User user;
 }
-<nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom sticky-top" ng-app="myAppPanel">
+<nav class="navbar navbar-top navbar-expand navbar-dark border-bottom sticky-top" style="background-color:orange">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" ng-controller="myCtrlPanel">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search form -->
             <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
                 <div class="form-group mb-0">
@@ -16,10 +16,10 @@
                         <input class="form-control" placeholder="Bạn cần tìm gì ...?" type="text">
                     </div>
                 </div>
-                <div class="">
+                @*<div class="">
                     <a href="@Url.Action("PostQuestion","Question")" class="btn btn-sm btn-neutral"><i class="far fa-paper-plane"></i> Đặt câu hỏi?</a>
                     <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>
-                </div>
+                </div>*@
                 <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -96,40 +96,40 @@
                             <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
                         </div>
                     </li>
-                    @{ 
-                        List<Notification> notifications = db.Notifications.Where(n => n.notification_status == false && n.notification_recycleBin == false && n.receiver_id == user_id).ToList();
-
-                    }
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ni ni-bell-55">@notifications.Count()</i>
+                            <i class="ni ni-bell-55">@ViewBag.countNotifications</i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
                             <!-- Dropdown header -->
                             <div class="px-3 py-3">
-                                <h6 class="text-sm text-muted m-0">Bạn có <strong class="text-primary">@notifications.Count()</strong> thông báo.</h6>
+                                <h6 class="text-sm text-muted m-0">Bạn có <strong class="text-primary">@ViewBag.countNotifications</strong> thông báo.</h6>
                             </div>
                             <!-- List group -->
                             <div class="list-group list-group-flush">
-                                <a ng-repeat="x in listNotification" ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}&notification_id={{x.notification_id}}" class="list-group-item list-group-item-action" >
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <!-- Avatar -->
-                                            <img alt="Image placeholder" src="~/Image/Users/{{x.impactUser_avatar}}" class="avatar rounded-circle">
-                                        </div>
-                                        <div class="col ml--2">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <h4 class="mb-0 text-sm">{{x.impactUser_user_firstName + x.impactUser_user_lastName}}</h4>
-                                                </div>
-                                                <div class="text-right text-muted">
-                                                    <small>{{x.notification_dateCreate}}</small>
-                                                </div>
+                                @foreach (var item in ViewBag.listNotifications)
+                                {
+                                    <a href="@Url.Action("DetailQuestion","FunctionAtDetailQuestion",new {id = item.question_id,notification_id = item.notification_id })" class="list-group-item list-group-item-action">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <!-- Avatar -->
+                                                <img alt="Image placeholder" src="~/Image/Users/@item.User1.user_avatar" class="avatar rounded-circle">
                                             </div>
-                                            <p class="text-sm mb-0">{{x.notification_content}}.</p>
+                                            <div class="col ml--2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0 text-sm">@item.User1.user_firstName  @item.User1.user_lastName</h4>
+                                                    </div>
+                                                    <div class="text-right text-muted">
+                                                        <small>@item.notification_dateCreate</small>
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm mb-0">@item.notification_content</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                }
+
 
                             </div>
                             <!-- View all -->
@@ -236,9 +236,9 @@
         </div>
     </div>
 </nav>
-<script>
-    var app = angular.module('myAppPanel', []);
-    app.controller('myCtrlPanel', function ($scope, $http) {
+@*<script>
+    var app = angular.module('myApp', ['ngSanitize']);
+    app.controller('myCtrl', function ($scope, $http) {
         $http.get("/UserManagement/Notifications")
             .then(function (response) {
                 // First function handles success
@@ -246,6 +246,6 @@
             }, function (response) {
                 // Second function handles error
                 $scope.listNotification = "Something went wrong";
-        });
+            });
     });
-</script>
+</script>*@

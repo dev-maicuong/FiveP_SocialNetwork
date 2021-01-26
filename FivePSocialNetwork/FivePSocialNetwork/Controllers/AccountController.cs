@@ -8,6 +8,16 @@ using System.Web.Mvc;
 using FivePSocialNetwork.Models;
 using FivePSocialNetwork.Models.Json;
 
+using System.Configuration;
+
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+
+using Twilio.TwiML;
+using Twilio.AspNet.Mvc;
+using System.Web.Helpers;
+
 namespace FivePSocialNetwork.Controllers
 {
     public class AccountController : Controller
@@ -55,7 +65,12 @@ namespace FivePSocialNetwork.Controllers
             }
             //kiểm tra trong data người dùng bth và nhà văn
             User user = db.Users.Where(n => n.user_recycleBin == false).SingleOrDefault(n => n.user_email == user_email && n.user_pass == user_pass);
-            if(user != null)
+            if(user != null && user.user_loginAuthentication == true && (user.user_emailAuthentication == true || user.user_verifyPhoneNumber == true))
+            {
+                Session["user"] = user;
+                return RedirectToAction("AuthenticationOption");
+            }
+            else if(user != null)
             {
                 user.user_dateLogin = DateTime.Now;
                 db.SaveChanges();
@@ -68,6 +83,129 @@ namespace FivePSocialNetwork.Controllers
             ViewBag.checkLogin = "Email hoặc mật khẩu sai! Vui lòng nhập lại!";
             return View(user);
         }
+        public ActionResult AuthenticationOption()
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Session["user"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AuthenticationOption(string authenticationOption)
+        {
+            User user = (User)Session["user"];
+            if (authenticationOption == "phone" && user.user_verifyPhoneNumber == true)
+            {
+                var userphone = user.user_phone;
+                var remove = userphone.ToString().Remove(0, 1);
+                var to = "+84" + remove;
+                Random random = new Random();
+                var verificationCodesPhone = random.Next(100000, 999999).ToString();
+                Session["verificationCodesPhone"] = verificationCodesPhone;
+                Session.Timeout = 3;
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "146ee3e972dc6bc29d3b56ec79522011");
+                var from = new PhoneNumber("+17202880938");
+                var message = MessageResource.Create(
+                    from: from,
+                    to: to,
+                    body: "Five_P xin chào " + user.user_firstName + " " + user.user_lastName + " Mã xác thực của bạn là : " + verificationCodesPhone
+                );
+                Content(message.Sid);
+                return RedirectToAction("AuthenticationLogin");
+            }
+            else if(authenticationOption == "email" &&  user.user_emailAuthentication == true)
+            {
+                try
+                {
+                    WebMail.SmtpServer = "smtp.gmail.com";//Máy chủ gmail.
+                    WebMail.SmtpPort = 587; // Cổng
+                    WebMail.SmtpUseDefaultCredentials = true;
+                    //Gửi gmail với giao thức bảo mật.
+                    WebMail.EnableSsl = true;
+                    //Tài khoản dùng để đăng nhập vào gmail để gửi.
+                    WebMail.UserName = "cuongembaubang@gmail.com";
+                    WebMail.Password = "trung2010203";
+                    // Nội dung gửi.
+                    WebMail.From = "cuongembaubang@gmail.com";
+
+                    Random random = new Random();
+                    var code = random.Next(100000, 999999).ToString();
+                    string strTitle = "Mã xác nhận : " + code;
+                    Session["confirmemail"] = code;
+                    Session.Timeout = 3;
+                    //Gửi gmail.
+                    WebMail.Send(to: user.user_email, subject: "Mã xác nhận của Five_P", body: strTitle, isBodyHtml: true);
+                    return RedirectToAction("AuthenticationLogin");
+                }
+                catch (Exception)
+                {
+                    ViewBag.notification = "Không gửi được email";
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+            }
+            else
+            {
+                ViewBag.AuthenticationOption = "Lựa chọn của bạn chưa được xác thực! Vui lòng chọn xác thực khác.";
+            }
+            return View();
+        }
+        public ActionResult AuthenticationLogin()
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Session["user"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AuthenticationLogin(string codeAuthentication)
+        {
+            if(Session["confirmemail"] !=null)
+            {
+                if(codeAuthentication == Session["confirmemail"].ToString())
+                {
+                    User user = (User)Session["user"];
+                    user.user_dateLogin = DateTime.Now;
+                    db.SaveChanges();
+                    HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
+                    cookie.Expires.AddDays(10);
+                    Response.Cookies.Set(cookie);
+                    Session["user"] = null;
+                    Session["confirmemail"] = null;
+                    return Redirect(HomeCenter);
+                }
+                else
+                {
+                    ViewBag.statusCode = "Sai mã ! Vui lòng nhập lại.";
+                    return View();
+                }
+            }
+            else if(Session["verificationCodesPhone"] != null)
+            {
+                if(codeAuthentication == Session["verificationCodesPhone"].ToString())
+                {
+                    User user = (User)Session["user"];
+                    user.user_dateLogin = DateTime.Now;
+                    db.SaveChanges();
+                    HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
+                    cookie.Expires.AddDays(10);
+                    Response.Cookies.Set(cookie);
+                    Session["user"] = null;
+                    Session["verificationCodesPhone"] = null;
+                    return Redirect(HomeCenter);
+                }
+                else
+                {
+                    ViewBag.statusCode = "Sai mã ! Vui lòng nhập lại.";
+                    return View();
+                }
+            }
+            return View();
+        }
+
         //Đăng ký
         public ActionResult Register()
         {
@@ -150,7 +288,7 @@ namespace FivePSocialNetwork.Controllers
             Response.Cookies.Add(cookie);
             return Redirect(HomeCenter);
         }
-        // Cài đặt thông tin cá nhân
+        //-------------------------------------------------Cài đặt thông tin cá nhân----------------------------------
         public ActionResult IndexAccount()
         {
             return View();
@@ -177,7 +315,7 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return View(user);
         }
-        //lưu giới tính user
+        //-------------------------------------------------lưu giới tính user----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -210,7 +348,7 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
         }
-        //lưu ngày sinh
+        //-------------------------------------------------lưu ngày sinh----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -229,7 +367,7 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
         }
-        //luu sở thích công việc
+        //-------------------------------------------------sở thích công việc----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -248,7 +386,7 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
         }
-        //luu sở thích cá nhân
+        //-------------------------------------------------sở thích cá nhân----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -267,6 +405,8 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
         }
+        //-------------------------------------------------Technology----------------------------------
+
         // lưu công nghệ user
         public ActionResult TechnologyUser()
         {
@@ -367,6 +507,7 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return View(user);
         }
+        //-------------------------------------------------Email-Authentication----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -379,10 +520,82 @@ namespace FivePSocialNetwork.Controllers
             }
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-            db.Users.Find(user_id).user_email = user_email;
+            user = db.Users.Find(user_id);
+            user.user_email = user_email;
+            user.user_emailAuthentication = false;
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
         }
+        public ActionResult EmailSend()
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            try
+            {
+                WebMail.SmtpServer = "smtp.gmail.com";//Máy chủ gmail.
+                WebMail.SmtpPort = 587; // Cổng
+                WebMail.SmtpUseDefaultCredentials = true;
+                //Gửi gmail với giao thức bảo mật.
+                WebMail.EnableSsl = true;
+                //Tài khoản dùng để đăng nhập vào gmail để gửi.
+                WebMail.UserName = "cuongembaubang@gmail.com";
+                WebMail.Password = "trung2010203";
+                // Nội dung gửi.
+                WebMail.From = "cuongembaubang@gmail.com";
+
+                Random random = new Random();
+                var code = random.Next(100000,999999).ToString();
+                string strTitle = "Mã xác nhận : " + code;
+                Session["confirmemail"] = code;
+                Session.Timeout = 3;
+                //Gửi gmail.
+                WebMail.Send(to: user.user_email, subject: "Mã xác nhận của Five_P", body: strTitle, isBodyHtml: true);
+                return RedirectToAction("EmailAuthentication");
+            }
+            catch (Exception)
+            {
+                ViewBag.notification = "Không gửi được email";
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+        }
+        public ActionResult EmailAuthentication()
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EmailAuthentication(string codeAuthentication)
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            if (Session["confirmemail"].ToString() == codeAuthentication)
+            {
+                db.Users.Find(user_id).user_emailAuthentication = true;
+                db.SaveChanges();
+                Session["confirmemail"] = null;
+                return RedirectToAction("SettingAccount");
+            }
+            return View();
+        }
+        //-------------------------------------------------NumberPhone-Verification----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -395,10 +608,86 @@ namespace FivePSocialNetwork.Controllers
             }
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-            db.Users.Find(user_id).user_phone = user_phone;
+            user = db.Users.Find(user_id);
+            user.user_phone = user_phone;
+            user.user_verifyPhoneNumber = false;
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
         }
+        public ActionResult NumberPhoneVerification()
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            //kiểm tra đã xác thực chưa
+            if (user.user_verifyPhoneNumber == true)
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            var userphone = user.user_phone;
+            var remove = userphone.ToString().Remove(0, 1);
+            var to = "+84" + remove;
+            Random random = new Random();
+            var verificationCodesPhone = random.Next(100000, 999999).ToString();
+            Session["verificationCodesPhone"] = verificationCodesPhone;
+            Session.Timeout = 3;
+            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "146ee3e972dc6bc29d3b56ec79522011");
+            var from = new PhoneNumber("+17202880938");
+            var message = MessageResource.Create(
+                from: from,
+                to: to,
+                body: "Five_P xin chào " + user.user_firstName + " " + user.user_lastName + " Mã xác thực của bạn là : " + verificationCodesPhone
+            );
+            Content(message.Sid);
+            return RedirectToAction("VerificationCodesPhone");
+        }
+        public ActionResult VerificationCodesPhone()
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            //kiểm tra đã xác thực chưa
+            if (user.user_verifyPhoneNumber == true)
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult VerificationCodesPhone(string verificationCode)
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            if (Session["verificationCodesPhone"].ToString() == verificationCode)
+            {
+                db.Users.Find(user_id).user_verifyPhoneNumber = true;
+                db.SaveChanges();
+                Session["verificationCodesPhone"] = null;
+                return RedirectToAction("SettingAccount");
+            }
+            else
+            {
+                ViewBag.verificationCodesPhone = "Sai mã xác thực !";
+            }
+            return View();
+        }
+        //-------------------------------------------------địa chỉ thường trú----------------------------------
+
         public ActionResult Address()
         {
             return View();
@@ -425,7 +714,7 @@ namespace FivePSocialNetwork.Controllers
             }).ToList();
             return Json(ListDistrict, JsonRequestBehavior.AllowGet);
         }
-        //linkweb khác
+        //-------------------------------------------------Link các website ----------------------------------
         public ActionResult LinkWebAnother()
         {
             return View();

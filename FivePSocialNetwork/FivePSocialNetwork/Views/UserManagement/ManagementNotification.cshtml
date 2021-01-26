@@ -29,8 +29,8 @@
 </div>
 
 <!-- Page content -->
-<div class="container-fluid mt--6">
-    <div class="row">
+<div class="container-fluid mt--6" ng-app="myApp">
+    <div class="row" ng-controller="myCtrl">
         <div class="col">
             <div class="card">
                 <!-- Card header -->
@@ -75,25 +75,21 @@
                         </thead>
                         <tbody class="list">
 
-                            <tr>
+                            <tr ng-repeat="x in listNotification">
                                 <td class="text-center">
-                                    ...
+                                    {{$index}}
                                 </td>
                                 <td scope="row" class="w-75">
                                     <div class="media align-items-center">
                                         <a href="@Url.Action("IndexDetailQuestion","DetailQuestion")" class="mr-2">
 
                                             <i class="fas fa-info-circle"></i>
-
-
                                         </a>
                                         <div class="media-body">
                                             <span class="name mb-0 text-sm">
-                                                ..
+                                                {{x.question_title}}
                                             </span>
-
                                         </div>
-
                                     </div>
                                 </td>
                                 <td class="budget text-center">
@@ -110,4 +106,16 @@
         </div>
     </div>
 </div>
-
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/UserManagement/ListNotification")
+            .then(function (response) {
+                // First function handles success
+                $scope.listNotification = response.data;
+            }, function (response) {
+                // Second function handles error
+                    $scope.listNotification = "Something went wrong";
+            });
+    });
+</script>

@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "PageUser";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<div class="main-content" id="panel">
+    <!-- Page content -->
+    <div class="container-fluid mt-2">
+        <div class="row">
+            <div class="col-xl-4 order-xl-2 mt-3">
+                <div class="card-profile">
+                    <img src="~/Image/Users/coverImage.png" alt="Image placeholder" class="card-img-top">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image">
+                                <a href="#">
+                                    <img src="~/Image/Users/Man.png" class="rounded-circle" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                        <div class="d-flex justify-content-between">
+                            <a href="#" class="btn btn-sm btn-info  mr-4 "><i class="fas fa-user-plus"></i> Kết bạn</a>
+                            <a href="#" class="btn btn-sm btn-default float-right"><i class="fab fa-facebook-messenger"></i> Nhắn tin</a>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 mt--4">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card-profile-stats d-flex justify-content-center">
+                                    <div>
+
+                                        <span class="heading">..</span>
+                                        <span class="description">Bạn bè</span>
+                                    </div>
+                                    <div>
+                                        <span class="heading">..</span>
+                                        <span class="description">Nổi tiếng</span>
+                                    </div>
+                                    <div>
+                                        <span class="heading">..</span>
+                                        <span class="description">Huy hiệu</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h5 class="h3">
+                                ..<span class="font-weight-light">, 27 </span>
+                            </h5>
+                            <div class="h5 font-weight-300">
+
+                                <i class="ni location_pin mr-2"></i>
+                                <span style="padding:1%">..</span>
+                            </div>
+                            <div class="h5 mt-4">
+                                <i class="ni business_briefcase-24 mr-2"></i><i class="fas fa-envelope-open-text"></i>&nbsp;
+                            </div>
+
+                            <!--đổi mật khẩu-->
+                            <div class="h5 font-weight-300">
+                                <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body p-0">
+                                                <div class="card bg-secondary shadow border-0 mb-0">
+                                                    <div class="card-body px-lg-5 py-lg-5">
+                                                        <form role="form" onsubmit="return CheckformChangePass()" action="@Url.Action("ChangePassword","UserManager")" method="post">
+                                                            <div class="form-group">
+                                                                <div class="input-group input-group-alternative">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                    </div>
+                                                                    <input class="form-control" name="oldPass" id="oldPass" placeholder="Mật khẩu cũ" type="password">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class="input-group input-group-alternative">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                    </div>
+                                                                    <input class="form-control" name="user_pass" id="user_pass" placeholder="Mật khẩu mới" type="password">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="input-group input-group-alternative">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                    </div>
+                                                                    <input class="form-control" id="retypePass" placeholder="Nhập lại mật khẩu" type="password">
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-center">
+                                                                <button type="submit" class="btn btn-primary my-4"><i class="far fa-edit"></i> Đổi mật khẩu</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="far fa-calendar-alt"></i>&nbsp; Ngày sinh:
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="fas fa-mobile-alt"></i>&nbsp; Số điện thoại :
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="fas fa-map-marked-alt"></i>&nbsp; Địa chỉ:
+
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="fas fa-venus-mars"></i>&nbsp; gới tính :
+
+                                <span>EGPT</span>
+
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="fab fa-facebook-f"></i>&nbsp; Facebook:
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="fab fa-github"></i>&nbsp; Github:
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="fas fa-briefcase"></i>&nbsp; Sở thích công việc:
+                            </div>
+                            <div class="text-left">
+                                <i class="ni education_hat mr-2"></i><i class="far fa-grin-hearts"></i>&nbsp; Sở thích cá nhân:
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="">
+                        <div class="card-body">
+                            <h4 class="card-title">Gợi ý kết bạn</h4>
+                            <div class="row">
+                                <div class="col-2 mr--1">
+                                    <a href="#"><i class="fas fa-info-circle"></i></a>
+                                </div>
+                                <div class="col-xl-10 ml--3">
+                                    ...
+                                </div>
+                            </div>
+                            <span style="font-size:28px">...</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Link trung tâm-->
+            </div>
+            <div class="col-xl-8 order-xl-1">
+                <div class="row">
+                    @for (var i = 0; i < 5; i++)
+                    {
+                        <div class="col-lg-12 bg-white mt-3" style="box-shadow: 0 0 5px 1px lightgrey;">
+                            <div style="padding: 10px">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <center>
+                                            <div class="font-weight-bold" style="float: right; font-size: 25px">
+                                                <div>
+                                                    <i class="fa fa-angle-up"></i>
+                                                </div>
+                                                <div class="text-warning">
+                                                    12
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </div>
+                                                <div>
+                                                    <small style="font-size:12px">44156 lượt xem</small>
+                                                </div>
+                                                <div>
+                                                    <small style="font-size:12px">20 đáp án</small>
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <div style="padding: 10px">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h2 class="w-100 text-info">
+                                                        <span class="bg-info text-white" style="border-radius:5px "><small class="p-1">+1150</small></span>
+                                                        <a href="#">
+                                                            Skywalker was most famous destroying the first Death Star ?
+                                                        </a>
+                                                    </h2>
+                                                    <p class="w-100">
+                                                        Skywalker was most famous for destroying the first Death Star and prompting Darth Vader to kill Emperor Palpatine, which led to the eventual downfall of the Galactic Empire.
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-8 mt-3">
+                                                    Công nghệ :
+                                                    <a href="#"> Java</a> |
+                                                    <a href="#">PHP</a> |
+                                                    <a href="#">C#</a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <a href="#">
+                                                        <img src="~/Image/Users/Girl.png" style="width: 38px; height: 38px; border-radius: 50px; border: 1px solid green" />
+
+                                                        <b style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Cương Hoàng</b>
+                                                        <span>5466 <i class="fas fa-fire" style="color:red"></i></span>
+                                                    </a>
+                                                    <br />
+                                                    <span class="h7 text-muted mt--2 border-bottom">5545<i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i> &nbsp;  5433466 <i class="fas fa-award" style="color:yellow;font-size:11px"></i> &nbsp;  456451 <i class="fas fa-award" style="color:silver;font-size:11px"></i> &nbsp;  3453457 <i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </span>
+                                                    <br />
+                                                    <span><i class="fa fa-calendar">&nbsp;</i>Đăng ngày:  1/19/2020</span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+</div>

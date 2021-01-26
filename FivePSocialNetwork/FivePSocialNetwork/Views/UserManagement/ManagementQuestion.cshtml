@@ -98,10 +98,10 @@
 </div>
 
 <!-- Page content -->
-<div class="container-fluid mt--6">
+<div class="container-fluid mt--6" ng-app="myApp" >
     <div class="row">
         <div class="col">
-            <div class="card">
+            <div class="card" ng-controller="myCtrl">
                 <!-- Card header -->
                 <div class="card-header border-0">
                     <h3 class="mb-0"><i class="fas fa-list"></i> Danh sách câu hỏi của bạn...</h3>
@@ -139,14 +139,13 @@
                         </thead>
                         <tbody class="list">
 
-                            <tr>
+                            <tr ng-repeat="x in listQuestions">
                                 <td scope="row">
                                     <div class="media align-items-center">
                                         <a class="mr-2">
 
                                             <center><i class="fa fa-chevron-up" style="font-size:200%"></i></center>
                                             <center>
-
                                                 ..
                                             </center>
                                             <center><i class="fa fa-chevron-down" style="font-size:200%"></i></center>
@@ -155,7 +154,7 @@
                                         </a>
                                         <div class="media-body">
                                             <div>
-                                                ...
+                                                {{x.question_title}}
                                             </div>
                                             <span class="name mb-0 text-sm">
                                                 ...
@@ -177,18 +176,24 @@
                                     </div>
                                 </td>
                                 <td class="budget border-left">
-                                    <i class="fas fa-reply"></i> ..
+                                    <i class="fas fa-reply"></i> {{x.question_Answer}}
                                 </td>
                                 <td class="budget">
-                                    <i class="far fa-star"></i> ..
+                                    <i class="far fa-star"></i> {{x.question_totalRate}}
                                 </td>
                                 <td class="budget">
-                                    <i class="far fa-eye"></i> ..
+                                    <i class="far fa-eye"></i> {{x.question_view}}
                                 </td>
 
 
                                 <td>
-                                    <label class="custom-toggle">
+                                    <label class="custom-toggle" ng-show="x.question_userStatus == true">
+                                        <input type="checkbox" checked>
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="custom-toggle" ng-show="x.question_userStatus == false">
                                         <input type="checkbox">
                                         <span class="custom-toggle-slider rounded-circle"></span>
                                     </label>
@@ -218,4 +223,16 @@
     </div>
     
 </div>
-
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/UserManagement/ListQuestions")
+            .then(function (response) {
+                // First function handles success
+                $scope.listQuestions = response.data;
+            }, function (response) {
+                // Second function handles error
+                    $scope.listQuestions = "Something went wrong";
+            });
+    });
+</script>

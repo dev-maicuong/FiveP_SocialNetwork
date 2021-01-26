@@ -13,6 +13,7 @@ namespace FivePSocialNetwork.Models.Json
         public string answer_dateEdit { get; set; }
         public Nullable<int> user_id { get; set; }
         public Nullable<bool> answer_activate { get; set; }
+        public Nullable<bool> answer_correct { get; set; }
         public Nullable<bool> answer_userStatus { get; set; }
         public Nullable<int> question_id { get; set; }
         public Nullable<int> answer_totalRate { get; set; }
@@ -27,5 +28,6 @@ namespace FivePSocialNetwork.Models.Json
         public Nullable<int> user_silverMedal { get; set; }
         public Nullable<int> user_brozeMedal { get; set; }
         public Nullable<int> user_vipMedal { get; set; }
+
     }
 }

@@ -45,7 +45,7 @@
         </div>
     </div>
 </div>
-<div class="container-fluid mt--6">
+<div class="container-fluid mt--6" ng-app="myApp" ng-controller="myCtrl">
     <div class="row">
         <div class="col-xl-12">
             <div class="row">
@@ -70,20 +70,20 @@
             <div class="row" id="AllQuestionPage">
                 
 
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 same">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 same" ng-repeat="x in listTechnology">
 
                     <div class="text-left border" style="background-color:#f8f9fe;padding:10px">
 
                         <div class="title">
-                            <a href="#" class="badge badge-pill badge-info text-uppercase"><i class="fas fa-tag"></i> ...</a>
+                            <a href="#" class="badge badge-pill badge-info text-uppercase"><i class="fas fa-tag"></i>{{x.technology_name}}</a>
                         </div>
 
                         <div class="text">
-                            <span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
+                            <span>{{x.technology_note}} Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
                         </div>
                         <div class="row">
                             <div class="col-xl-5">
-                                <p class="text-left text-muted mb-0" style="font-size:12px;font-family:Arial">2112610 questions</p>
+                                <p class="text-left text-muted mb-0" style="font-size:12px;font-family:Arial">{{x.technology_totalQuestion}} Câu hỏi</p>
                             </div>
                             <div class="col-xl-7">
 
@@ -103,4 +103,16 @@
 
     </div>
 </div>
-
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/View/ListTechnology")
+            .then(function (response) {
+                // First function handles success
+                $scope.listTechnology = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listTechnology = "Something went wrong";
+            });
+    });
+</script>

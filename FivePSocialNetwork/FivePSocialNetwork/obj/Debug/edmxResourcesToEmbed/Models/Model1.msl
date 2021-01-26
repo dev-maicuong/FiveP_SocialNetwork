@@ -18,6 +18,7 @@
     <EntitySetMapping Name="Answers">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Answer">
         <MappingFragment StoreEntitySet="Answer">
+          <ScalarProperty Name="answer_correct" ColumnName="answer_correct" />
           <ScalarProperty Name="answer_id" ColumnName="answer_id" />
           <ScalarProperty Name="answer_content" ColumnName="answer_content" />
           <ScalarProperty Name="answer_dateCreate" ColumnName="answer_dateCreate" />

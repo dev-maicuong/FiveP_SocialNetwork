@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FivePSocialNetWorkModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FivePSocialNetWorkModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Advertisement">
           <Key>
             <PropertyRef Name="advertisiment_id" />
@@ -34,6 +34,7 @@
           <Property Name="answer_medalCalculate" Type="int" />
           <Property Name="answer_recycleBin" Type="bit" />
           <Property Name="answer_admin_recycleBin" Type="bit" />
+          <Property Name="answer_correct" Type="bit" />
         </EntityType>
         <EntityType Name="Comment_Answer">
           <Key>
@@ -1244,8 +1245,7 @@
             <End Role="View_Question" EntitySet="View_Question" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FivePSocialNetWorkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1284,6 +1284,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Answer_User" FromRole="Answer" ToRole="User" />
           <NavigationProperty Name="Comment_Answer" Relationship="Self.FK_Comment_Answer_Answer" FromRole="Answer" ToRole="Comment_Answer" />
           <NavigationProperty Name="Rate_Answer" Relationship="Self.FK_Rate_Answer_Answer" FromRole="Answer" ToRole="Rate_Answer" />
+          <Property Name="answer_correct" Type="Boolean" />
         </EntityType>
         <EntityType Name="Comment_Answer">
           <Key>
@@ -2609,6 +2610,7 @@
           <EntitySetMapping Name="Answers">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Answer">
               <MappingFragment StoreEntitySet="Answer">
+                <ScalarProperty Name="answer_correct" ColumnName="answer_correct" />
                 <ScalarProperty Name="answer_id" ColumnName="answer_id" />
                 <ScalarProperty Name="answer_content" ColumnName="answer_content" />
                 <ScalarProperty Name="answer_dateCreate" ColumnName="answer_dateCreate" />

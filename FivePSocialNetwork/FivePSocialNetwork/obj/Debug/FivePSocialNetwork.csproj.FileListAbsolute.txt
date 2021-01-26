@@ -176,3 +176,12 @@ C:\Users\Tan\Source\Repos\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetw
 C:\Users\Tan\Source\Repos\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.csproj.CopyComplete
 C:\Users\Tan\Source\Repos\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.dll
 C:\Users\Tan\Source\Repos\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\obj\Debug\FivePSocialNetwork.pdb
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.IdentityModel.Logging.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.IdentityModel.Tokens.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\System.IdentityModel.Tokens.Jwt.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.IdentityModel.Tokens.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\System.IdentityModel.Tokens.Jwt.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.AspNet.Common.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.AspNet.Mvc.dll

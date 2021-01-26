@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "AuthenticationLogin";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<h2>Mã code của bạn sẽ hết hạn sau 3p nữa.</h2>
+<u class="text-danger">@ViewBag.statusCode</u>
+<form method="post">
+    <input type="text" name="codeAuthentication" class="form-control" placeholder="Nhập mã.." required=""/>
+    <button type="submit" class="btn btn-dark">Đăng nhập</button>
+</form>
+

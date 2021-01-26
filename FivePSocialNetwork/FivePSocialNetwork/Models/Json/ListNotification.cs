@@ -18,5 +18,6 @@ namespace FivePSocialNetwork.Models.Json
         public string impactUser_user_firstName { get; set; }
         public string impactUser_user_lastName { get; set; }
         public string impactUser_avatar { get; set; }
+        public string question_title { get; set; }
     }
 }

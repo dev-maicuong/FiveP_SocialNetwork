@@ -16,7 +16,7 @@ namespace FivePSocialNetwork.Controllers
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ValidateInput(false)]
-        public ActionResult PostAnswer([Bind(Include = "answer_id,answer_content,answer_dateCreate,answer_dateEdit,user_id,answer_activate,answer_userStatus,question_id,answer_totalRate,answer_medalCalculate,answer_recycleBin,answer_admin_recycleBin")] Answer answer,Notification notification)
+        public ActionResult PostAnswer([Bind(Include = "answer_id,answer_content,answer_dateCreate,answer_dateEdit,user_id,answer_activate,answer_userStatus,question_id,answer_totalRate,answer_medalCalculate,answer_recycleBin,answer_admin_recycleBin,answer_correct")] Answer answer,Notification notification)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -67,6 +67,7 @@ namespace FivePSocialNetwork.Controllers
                 db.Notifications.Add(notification);
             }
             // lưu bth
+            answer.answer_correct = false;
             answer.answer_dateCreate = DateTime.Now;
             answer.answer_dateEdit = DateTime.Now;
             answer.user_id = user_id;
@@ -104,7 +105,8 @@ namespace FivePSocialNetwork.Controllers
                 user_silverMedal = n.User.user_silverMedal,
                 user_vipMedal = n.User.user_vipMedal,
                 user_brozeMedal = n.User.user_brozeMedal,
-                user_avatar = n.User.user_avatar
+                user_avatar = n.User.user_avatar,
+                answer_correct = n.answer_correct
 
             }).ToList();
             return Json(listAnswers, JsonRequestBehavior.AllowGet);

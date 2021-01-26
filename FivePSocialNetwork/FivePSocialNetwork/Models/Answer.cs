@@ -33,6 +33,7 @@ namespace FivePSocialNetwork.Models
         public Nullable<int> answer_medalCalculate { get; set; }
         public Nullable<bool> answer_recycleBin { get; set; }
         public Nullable<bool> answer_admin_recycleBin { get; set; }
+        public Nullable<bool> answer_correct { get; set; }
     
         public virtual Question Question { get; set; }
         public virtual User User { get; set; }

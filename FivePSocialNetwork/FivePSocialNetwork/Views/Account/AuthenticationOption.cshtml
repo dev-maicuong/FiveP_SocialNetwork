@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "AuthenticationOption";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+
+<h2>Bạn muốn gửi mã qua hệ thống nào?</h2>
+<u class="text-danger">@ViewBag.AuthenticationOption</u>
+<form method="post">
+    <select name="authenticationOption">
+        <option value="phone">Số điện thoại của bạn</option>
+        <option value="email">Email của bạn</option>
+    </select>
+    <button type="submit" class="btn btn-default">Gửi</button>
+</form>
+

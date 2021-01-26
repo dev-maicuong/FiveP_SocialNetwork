@@ -29,6 +29,7 @@
     <Property Name="answer_medalCalculate" Type="int" />
     <Property Name="answer_recycleBin" Type="bit" />
     <Property Name="answer_admin_recycleBin" Type="bit" />
+    <Property Name="answer_correct" Type="bit" />
   </EntityType>
   <EntityType Name="Comment_Answer">
     <Key>

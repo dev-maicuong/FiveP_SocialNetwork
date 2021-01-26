@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
 
-<div class="header bg-primary pb-6">
+<div class="header bg-primary pb-6" >
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -31,9 +31,9 @@
         </div>
     </div>
 </div>
-<div class="container-fluid mt--6">
+<div class="container-fluid mt--6" ng-app="myApp">
     <div class="row">
-        <div class=col-xl-12>
+        <div class=col-xl-12>   
             <div class="row">
                 <div class="col-xl-7">
                     <div class="btn-group float-left mb-3 mt--4" role="group" aria-label="Basic example">
@@ -54,30 +54,34 @@
         </div>
         <div class="col-xl-12 card">
 
-            <div class="row">
+            <div class="row" ng-controller="myCtrl">
 
                 <div class="col-xl-12">
                     <div class="row">
-                        
-                        <div class="col-xl-3 p-3 cardlist">
+                        <div class="col-xl-3 p-3 cardlist" ng-repeat="x in listMember">
                             <div class="row">
                                 <div class="col-5">
-                                    <a href="cateview.php" class="w-100">
-                                        <img src="~/Content/LayoutCenter/ImgUser/user1.jpg" class="mx-auto d-block mb-1 addcartimg" style="width:104px;height:104px" />
+                                    <a href="#" class="w-100">
+                                        <img src="~/Image/Users/{{x.user_avatar}}" class="mx-auto d-block mb-1 addcartimg" style="width:104px;height:104px" />
                                     </a>
                                 </div>
                                 <div class="col-7">
                                     <div class="d-block text-truncate mb-1">
-                                        <a href="cateview.php" class="cartproname">...</a>
+                                        <a href="cateview.php" class="cartproname">{{x.user_firstName + " " + x.user_lastName}}</a>
                                     </div>
                                     <div class="seller d-block">
-                                        <span>Seller: </span>
-                                        <span>SELL010</span>
+                                        <span>Nổi: 54847{{x.user_popular}} <i class="fas fa-fire" style="color:red"></i> </span>
+                                        
                                     </div>
                                     <div class="cartviewprice d-block">
-                                        <span class="amt">Rs.6,258</span>
-                                        <span class="oldamt">Rs.7,365</span>
-                                        <span class="disamt">28% off</span>
+                                        <span class="amt">{{x.user_vipMedal}}7<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i></span>
+                                        <span class="oldamt">{{x.user_goldMedal}}8<i class="fas fa-medal" style="color:yellow"></i></span>
+                                        <span class="disamt">{{x.user_silverMedal}}7<i class="fas fa-medal" style="color:silver"></i></span>
+                                        <span class="disamt">{{x.user_brozeMedal}}5<i class="fas fa-medal" style="color:#e88d15"></i></span>
+                                    </div>
+                                    <div class="cartviewprice d-block">
+                                        <span><i class="fas fa-reply"></i> {{x.total_answer}}</span>
+                                        <span><i class="fas fa-question"></i> {{x.total_Question}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -99,3 +103,16 @@
     </div>
 
 </div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/View/ListMenber")
+            .then(function (response) {
+                // First function handles success
+                $scope.listMember = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listMember = "Something went wrong";
+            });
+    });
+</script>
