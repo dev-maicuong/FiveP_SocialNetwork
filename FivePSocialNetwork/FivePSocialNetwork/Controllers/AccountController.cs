@@ -7,9 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using FivePSocialNetwork.Models;
 using FivePSocialNetwork.Models.Json;
-
-using System.Configuration;
-
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -17,6 +14,7 @@ using Twilio.Types;
 using Twilio.TwiML;
 using Twilio.AspNet.Mvc;
 using System.Web.Helpers;
+using System.IO;
 
 namespace FivePSocialNetwork.Controllers
 {
@@ -64,7 +62,7 @@ namespace FivePSocialNetwork.Controllers
                 return Redirect("/Admin/HomeAdmin/IndexAdmin");
             }
             //kiểm tra trong data người dùng bth và nhà văn
-            User user = db.Users.Where(n => n.user_recycleBin == false).SingleOrDefault(n => n.user_email == user_email && n.user_pass == user_pass);
+            User user = db.Users.Where(n => n.user_recycleBin == false).SingleOrDefault(n => (n.user_email == user_email || n.user_phone == user_email) && n.user_pass == user_pass);
             if(user != null && user.user_loginAuthentication == true && (user.user_emailAuthentication == true || user.user_verifyPhoneNumber == true))
             {
                 Session["user"] = user;
@@ -79,8 +77,7 @@ namespace FivePSocialNetwork.Controllers
                 Response.Cookies.Set(cookie);
                 return Redirect(HomeCenter);
             }
-            
-            ViewBag.checkLogin = "Email hoặc mật khẩu sai! Vui lòng nhập lại!";
+            ViewBag.checkLogin = "Email'SDT' hoặc mật khẩu sai! Vui lòng nhập lại!";
             return View(user);
         }
         public ActionResult AuthenticationOption()
@@ -100,12 +97,12 @@ namespace FivePSocialNetwork.Controllers
             {
                 var userphone = user.user_phone;
                 var remove = userphone.ToString().Remove(0, 1);
-                var to = "+84" + remove;
+                var to = "+84"+ remove;
                 Random random = new Random();
                 var verificationCodesPhone = random.Next(100000, 999999).ToString();
                 Session["verificationCodesPhone"] = verificationCodesPhone;
                 Session.Timeout = 3;
-                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "146ee3e972dc6bc29d3b56ec79522011");
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "edd2ecc03a085692deb9d3e21477632f");
                 var from = new PhoneNumber("+17202880938");
                 var message = MessageResource.Create(
                     from: from,
@@ -289,10 +286,6 @@ namespace FivePSocialNetwork.Controllers
             return Redirect(HomeCenter);
         }
         //-------------------------------------------------Cài đặt thông tin cá nhân----------------------------------
-        public ActionResult IndexAccount()
-        {
-            return View();
-        }
         public ActionResult SettingAccount()
         {
             return View();
@@ -408,10 +401,6 @@ namespace FivePSocialNetwork.Controllers
         //-------------------------------------------------Technology----------------------------------
 
         // lưu công nghệ user
-        public ActionResult TechnologyUser()
-        {
-            return View();
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -608,10 +597,20 @@ namespace FivePSocialNetwork.Controllers
             }
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            //kiểm tra sdt này đã tồn tại chưa
+            User checkPhone = db.Users.SingleOrDefault(n => n.user_phone == user_phone && n.user_id != user_id);
+            if(checkPhone != null)
+            {
+                Session["checkPhone"] = "Số điện thoại này đã được đăng ký! Vui lòng điền số khác.";
+                Session.Timeout = 3;
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            
             user = db.Users.Find(user_id);
             user.user_phone = user_phone;
             user.user_verifyPhoneNumber = false;
             db.SaveChanges();
+            Session["checkPhone"] = null;
             return Redirect(Request.UrlReferrer.ToString());
         }
         public ActionResult NumberPhoneVerification()
@@ -636,7 +635,7 @@ namespace FivePSocialNetwork.Controllers
             var verificationCodesPhone = random.Next(100000, 999999).ToString();
             Session["verificationCodesPhone"] = verificationCodesPhone;
             Session.Timeout = 3;
-            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "146ee3e972dc6bc29d3b56ec79522011");
+            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "edd2ecc03a085692deb9d3e21477632f");
             var from = new PhoneNumber("+17202880938");
             var message = MessageResource.Create(
                 from: from,
@@ -686,39 +685,57 @@ namespace FivePSocialNetwork.Controllers
             }
             return View();
         }
+        //---------------------------------------------------Lọc địa chỉ-----------------------------------------------
+        public PartialViewResult District(int? id)
+        {
+            List<District> dsHuyen = new List<District>();
+            if (id == null)
+            {
+                dsHuyen = db.Districts.ToList();
+            }
+            else
+            {
+                dsHuyen = db.Districts.Where(n => n.provincial_id == id && n.district_activate == true && n.district_recycleBin == false).ToList();
+            }
+            return PartialView(dsHuyen);
+        }
+        public PartialViewResult Commune(int? id)
+        {
+            List<Commune> dsXa = new List<Commune>();
+            if (id == null)
+            {
+                return PartialView();
+            }
+            else
+            {
+                dsXa = db.Communes.Where(n => n.district_id == id && n.commune_activate == true && n.commune_recycleBin == false).ToList();
+            }
+            return PartialView(dsXa);
+        }
         //-------------------------------------------------địa chỉ thường trú----------------------------------
 
-        public ActionResult Address()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult Address(int provincial_id, int district_id, int commune_id, string user_addressRemaining)
         {
-            return View();
-        }
-        //danh sách tỉnh
-        public JsonResult ListProvincial()
-        {
-            List<Provincial> provincial = db.Provincials.Where(n => n.provincial_activate == true && n.provincial_recycleBin == false).ToList();
-            List<ListProvincial> listProvincials = provincial.Select(n => new ListProvincial
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
             {
-                provincial_id = n.provincial_id,
-                provincial_name = n.provincial_name
-            }).ToList();
-            return Json(listProvincials,JsonRequestBehavior.AllowGet);
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            user.provincial_id = provincial_id;
+            user.district_id = district_id;
+            user.commune_id = commune_id;
+            user.user_addressRemaining = user_addressRemaining;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
         }
-        //danh sách huyện theo tỉnh đã chọn
-        public JsonResult ListDistrict(int? id)
-        {
-            List<District> districts = db.Districts.Where(n => n.district_activate == true && n.district_recycleBin == false && n.provincial_id == id).ToList();
-            List<ListDistrict> ListDistrict = districts.Select(n => new ListDistrict
-            {
-                district_id = n.district_id,
-                district_name = n.district_name
-            }).ToList();
-            return Json(ListDistrict, JsonRequestBehavior.AllowGet);
-        }
+
         //-------------------------------------------------Link các website ----------------------------------
-        public ActionResult LinkWebAnother()
-        {
-            return View();
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -774,5 +791,140 @@ namespace FivePSocialNetwork.Controllers
             return Redirect(Request.UrlReferrer.ToString());
 
         }
+        //---------------------------------------------------Đổi mật khẩu-----------------------------------------------
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult ChangePassword(string newPass, string user_pass)
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            //Mã hóa mật khẩu
+            MD5 md5 = new MD5CryptoServiceProvider();
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(user_pass));
+            byte[] result = md5.Hash;
+            StringBuilder strBuilder = new StringBuilder();
+            for (int i = 0; i < result.Length; i++)
+            {
+                strBuilder.Append(result[i].ToString("x2"));
+            }
+            user_pass = strBuilder.ToString();
+            //kiểm tra pass nhập vào
+            if (user_pass != user.user_pass)
+            {
+                Session["checkPass"] = "Mật khẩu không đúng! Vui lòng nhập lại mật khẩu .";
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                //Mã hóa mật khẩu
+                MD5 smd5 = new MD5CryptoServiceProvider();
+                md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(newPass));
+                byte[] sresult = md5.Hash;
+                StringBuilder sstrBuilder = new StringBuilder();
+                for (int i = 0; i < sresult.Length; i++)
+                {
+                    sstrBuilder.Append(sresult[i].ToString("x2"));
+                }
+                newPass = sstrBuilder.ToString();
+                user.user_pass = newPass;
+                Session["checkPass"] = null;
+                db.SaveChanges();
+            }
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        //---------------------------------------------------Đổi Ảnh cho user-----------------------------------------------
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult ChangeAvatar(HttpPostedFileBase user_avatar)
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            if(user_avatar == null)
+            {
+                user.user_avatar = "user.png";
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            var varFileImg = Path.GetFileName(user_avatar.FileName);
+            //Lưu file
+            var pa = Path.Combine(Server.MapPath("~/Image/Users"), varFileImg);
+            if (System.IO.File.Exists(pa))
+            {
+                Random random = new Random();
+                var ram = random.Next();
+                var varFileImg2 = Path.GetFileName(ram+user_avatar.FileName);
+                var pa2 = Path.Combine(Server.MapPath("~/Image/Users"), varFileImg2);
+                if(System.IO.File.Exists(pa2))
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+                user_avatar.SaveAs(pa2);
+                user.user_avatar = ram+user_avatar.FileName;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            user_avatar.SaveAs(pa);
+            user.user_avatar = user_avatar.FileName;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult ChangeCoverImage(HttpPostedFileBase user_coverImage)
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            User user = db.Users.Find(user_id);
+            if (user_coverImage == null)
+            {
+                user.user_coverImage = "coverImage.png";
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+
+            }
+            var varFileImg = Path.GetFileName(user_coverImage.FileName);
+            //Lưu file
+            var pa = Path.Combine(Server.MapPath("~/Image/Users"), varFileImg);
+            if (System.IO.File.Exists(pa))
+            {
+                Random random = new Random();
+                var ram = random.Next();
+                var varFileImg2 = Path.GetFileName(ram + user_coverImage.FileName);
+                var pa2 = Path.Combine(Server.MapPath("~/Image/Users"), varFileImg2);
+                if (System.IO.File.Exists(pa2))
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+                user_coverImage.SaveAs(pa2);
+                user.user_coverImage = ram + user_coverImage.FileName;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            user_coverImage.SaveAs(pa);
+            user.user_coverImage = user_coverImage.FileName;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
     }
 }

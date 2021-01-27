@@ -190,6 +190,7 @@
           <Property Name="post_recycleBin" Type="bit" />
           <Property Name="post_userStatus" Type="bit" />
           <Property Name="post_admin_recycleBin" Type="bit" />
+          <Property Name="post_image" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Provincial">
           <Key>
@@ -1465,6 +1466,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Post_User" FromRole="Post" ToRole="User" />
           <NavigationProperty Name="Rate_Post" Relationship="Self.FK_Rate_Post_Post" FromRole="Post" ToRole="Rate_Post" />
           <NavigationProperty Name="View_Post" Relationship="Self.FK_View_Post_Post" FromRole="Post" ToRole="View_Post" />
+          <Property Name="post_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Provincial">
           <Key>
@@ -2777,6 +2779,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Post">
               <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="post_image" ColumnName="post_image" />
                 <ScalarProperty Name="post_id" ColumnName="post_id" />
                 <ScalarProperty Name="post_content" ColumnName="post_content" />
                 <ScalarProperty Name="post_dateCreate" ColumnName="post_dateCreate" />

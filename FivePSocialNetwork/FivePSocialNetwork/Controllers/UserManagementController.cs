@@ -12,10 +12,6 @@ namespace FivePSocialNetwork.Controllers
     {
         FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
         // GET: UserManagement
-        public ActionResult OverviewUser()
-        {
-            return View();
-        }
         public ActionResult PageUser()
         {
             return View();

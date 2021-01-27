@@ -177,6 +177,7 @@
     <Compile Include="Controllers\ControllerFramword\UsersController.cs" />
     <Compile Include="Controllers\FunctionAtDetailQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\ShareViewController.cs" />
     <Compile Include="Controllers\UserManagementController.cs" />
@@ -4086,6 +4087,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CheckForm\CheckFormChangePass.js" />
     <Content Include="Scripts\CheckForm\CheckFormLogin.js" />
     <Content Include="Scripts\CheckForm\CheckFormPostQuestion.js" />
     <Content Include="Scripts\CheckForm\CheckFormRegister.js" />
@@ -4257,7 +4259,6 @@
     <Content Include="Views\ShareView\PanelCenter.cshtml" />
     <Content Include="Views\ShareView\MenuCenter.cshtml" />
     <Content Include="Views\FunctionAtDetailQuestion\DetailQuestion.cshtml" />
-    <Content Include="Views\UserManagement\OverviewUser.cshtml" />
     <Content Include="Views\Account\SettingAccount.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -4269,10 +4270,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Account\TechnologyUser.cshtml" />
     <Content Include="Views\Account\Security.cshtml" />
-    <Content Include="Views\Account\Address.cshtml" />
-    <Content Include="Views\Account\LinkWebAnother.cshtml" />
     <Content Include="Views\Question\PostQuestion.cshtml" />
     <Content Include="Views\View\Member.cshtml" />
     <Content Include="Views\View\Technology.cshtml" />
@@ -4302,6 +4300,9 @@
     <Content Include="Views\Account\AuthenticationOption.cshtml" />
     <Content Include="Views\Account\AuthenticationLogin.cshtml" />
     <Content Include="Views\UserManagement\PageUser.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Account\District.cshtml" />
+    <Content Include="Views\Account\Commune.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

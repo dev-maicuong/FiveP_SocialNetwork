@@ -34,6 +34,7 @@ namespace FivePSocialNetwork.Models
         public Nullable<bool> post_recycleBin { get; set; }
         public Nullable<bool> post_userStatus { get; set; }
         public Nullable<bool> post_admin_recycleBin { get; set; }
+        public string post_image { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

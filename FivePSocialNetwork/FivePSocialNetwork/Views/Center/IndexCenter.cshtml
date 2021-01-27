@@ -218,7 +218,7 @@
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Bạn có thắc mắc gì?</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">@*Bạn có thắc mắc gì?*@</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -236,17 +236,13 @@
                                                             <input value="" name="question_title" class="form-control" placeholder="................................" type="text">
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 mt-4">
                                                         <div class="form-group field">
                                                             <label class="form-control-label" for="input-address"><i class="far fa-edit"></i> Chi tiết</label>
                                                             <textarea class="form-control" id="editor" name="question_content" placeholder="................................"></textarea>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 mt-4">
                                                         <div class="form-group">
                                                             <label class="form-control-label" for="input-address"><i class="fas fa-tags"></i> Seo</label>
                                                             <div class="ui fluid multiple search selection dropdown field">
@@ -263,9 +259,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 mt-4">
                                                         <label class="form-control-label" for="input-address"><i class="fas fa-laptop-code"></i> Công nghệ</label>
 
                                                         @{
@@ -301,16 +295,52 @@
                 </div>
                 <!-- Modal post-->
                 <div class="modal fade" id="post" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">BÀi viết</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                bài viết
+                                <div class="">
+                                    <div class="card-body">
+                                        <form class="ui form" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <div class="pl-lg-1">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group field">
+                                                            <label class="form-control-label" for="input-address"><i class="fas fa-pen-alt"></i> Tiêu để bài viết?</label>
+                                                            <input value="" name="question_title" class="form-control" placeholder="................................" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-4">
+                                                        <div class="form-group field">
+                                                            <label class="form-control-label" for="input-address"><i class="far fa-edit"></i> Nội dung bài viết</label>
+                                                            <textarea class="form-control" id="editorPost" name="question_content" placeholder="................................"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-4">
+                                                        <div class="form-group field">
+                                                            <label class="form-control-label" for="input-address"><i class="far fa-edit"></i> Ảnh bài viết</label>
+                                                            <input type="file" class="form-control" id="#" name="question_content" placeholder="................................" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row mt-2">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-success w-100 submit"><i class="far fa-paper-plane"></i> Đăng bài viết</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -325,14 +355,14 @@
                 <div class="row">
                     @for (var i = 0; i < 12; i++)
                     {
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-3">
                             <a href="#" class="btn btn-outline-warning btn-round p-2 mb-3">Javascrip</a>
                         </div>
                     }
                 </div>
                 <br />
                 <div class="text-right">
-                    <span><i class="fas fa-filter"></i> Sắp xếp theo : </span>
+                    <span><i class="fas fa-filter"></i><u> Sắp xếp theo</u> : </span>
                     <a href="#">Thưởng</a> \
                     <a href="#">Mới nhất</a> \
                     <a href="#">Vote</a> \
@@ -349,7 +379,7 @@
                         <div class="hov col-lg-12 bg-white mt-3" style="box-shadow: 0 0 5px 1px lightgrey;">
                             <div style="padding: 10px">
                                 <div class="row">
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-2 col-2">
                                         <center>
                                             <div class="font-weight-bold" style="float: right; font-size: 25px">
                                                 <div>
@@ -370,7 +400,7 @@
                                             </div>
                                         </center>
                                     </div>
-                                    <div class="col-lg-10">
+                                    <div class="col-lg-10 col-10">
                                         <div style="padding: 10px">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -735,7 +765,7 @@
                                     <div class="h7 text-muted">4<i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i> 6<i class="fas fa-award" style="color:yellow;font-size:11px"></i>  1<i class="fas fa-award" style="color:silver;font-size:11px"></i>  7<i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </div>
                                 </div>
                                 <div class="col-2">
-                                    <a href="#"><i class="fab fa-facebook-messenger mt-4"></i></a>
+                                    <a href="@Url.Action("Index","Message")"><i class="fab fa-facebook-messenger mt-4"></i></a>
                                 </div>
                             </div>
                         }
@@ -787,7 +817,7 @@
                     </div><hr />
                     <div class="">
                         <div class="card-body">
-                            <h4 class="card-title">Top câu hỏi công nghệ khác</h4>
+                            <h4 class="card-title">Câu hỏi của những người bạn</h4>
                             <div class="row">
                                 <div class="col-2 mr--1">
                                     <a href="#"><i class="fas fa-info-circle"></i></a>
@@ -961,7 +991,7 @@
                     rules: [
                         {
                             type: 'empty',
-                            prompt: 'Vui lòng nhập tiêu đề câu hỏi!'
+                            prompt: 'Vui lòng nhập tiêu đề!'
                         }
                     ]
                 },
@@ -974,7 +1004,7 @@
                         },
                         {
                             type: 'minLength[15]',
-                            prompt: 'Nội dung câu hỏi tối thiểu 15 ký tự!'
+                            prompt: 'Tối thiểu 15 ký tự!'
                         }
                     ]
                 },
@@ -1009,6 +1039,13 @@
 <script>
     ClassicEditor
         .create(document.querySelector('#editor'), {
+            toolbar: ['heading', '|', 'codeBlock', 'code', '|', 'bold', 'italic', 'Link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'ImageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo']
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    ClassicEditor
+        .create(document.querySelector('#editorPost'), {
             toolbar: ['heading', '|', 'codeBlock', 'code', '|', 'bold', 'italic', 'Link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'ImageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo']
         })
         .catch(error => {

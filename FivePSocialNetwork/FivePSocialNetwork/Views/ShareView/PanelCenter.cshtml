@@ -93,7 +93,7 @@
 
                             </div>
                             <!-- View all -->
-                            <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
+                            <a href="@Url.Action("Index","Message")" class="dropdown-item text-center text-primary font-weight-bold py-3"><i class="fab fa-facebook-messenger"></i>Tất cả tin nhắn</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -133,7 +133,7 @@
 
                             </div>
                             <!-- View all -->
-                            <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
+                            <a href="@Url.Action("ManagementNotification","UserManagement")" class="dropdown-item text-center text-primary font-weight-bold py-3"><i class="ni ni-bell-55"></i>Tất cả thông báo</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -187,10 +187,10 @@
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="~/assets/Center/img/theme/team-4.jpg">
+                                    <img alt="Image placeholder" src="~/Image/Users/@user.user_avatar">
                                 </span>
                                 <div class="media-body  ml-2  d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                                    <span class="mb-0 text-sm  font-weight-bold">@user.user_firstName @user.user_lastName</span>
                                 </div>
                             </div>
                         </a>
@@ -200,7 +200,7 @@
                                     Mã của bạn : @user.user_code
                                 </h6>
                             </div>
-                            <a href="@Url.Action("OverviewUser","UserManagement")" class="dropdown-item">
+                            <a href="@Url.Action("PageUser","UserManagement")" class="dropdown-item">
                                 <i class="ni ni-single-02"></i>
                                 <span>Cá nhân</span>
                             </a>
@@ -208,21 +208,9 @@
                                 <i class="ni ni-settings-gear-65"></i>
                                 <span>Cài đặt cá nhân</span>
                             </a>
-                            <a href="@Url.Action("TechnologyUser","Account")" class="dropdown-item">
-                                <i class="fab fa-react"></i>
-                                <span>Tùy chỉnh công nghệ</span>
-                            </a>
                             <a href="@Url.Action("Security","Account")" class="dropdown-item">
                                 <i class="fas fa-shield-alt"></i>
                                 <span>Bảo mật và đăng nhập</span>
-                            </a>
-                            <a href="@Url.Action("Address","Account")" class="dropdown-item">
-                                <i class="ni ni-settings-gear-65"></i>
-                                <span>Cài đặt địa chỉ</span>
-                            </a>
-                            <a href="@Url.Action("LinkWebAnother","Account")" class="dropdown-item">
-                                <i class="fas fa-link"></i>
-                                <span>Link website khác</span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="@Url.Action("Logout","Account")" class="dropdown-item">

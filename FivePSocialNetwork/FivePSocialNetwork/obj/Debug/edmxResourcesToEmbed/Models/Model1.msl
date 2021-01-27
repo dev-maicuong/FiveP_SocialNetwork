@@ -185,6 +185,7 @@
     <EntitySetMapping Name="Posts">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Post">
         <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="post_image" ColumnName="post_image" />
           <ScalarProperty Name="post_id" ColumnName="post_id" />
           <ScalarProperty Name="post_content" ColumnName="post_content" />
           <ScalarProperty Name="post_dateCreate" ColumnName="post_dateCreate" />

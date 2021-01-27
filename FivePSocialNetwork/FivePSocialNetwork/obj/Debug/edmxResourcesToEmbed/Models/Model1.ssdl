@@ -185,6 +185,7 @@
     <Property Name="post_recycleBin" Type="bit" />
     <Property Name="post_userStatus" Type="bit" />
     <Property Name="post_admin_recycleBin" Type="bit" />
+    <Property Name="post_image" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Provincial">
     <Key>

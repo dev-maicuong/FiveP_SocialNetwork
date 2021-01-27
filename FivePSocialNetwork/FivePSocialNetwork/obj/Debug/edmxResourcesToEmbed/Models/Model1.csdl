@@ -216,6 +216,7 @@
     <NavigationProperty Name="User" Relationship="Self.FK_Post_User" FromRole="Post" ToRole="User" />
     <NavigationProperty Name="Rate_Post" Relationship="Self.FK_Rate_Post_Post" FromRole="Post" ToRole="Rate_Post" />
     <NavigationProperty Name="View_Post" Relationship="Self.FK_View_Post_Post" FromRole="Post" ToRole="View_Post" />
+    <Property Name="post_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Provincial">
     <Key>
