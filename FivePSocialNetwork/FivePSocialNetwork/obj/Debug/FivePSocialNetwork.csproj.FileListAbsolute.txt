@@ -185,3 +185,16 @@ F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\System.Identity
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.xml
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.AspNet.Common.dll
 F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Twilio.AspNet.Mvc.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.AspNet.SignalR.Core.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.Owin.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.Owin.Security.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Owin.dll
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.AspNet.SignalR.Core.pdb
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.AspNet.SignalR.Core.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.Owin.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\FiveP_SocialNetwork\FivePSocialNetwork\FivePSocialNetwork\bin\Microsoft.Owin.Security.xml

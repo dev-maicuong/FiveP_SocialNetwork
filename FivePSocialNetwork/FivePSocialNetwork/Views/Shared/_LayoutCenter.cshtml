@@ -66,6 +66,7 @@
     </div>
     <!-- Argon Scripts -->
     <!-- Core -->
+    @Scripts.Render("~/bundles/jquery")
 
     <script src="~/assets/Center/vendor/jquery/dist/jquery.min.js"></script>
     <script src="~/assets/Center/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -77,6 +78,10 @@
     <script src="~/assets/Center/vendor/chart.js/dist/Chart.extension.js"></script>
     <!-- Argon JS -->
     <script src="~/assets/Center/js/argon.js?v=1.2.0"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @RenderSection("scripts", required: false)
+
 </body>
 
 </html>

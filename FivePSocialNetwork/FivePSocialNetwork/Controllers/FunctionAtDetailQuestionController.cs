@@ -12,12 +12,33 @@ namespace FivePSocialNetwork.Controllers
     {
         FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
         // GET: FunctionAtDetailQuestion
-        public ActionResult DetailQuestion(int? id,int? notification_id)
+        public ActionResult DetailQuestion(int? id ,View_Question view_Question)
         {
-            if(notification_id != null)
+            //Neu61 ton62 tai5 cookei
+            if (Request.Cookies["user_id"] != null)
             {
-                db.Notifications.Find(notification_id).notification_status = true;
-                db.SaveChanges();
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                View_Question check = db.View_Question.SingleOrDefault(n => n.question_id == id && n.user_id == user_id);
+                if(check != null && check.viewQuestion_dateCreate.Value.TimeOfDay.Minutes + 30 < DateTime.Now.TimeOfDay.Minutes)
+                {
+                    // Lưu bảng View_Question
+                    db.View_Question.Find(check.viewQuestion_id).viewQuestion_dateCreate = DateTime.Now;
+                    // lưu bảng question
+                    db.Questions.Find(id).question_view += 1;
+                    db.SaveChanges();
+
+                }
+                else if(check == null)
+                {
+                    // lưu xem
+                    db.Questions.Find(id).question_view = 1;
+                    // lu7 bảng view
+                    view_Question.viewQuestion_dateCreate = DateTime.Now;
+                    view_Question.question_id = id;
+                    view_Question.user_id = user_id;
+                    db.View_Question.Add(view_Question);
+                    db.SaveChanges();
+                }
             }
             Question question = db.Questions.SingleOrDefault(n => n.question_id == id && n.question_activate == true && n.question_userStatus == true && n.question_recycleBin == false && n.question_admin_recycleBin == false);
             return View(question);

@@ -1,7 +1,10 @@
-﻿
+﻿@using FivePSocialNetwork.Models;
+@model List<Message>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+
 }
 <style>
     .container {
@@ -337,75 +340,77 @@
         </div>
         <div class="mesgs">
             <div class="msg_history">
-                <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                    <div class="received_msg">
-                        <div class="received_withd_msg">
-                            <p>
-                                Five_P chào bạn! Bạn có thắc mắc gì về chúng tôi.
-                            </p>
-                            <br />
+                @foreach (var item in Model)
+                {
+                    if (item.messageRecipients_id != user_id)
+                    {
+                        <div class="incoming_msg">
+                            <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                            <div class="received_msg">
+                                <div class="received_withd_msg">
+                                    <p>
+                                        @item.message_content
+                                    </p>
+                                    <span class="time_date"> 11:01 AM    |    June 9</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                    <div class="received_msg">
-                        <div class="received_withd_msg">
-                            <p>
-                                Chính sách của chúng tôi
-                            </p>
-
+                    }
+                    else
+                    {
+                        <div class="outgoing_msg">
+                            <div class="sent_msg">
+                                <p>
+                                    @item.message_content
+                                </p>
+                                <span class="time_date"> 11:01 AM    |    June 9</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                    <div class="received_msg">
-                        <div class="received_withd_msg">
-                            <p>
-                                Cách chúng tôi hoạt động.
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                    <div class="received_msg">
-                        <div class="received_withd_msg">
-                            <p>
-                                Làm sao để được nhiều huy chương,và sự nổi tiếng.
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="outgoing_msg">
-                    <div class="sent_msg">
-                        <p>
-                            .......
-                        </p>
-
-                    </div>
-                </div>
+                    }
+                }
                 <div id="contentMsg">
 
                 </div>
-
             </div>
             <div class="type_msg">
                 <div class="input_msg_write">
                     <form id="formMessage">
-                        <input type="text" id="txtMessage0" name="message_content" class="write_msg" placeholder="Thông điệp của bạn ..." />
-                        <button type="reset" class="msg_send_btn" id="btnSend0"><i class="far fa-paper-plane"></i></button>
+                        <input type="text" id="txtMessage" name="message_content" class="write_msg" placeholder="Type a message" />
+                        <button type="button" class="msg_send_btn" id="btnSend"><i class="far fa-paper-plane"></i></button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-
     <p class="text-center top_spac"> Design by <a target="_blank" href="#">Sunil Rajput</a></p>
-
 </div>
+<script>
+    $(function () {
+        var chat = $.connection.chat;
+        loadClient(chat)
+        $.connection.hub.start().done(function () {
+            $('#btnSend').click(function () {
+                var msg = $('#txtMessage').val();
+                var user_friend_id = @(ViewBag.idFriend);
+                var id = @user_id;
+                chat.server.message(msg, id, user_friend_id);
+
+                $('#txtMessage').val('').focus();
+            });
+        });
+
+    });
+    function loadClient(chat) {
+        chat.client.message = function (msg, id, user_friend_id) {
+            if (@user_id == id && @(ViewBag.idFriend) == user_friend_id) {
+                $('#contentMsg').append('<div class="outgoing_msg">' + '<div class= "sent_msg"><p>' + msg + '</p><span class="time_date"> 11:01 AM    |    June 9</span></div ></div >');
+
+            }
+            else if (@user_id != id && @(ViewBag.idFriend) == user_friend_id) {
+                $('#contentMsg').append(
+                    '<div class="incoming_msg"><div class= "incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div><div class="received_msg"><div class="received_withd_msg"><p>' + msg + '</p><span class="time_date"> 11:01 AM    |    June 9</span></div></div>'
+                    );
+            }
+        }
+    }
+</script>
