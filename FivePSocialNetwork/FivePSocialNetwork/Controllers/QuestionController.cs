@@ -21,7 +21,7 @@ namespace FivePSocialNetwork.Controllers
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ValidateInput(false)]
-        public ActionResult PostQuestion([Bind(Include = "question_id,question_content,question_dateCreate,question_dateEdit,user_id,question_activate,question_title,question_Answer,question_totalComment,question_view,question_totalRate,question_medalCalculator,question_recycleBin,question_userStatus,question_popular,question_admin_recycleBin,keywordSearch_id")] Question question, string strTagsQuestion, int[] technologyQuestion)
+        public ActionResult PostQuestion([Bind(Include = "question_id,question_content,question_dateCreate,question_dateEdit,user_id,question_activate,question_title,question_Answer,question_totalComment,question_view,question_totalRate,question_medalCalculator,question_recycleBin,question_userStatus,question_popular,question_admin_recycleBin,question_keywordSearch,question_totalTick")] Question question, string strTagsQuestion, int[] technologyQuestion)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -165,6 +165,7 @@ namespace FivePSocialNetwork.Controllers
                 question.question_dateCreate = DateTime.Now;
                 question.question_dateEdit = DateTime.Now;
                 question.user_id = user_id;
+                question.question_totalTick = 0;
                 question.question_activate = true;
                 question.question_Answer = 0;
                 question.question_totalComment = 0;
@@ -217,6 +218,7 @@ namespace FivePSocialNetwork.Controllers
                 question.question_dateEdit = DateTime.Now;
                 question.user_id = user_id;
                 question.question_activate = true;
+                question.question_totalTick = 0;
                 question.question_Answer = 0;
                 question.question_totalComment = 0;
                 question.question_view = 0;

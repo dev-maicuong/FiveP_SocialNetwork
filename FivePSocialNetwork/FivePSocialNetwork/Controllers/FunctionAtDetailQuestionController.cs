@@ -56,10 +56,12 @@ namespace FivePSocialNetwork.Controllers
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
             Rate_Question checkRate_Question = db.Rate_Question.Where(n => n.question_id == question_id && n.user_id == user_id).SingleOrDefault();
+            Question question = db.Questions.Find(question_id);
             if (checkRate_Question == null)
             {
-                db.Questions.Find(question_id).question_popular++;
-                db.Questions.Find(question_id).question_medalCalculator++;
+                question.question_popular++;
+                question.question_medalCalculator++;
+                question.question_totalRate++;
                 db.SaveChanges();
                 //tính huy chương đưa vào user
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
@@ -92,7 +94,10 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRate_Question.rateQuestion_rateStatus == true)
             {
-                db.Questions.Find(question_id).question_medalCalculator--;
+                question.question_medalCalculator--;
+                question.question_totalRate--;
+                question.question_popular--;
+
                 db.SaveChanges();
                 //tính huy chương đưa vào user
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
@@ -116,7 +121,6 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_vipMedal--;
                 }
                 //Đánh giá
-                db.Questions.Find(question_id).question_popular--;
                 db.Rate_Question.Find(checkRate_Question.rateQuestion_id).rateQuestion_rateStatus = null;
                 db.SaveChanges();
                 return Redirect(Request.UrlReferrer.ToString());
@@ -124,7 +128,9 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRate_Question.rateQuestion_rateStatus == null)
             {
-                db.Questions.Find(question_id).question_medalCalculator++;
+                question.question_medalCalculator++;
+                question.question_totalRate++;
+                question.question_popular++;
                 db.SaveChanges();
                 //tính huy chương đưa vào user
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
@@ -148,7 +154,6 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_goldMedal--;
                 }
                 // lưu đánh giá
-                db.Questions.Find(question_id).question_popular++;
                 db.Rate_Question.Find(checkRate_Question.rateQuestion_id).rateQuestion_rateStatus = true;
                 db.SaveChanges();
                 return Redirect(Request.UrlReferrer.ToString());
@@ -156,7 +161,9 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
-                db.Questions.Find(question_id).question_medalCalculator += 2;
+                question.question_medalCalculator+=2;
+                question.question_totalRate+=2;
+                question.question_popular+=2;
                 db.SaveChanges();
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
                 if (postCalulateMedal == 4 || postCalulateMedal == 5)
@@ -177,7 +184,6 @@ namespace FivePSocialNetwork.Controllers
                 {
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_vipMedal++;
                 }
-                db.Questions.Find(question_id).question_popular += 2;
                 db.Rate_Question.Find(checkRate_Question.rateQuestion_id).rateQuestion_rateStatus = true;
                 db.SaveChanges();
                 return Redirect(Request.UrlReferrer.ToString());
@@ -196,10 +202,13 @@ namespace FivePSocialNetwork.Controllers
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
             Rate_Question checkRateQuestion = db.Rate_Question.Where(n => n.question_id == question_id && n.user_id == user_id).SingleOrDefault();
+            Question question = db.Questions.Find(question_id);
             if (checkRateQuestion == null)
             {
                 //tính huy chương user
-                db.Questions.Find(question_id).question_medalCalculator--;
+                question.question_medalCalculator--;
+                question.question_totalRate--;
+                question.question_popular--;
                 db.SaveChanges();
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
                 if (postCalulateMedal == 3)
@@ -222,7 +231,6 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_goldMedal++;
                 }
                 //Lưu đánh giá
-                db.Questions.Find(question_id).question_popular--;
                 rate_Question.user_id = user_id;
                 rate_Question.rateQuestion_rateStatus = false;
                 rate_Question.rateQuestion_dateCreate = DateTime.Now;
@@ -233,7 +241,9 @@ namespace FivePSocialNetwork.Controllers
             else if (checkRateQuestion.rateQuestion_rateStatus == false)
             {
                 //Tính huy chương cho user
-                db.Questions.Find(question_id).question_medalCalculator++;
+                question.question_medalCalculator++;
+                question.question_totalRate++;
+                question.question_popular++;
                 db.SaveChanges();
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
                 if (postCalulateMedal == 4)
@@ -256,7 +266,6 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_goldMedal--;
                 }
                 //Lưu đánh giá
-                db.Questions.Find(question_id).question_popular++;
                 db.Rate_Question.Find(checkRateQuestion.rateQuestion_id).rateQuestion_rateStatus = null;
                 db.SaveChanges();
                 return View();
@@ -264,7 +273,9 @@ namespace FivePSocialNetwork.Controllers
             else if (checkRateQuestion.rateQuestion_rateStatus == null)
             {
                 //Lưu Huy chương user
-                db.Questions.Find(question_id).question_medalCalculator--;
+                question.question_medalCalculator--;
+                question.question_totalRate--;
+                question.question_popular--;
                 db.SaveChanges();
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
                 if (postCalulateMedal == 3)
@@ -287,7 +298,6 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_goldMedal++;
                 }
                 //Lưu đánh giá
-                db.Questions.Find(question_id).question_popular--;
                 db.Rate_Question.Find(checkRateQuestion.rateQuestion_id).rateQuestion_rateStatus = false;
                 db.SaveChanges();
                 return View();
@@ -295,7 +305,9 @@ namespace FivePSocialNetwork.Controllers
             else
             {
                 //tính huy chương user
-                db.Questions.Find(question_id).question_medalCalculator -= 2;
+                question.question_medalCalculator-=2;
+                question.question_totalRate-=2;
+                question.question_popular-=2;
                 db.SaveChanges();
                 var postCalulateMedal = db.Questions.Find(question_id).question_medalCalculator;
                 if (postCalulateMedal == 3 || postCalulateMedal == 2)
@@ -318,7 +330,6 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(db.Questions.Find(question_id).user_id).user_goldMedal++;
                 }
                 //Luu đánh giá
-                db.Questions.Find(question_id).question_popular -= 2;
                 db.Rate_Question.Find(checkRateQuestion.rateQuestion_id).rateQuestion_rateStatus = false;
                 db.SaveChanges();
                 return View();
@@ -336,9 +347,11 @@ namespace FivePSocialNetwork.Controllers
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
             Tick_Question checkTickQuestion = db.Tick_Question.Where(n => n.question_id == question_id && n.user_id == user_id).FirstOrDefault();
+            Question question = db.Questions.Find(question_id);
             if (checkTickQuestion == null)
             {
-                db.Questions.Find(question_id).question_popular++;
+                question.question_popular++;
+                question.question_totalTick++;
                 tick_Question.user_id = user_id;
                 tick_Question.tickQuestion_recycleBin = false;
                 tick_Question.tickQuestion_dateCreate = DateTime.Now;
@@ -348,7 +361,8 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
-                db.Questions.Find(question_id).question_popular--;
+                question.question_popular--;
+                question.question_totalTick--;
                 db.Tick_Question.Remove(db.Tick_Question.Find(checkTickQuestion.tickQuestion_id));
                 db.SaveChanges();
                 return View();

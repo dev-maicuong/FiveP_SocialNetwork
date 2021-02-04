@@ -726,6 +726,7 @@
     <Content Include="assets\Center\css\bootstrap\bootstrap-reboot.min.css" />
     <Content Include="assets\Center\css\bootstrap\bootstrap.css" />
     <Content Include="assets\Center\css\bootstrap\bootstrap.min.css" />
+    <Content Include="assets\Center\css\IndexCenter.css" />
     <Content Include="assets\Center\fonts\nucleo\nucleo-icons.svg" />
     <Content Include="assets\Center\img\brand\5p.png" />
     <Content Include="assets\Center\img\brand\blue.png" />
@@ -773,6 +774,7 @@
     <Content Include="assets\Center\js\components\vendor\nouislider.min.js" />
     <Content Include="assets\Center\js\components\vendor\scrollbar.js" />
     <Content Include="assets\Center\js\components\vendor\scrollbar.min.js" />
+    <Content Include="assets\Center\js\IndexCenter.js" />
     <Content Include="assets\Center\vendor\anchor-js\anchor.min.js" />
     <Content Include="assets\Center\vendor\animate.css\animate.min.css" />
     <Content Include="assets\Center\vendor\animate.css\source\attention_seekers\bounce.css" />
@@ -4325,6 +4327,15 @@
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Account\District.cshtml" />
     <Content Include="Views\Account\Commune.cshtml" />
+    <Content Include="Views\ShareView\DefaultIndexCenter.cshtml" />
+    <Content Include="Views\ShareView\FriendIndexCenter.cshtml" />
+    <Content Include="Views\Center\FilterReawrd.cshtml" />
+    <Content Include="Views\Center\FilterReward.cshtml" />
+    <Content Include="Views\ShareView\OfferIndexCenter.cshtml" />
+    <Content Include="Views\Center\FilterQuestionNew.cshtml" />
+    <Content Include="Views\Center\FilterQuestionVote.cshtml" />
+    <Content Include="Views\Center\FilterQuestionView.cshtml" />
+    <Content Include="Views\Center\ForUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

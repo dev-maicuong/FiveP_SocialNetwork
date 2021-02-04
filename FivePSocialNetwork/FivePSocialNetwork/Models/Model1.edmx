@@ -148,6 +148,7 @@
           <Property Name="messageRecipients_id" Type="int" />
           <Property Name="message_dateSend" Type="datetime" />
           <Property Name="message_recycleBin" Type="bit" />
+          <Property Name="message_status" Type="bit" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -224,6 +225,7 @@
           <Property Name="question_popular" Type="int" />
           <Property Name="question_admin_recycleBin" Type="bit" />
           <Property Name="question_keywordSearch" Type="nvarchar(max)" />
+          <Property Name="question_totalTick" Type="int" />
         </EntityType>
         <EntityType Name="Rate_Answer">
           <Key>
@@ -1417,6 +1419,7 @@
           <Property Name="message_recycleBin" Type="Boolean" />
           <NavigationProperty Name="User" Relationship="Self.FK_Message_User" FromRole="Message" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Message_User1" FromRole="Message" ToRole="User" />
+          <Property Name="message_status" Type="Boolean" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1511,6 +1514,7 @@
           <NavigationProperty Name="Teachnology_Question" Relationship="Self.FK_Teachnology_Question_Question" FromRole="Question" ToRole="Teachnology_Question" />
           <NavigationProperty Name="Tick_Question" Relationship="Self.FK_Tick_Question_Question" FromRole="Question" ToRole="Tick_Question" />
           <NavigationProperty Name="View_Question" Relationship="Self.FK_View_Question_Question" FromRole="Question" ToRole="View_Question" />
+          <Property Name="question_totalTick" Type="Int32" />
         </EntityType>
         <EntityType Name="Rate_Answer">
           <Key>
@@ -2741,6 +2745,7 @@
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Message">
               <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="message_status" ColumnName="message_status" />
                 <ScalarProperty Name="message_id" ColumnName="message_id" />
                 <ScalarProperty Name="message_content" ColumnName="message_content" />
                 <ScalarProperty Name="messageSender_id" ColumnName="messageSender_id" />
@@ -2811,6 +2816,7 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Question">
               <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="question_totalTick" ColumnName="question_totalTick" />
                 <ScalarProperty Name="question_id" ColumnName="question_id" />
                 <ScalarProperty Name="question_content" ColumnName="question_content" />
                 <ScalarProperty Name="question_dateCreate" ColumnName="question_dateCreate" />

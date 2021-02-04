@@ -179,30 +179,32 @@ namespace FivePSocialNetwork.Controllers
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
             Rate_Answer checkRateAnswer = db.Rate_Answer.Where(n => n.answer_id == answer_id && n.user_id == user_id).SingleOrDefault();
+            Answer answer = db.Answers.Find(answer_id);
             if (checkRateAnswer == null)
             {
                 //Lưu đánh giá huy chương
-                db.Answers.Find(answer_id).answer_medalCalculate++;
+                answer.answer_medalCalculate++;
+                answer.answer_totalRate++;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 15)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
                 }
                 else if (replyPostCalculateMedal == 30)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_vipMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
                 }
                 //lưu đánh giá bài trả lời
                 var idRepLyPost = answer_id;
@@ -218,27 +220,28 @@ namespace FivePSocialNetwork.Controllers
             else if (checkRateAnswer.rateAnswer_rateStatus == true)
             {
                 //Lưu huy chương người dùng
-                db.Answers.Find(answer_id).answer_medalCalculate--;
+                answer.answer_medalCalculate--;
+                answer.answer_totalRate--;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 14)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
                 }
                 else if (replyPostCalculateMedal == 29)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_vipMedal--;
                 }
                 //Lưu đánh giá trả lời bài viết
                 var idRepLyPost = answer_id;
@@ -251,27 +254,28 @@ namespace FivePSocialNetwork.Controllers
             else if (checkRateAnswer.rateAnswer_rateStatus == null)
             {
                 //Lưu huy chương người dùng
-                db.Answers.Find(answer_id).answer_medalCalculate++;
+                answer.answer_medalCalculate++;
+                answer.answer_totalRate++;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 15)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
                 }
                 else if (replyPostCalculateMedal == 30)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_vipMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
                 }
                 //Lưu đánh giá bài viết
                 var idRepLyPost = answer_id;
@@ -284,26 +288,27 @@ namespace FivePSocialNetwork.Controllers
             else
             {
                 //Lưu huy chương
-                db.Answers.Find(answer_id).answer_medalCalculate += 2;
+                answer.answer_medalCalculate += 2;
+                answer.answer_totalRate+=2;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4 || replyPostCalculateMedal == 5)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8 || replyPostCalculateMedal == 9)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 15 || replyPostCalculateMedal == 16)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
                 }
                 else if (replyPostCalculateMedal == 30 || replyPostCalculateMedal == 31)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal++;
+                    db.Users.Find(answer.user_id).user_vipMedal++;
                 }
                 //Lưu đánh giá 
                 var idRepLyPost = answer_id;
@@ -325,30 +330,32 @@ namespace FivePSocialNetwork.Controllers
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
             Rate_Answer check = db.Rate_Answer.Where(n => n.answer_id == answer_id && n.user_id == user_id).SingleOrDefault();
+            Answer answer = db.Answers.Find(answer_id);
             if (check == null)
             {
                 //Lưu huy chương
-                db.Answers.Find(answer_id).answer_medalCalculate--;
+                answer.answer_medalCalculate--;
+                answer.answer_totalRate--;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 14)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
                 }
                 else if (replyPostCalculateMedal == 29)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_vipMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
                 }
                 //Lưu đánh giá
                 var idRepLyPost = answer_id;
@@ -364,27 +371,28 @@ namespace FivePSocialNetwork.Controllers
             else if (check.rateAnswer_rateStatus == false)
             {
                 //Lưu huy chương
-                db.Answers.Find(answer_id).answer_medalCalculate++;
+                answer.answer_medalCalculate++;
+                answer.answer_totalRate++;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 15)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
                 }
                 else if (replyPostCalculateMedal == 30)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal++;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_vipMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
                 }
                 //Lưu đánh giá
                 var idRepLyPost = answer_id;
@@ -397,27 +405,28 @@ namespace FivePSocialNetwork.Controllers
             else if (check.rateAnswer_rateStatus == null)
             {
                 //Lưu huy chương
-                db.Answers.Find(answer_id).answer_medalCalculate--;
+                answer.answer_medalCalculate--;
+                answer.answer_totalRate--;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 14)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
                 }
                 else if (replyPostCalculateMedal == 29)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_vipMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
                 }
                 //Lưu đánh giá
                 var idRepLyPost = answer_id;
@@ -430,27 +439,28 @@ namespace FivePSocialNetwork.Controllers
             else
             {
                 //Lưu huy chương
-                db.Answers.Find(answer_id).answer_medalCalculate -= 2;
+                answer.answer_medalCalculate -= 2;
+                answer.answer_totalRate-=2;
                 db.SaveChanges();
-                var replyPostCalculateMedal = db.Answers.Find(answer_id).answer_medalCalculate;
+                var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3 || replyPostCalculateMedal == 2)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7 || replyPostCalculateMedal == 6)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_silverMedal--;
+                    db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 14 || replyPostCalculateMedal == 13)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_silverMedal++;
+                    db.Users.Find(answer.user_id).user_goldMedal--;
+                    db.Users.Find(answer.user_id).user_silverMedal++;
                 }
                 else if (replyPostCalculateMedal == 29 || replyPostCalculateMedal == 28)
                 {
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_vipMedal--;
-                    db.Users.Find(db.Answers.Find(answer_id).user_id).user_goldMedal++;
+                    db.Users.Find(answer.user_id).user_vipMedal--;
+                    db.Users.Find(answer.user_id).user_goldMedal++;
                 }
                 //Lưu đánh giá
                 var idRepLyPost = answer_id;

@@ -167,6 +167,7 @@
     <Property Name="message_recycleBin" Type="Boolean" />
     <NavigationProperty Name="User" Relationship="Self.FK_Message_User" FromRole="Message" ToRole="User" />
     <NavigationProperty Name="User1" Relationship="Self.FK_Message_User1" FromRole="Message" ToRole="User" />
+    <Property Name="message_status" Type="Boolean" />
   </EntityType>
   <EntityType Name="Notification">
     <Key>
@@ -261,6 +262,7 @@
     <NavigationProperty Name="Teachnology_Question" Relationship="Self.FK_Teachnology_Question_Question" FromRole="Question" ToRole="Teachnology_Question" />
     <NavigationProperty Name="Tick_Question" Relationship="Self.FK_Tick_Question_Question" FromRole="Question" ToRole="Tick_Question" />
     <NavigationProperty Name="View_Question" Relationship="Self.FK_View_Question_Question" FromRole="Question" ToRole="View_Question" />
+    <Property Name="question_totalTick" Type="Int32" />
   </EntityType>
   <EntityType Name="Rate_Answer">
     <Key>

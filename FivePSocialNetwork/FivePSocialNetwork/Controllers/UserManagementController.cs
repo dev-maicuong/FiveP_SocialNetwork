@@ -12,40 +12,168 @@ namespace FivePSocialNetwork.Controllers
     {
         FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
         // GET: UserManagement
-        public ActionResult PageUser()
+        public ActionResult PageUser(int? id)
         {
-            return View();
+            if(id!= null)
+            {
+                User user = db.Users.SingleOrDefault(n => n.user_id == id && n.user_activate == true && n.user_recycleBin == false);
+                return View(user);
+            }
+            else
+            {
+                //nếu ko có cookies cho về trang tất cả câu hỏi.
+                if (Request.Cookies["user_id"] == null)
+                {
+                    return Redirect("/Home/Index");
+                }
+                // khi tồn tại cookies
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                User user = db.Users.SingleOrDefault(n => n.user_id == user_id && n.user_activate == true && n.user_recycleBin == false);
+                return View(user);
+            }
+            
         }
+
+        [HttpPost]
+        public ActionResult AddFriend([Bind(Include = "friend_id,userRequest_id,userResponse_id,friend_status,friend_dateRequest,friend_dateResponse,friend_dateUnfriend,friend_recycleBin")] Friend friend, Message message)
+        {
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Friend friend1 = db.Friends.FirstOrDefault(n => n.userRequest_id == user_id && n.userResponse_id == friend.userResponse_id);
+            Friend friend2 = db.Friends.FirstOrDefault(n => n.userRequest_id == friend.userResponse_id && n.userResponse_id == user_id);
+            Friend friend3 = db.Friends.FirstOrDefault(n => n.userRequest_id == user_id && n.userResponse_id == friend.userResponse_id && n.friend_status == null);
+            Friend friend4 = db.Friends.FirstOrDefault(n => n.userRequest_id == friend.userResponse_id && n.userResponse_id == user_id && n.friend_status == true);
+            Friend friend5 = db.Friends.FirstOrDefault(n => n.userRequest_id == friend.userResponse_id && n.userResponse_id == user_id && n.friend_status == null);
+
+            if (friend5 != null)
+            {
+                db.Friends.Find(friend5.friend_id).friend_id = friend5.friend_id;
+                db.Friends.Find(friend5.friend_id).userRequest_id = user_id;
+                db.Friends.Find(friend5.friend_id).userResponse_id = friend.userResponse_id;
+                db.Friends.Find(friend5.friend_id).friend_status = false;
+                db.Friends.Find(friend5.friend_id).friend_dateRequest = DateTime.Now;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            if (friend4 != null)
+            {
+                db.Friends.Find(friend4.friend_id).friend_status = null;
+                db.Friends.Find(friend4.friend_id).friend_dateUnfriend = DateTime.Now;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else if (friend3 != null)
+            {
+                db.Friends.Find(friend3.friend_id).friend_status = false;
+                db.Friends.Find(friend3.friend_id).friend_dateRequest = DateTime.Now;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else if (friend1 != null)
+            {
+                db.Friends.Find(friend1.friend_id).friend_status = null;
+                db.Friends.Find(friend1.friend_id).friend_dateUnfriend = DateTime.Now;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else if (friend2 != null)
+            {
+                Message checkMessage = db.Messages.FirstOrDefault(n => (n.messageRecipients_id == friend2.userRequest_id && n.messageSender_id == friend2.userResponse_id)|| (n.messageRecipients_id == friend2.userResponse_id && n.messageSender_id == friend2.userRequest_id));
+                //kiểm tra trong mess 2 user kết bạn này đã chào nhau chưa.
+                if(checkMessage == null)
+                {
+                    //Thêm vào mess để ko bị lỗi nội dung. tostring().
+                    message.message_content = " Chào !";
+                    message.message_dateSend = DateTime.Now;
+                    message.message_status = false;
+                    message.message_recycleBin = false;
+                    message.messageSender_id = friend2.userResponse_id;
+                    message.messageRecipients_id = friend2.userRequest_id;
+                    db.Messages.Add(message);
+                    db.SaveChanges();
+
+                    message.message_content = " Chào !";
+                    message.message_dateSend = DateTime.Now;
+                    message.message_recycleBin = false;
+                    message.message_status = false;
+                    message.messageSender_id = friend2.userRequest_id;
+                    message.messageRecipients_id = friend2.userResponse_id;
+                    db.Messages.Add(message);
+                }
+                db.Friends.Find(friend2.friend_id).friend_status = true;
+                db.Friends.Find(friend2.friend_id).friend_dateResponse = DateTime.Now;
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                friend.userRequest_id = user_id;
+                friend.friend_status = false;
+                friend.friend_dateRequest = DateTime.Now;
+                friend.friend_recycleBin = false;
+                db.Friends.Add(friend);
+                db.SaveChanges();
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+        }
+
+
         //---------------------------------------------user Quản lý câu hỏi --------------------------------
         public ActionResult ManagementQuestion()
         {
             return View();
         }
-        public JsonResult ListQuestions()
+        public JsonResult ListQuestions(int? user_id)
+        {
+            List<Question> questions = db.Questions.Where(n => n.question_activate == true && n.question_admin_recycleBin == false && n.user_id == user_id).ToList();
+            List<ListQuestions> listQuestions = questions.Select(n => new ListQuestions
+            {
+                question_id = n.question_id,
+                question_content = n.question_content,
+                question_dateCreate = n.question_dateCreate.Value.ToShortDateString(),
+                question_dateEdit = n.question_dateEdit.Value.ToShortDateString(),
+                user_id = n.user_id,
+                question_title = n.question_title,
+                question_Answer = n.question_Answer,
+                question_view = n.question_view,
+                question_totalComment = n.question_totalComment,
+                question_totalRate = n.question_totalRate,
+                question_medalCalculator = n.question_medalCalculator,
+                question_userStatus = n.question_userStatus,
+                question_popular = n.question_popular,
+                user_firstName = n.User.user_firstName,
+                user_lastName = n.User.user_lastName,
+                user_popular = n.User.user_popular,
+                user_goldMedal = n.User.user_goldMedal,
+                user_silverMedal = n.User.user_silverMedal,
+                user_brozeMedal = n.User.user_brozeMedal,
+                user_vipMedal = n.User.user_vipMedal,
+                user_avatar = n.User.user_avatar,
+            }).ToList();
+            return Json(listQuestions, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ListTechnologyQuestion()
         {
             //Kiểm tra cookie
             if (Request.Cookies["user_id"] != null)
             {
                 int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-                List<Question> questions = db.Questions.Where(n => n.question_activate == true && n.question_admin_recycleBin == false && n.user_id == user_id).ToList();
-                List<ListQuestions> listQuestions = questions.Select(n => new ListQuestions
+                List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n=>n.teachnologyQuestion_recycleBin == false).ToList();
+                List<ListTechnologyQuestion> listTechnologyQuestions = teachnology_Questions.Select(n => new ListTechnologyQuestion
                 {
+                    teachnologyQuestion_id = n.teachnologyQuestion_id,
+                    technology_id = n.technology_id,
                     question_id = n.question_id,
-                    question_content = n.question_content,
-                    question_dateCreate = n.question_dateCreate.Value.ToShortDateString(),
-                    question_dateEdit = n.question_dateEdit.Value.ToShortDateString(),
-                    user_id = n.user_id,
-                    question_title = n.question_title,
-                    question_Answer = n.question_Answer,
-                    question_view = n.question_view,
-                    question_totalComment = n.question_totalComment,
-                    question_totalRate = n.question_totalRate,
-                    question_medalCalculator = n.question_medalCalculator,
-                    question_userStatus = n.question_userStatus,
-                    question_popular = n.question_popular,
-                    user_avatar = n.User.user_avatar,
+                    teachnologyQuestion_recycleBin = n.teachnologyQuestion_recycleBin,
+                    technology_name = n.Technology.technology_name
+                    
                 }).ToList();
-                return Json(listQuestions, JsonRequestBehavior.AllowGet);
+                return Json(listTechnologyQuestions, JsonRequestBehavior.AllowGet);
             }
 
             return Json("Hello bạn !", JsonRequestBehavior.AllowGet);

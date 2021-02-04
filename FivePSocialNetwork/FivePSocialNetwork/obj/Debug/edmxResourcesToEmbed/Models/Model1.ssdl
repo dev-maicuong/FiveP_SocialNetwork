@@ -143,6 +143,7 @@
     <Property Name="messageRecipients_id" Type="int" />
     <Property Name="message_dateSend" Type="datetime" />
     <Property Name="message_recycleBin" Type="bit" />
+    <Property Name="message_status" Type="bit" />
   </EntityType>
   <EntityType Name="Notification">
     <Key>
@@ -219,6 +220,7 @@
     <Property Name="question_popular" Type="int" />
     <Property Name="question_admin_recycleBin" Type="bit" />
     <Property Name="question_keywordSearch" Type="nvarchar(max)" />
+    <Property Name="question_totalTick" Type="int" />
   </EntityType>
   <EntityType Name="Rate_Answer">
     <Key>

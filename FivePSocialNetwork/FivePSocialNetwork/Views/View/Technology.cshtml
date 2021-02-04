@@ -51,7 +51,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" style="background-color:#f8f9fe"><i class="fas fa-search"></i></span>
                             </div>
-                            <input class="form-control" style="background-color:#f8f9fe;" placeholder="Tìm ............................." type="text">
+                            <input class="form-control" style="background-color:#f8f9fe;" ng-model="txtSearch" placeholder="Tìm ............................." type="text">
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
         </div>
         <div class="col-xl-12 mt--3">
             <div class="row" id="AllQuestionPage">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 same" ng-repeat="x in listTechnology">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 same" ng-repeat="x in filteredTodos| filter: txtSearch">
 
                     <div class="text-left border" style="background-color:#f8f9fe;padding:10px">
 
@@ -88,34 +88,13 @@
                         </div>
                     </div>
                 </div>
-                @for (var i = 0; i < 25; i++)
-                {
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 same">
-
-                        <div class="text-left border" style="background-color:#f8f9fe;padding:10px">
-
-                            <div class="title">
-                                <a href="#" class="badge badge-pill badge-info text-uppercase"><i class="fas fa-tag"></i>PHP</a>
-                            </div>
-
-                            <div class="text">
-                                <span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-5">
-                                    <p class="text-left text-muted mb-0" style="font-size:12px;font-family:Arial">89797 Câu hỏi</p>
-                                </div>
-                                <div class="col-xl-7">
-
-                                    <p class="text-left text-muted mb-0" style="font-size:12px;font-family:Arial">834 asked today, 5355 this week</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+                
                 <div class="col-xl-12">
-                    <!--phân trang-->
-                    phân trang
+                    <pagination ng-model="currentPage"
+                                total-items="list.length"
+                                max-size="maxSize"
+                                boundary-links="true">
+                    </pagination>
                 </div>
 
             </div>
@@ -125,15 +104,32 @@
     </div>
 </div>
 <script>
-    var app = angular.module('myApp', []);
+    var app = angular.module('myApp', ["ui.bootstrap"]);
     app.controller('myCtrl', function ($scope, $http) {
         $http.get("/View/ListTechnology")
             .then(function (response) {
-                // First function handles success
-                $scope.listTechnology = response.data;
+                //Gia dinh
+                $scope.filteredTodos = []
+                    , $scope.currentPage = 1
+                    , $scope.numPerPage = 12
+                    , $scope.maxSize = 5;
+
+                //Xac dinh list phan trang
+                $scope.makeTodos = function () {
+                    $scope.list = response.data;
+                }
+                $scope.makeTodos();
+
+                //Phân trang
+                $scope.$watch('currentPage + numPerPage', function () {
+                    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                        , end = begin + $scope.numPerPage;
+
+                    $scope.filteredTodos = $scope.list.slice(begin, end);
+                });
             }, function (response) {
                 // Second function handles error
-                $scope.listTechnology = "Something went wrong";
+                $scope.content = "Something went wrong";
             });
     });
 </script>

@@ -44,6 +44,7 @@ namespace FivePSocialNetwork.Models
         public Nullable<int> question_popular { get; set; }
         public Nullable<bool> question_admin_recycleBin { get; set; }
         public string question_keywordSearch { get; set; }
+        public Nullable<int> question_totalTick { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }

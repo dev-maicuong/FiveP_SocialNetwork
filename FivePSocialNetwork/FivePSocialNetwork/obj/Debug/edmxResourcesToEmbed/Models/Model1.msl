@@ -147,6 +147,7 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Message">
         <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="message_status" ColumnName="message_status" />
           <ScalarProperty Name="message_id" ColumnName="message_id" />
           <ScalarProperty Name="message_content" ColumnName="message_content" />
           <ScalarProperty Name="messageSender_id" ColumnName="messageSender_id" />
@@ -217,6 +218,7 @@
     <EntitySetMapping Name="Questions">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Question">
         <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="question_totalTick" ColumnName="question_totalTick" />
           <ScalarProperty Name="question_id" ColumnName="question_id" />
           <ScalarProperty Name="question_content" ColumnName="question_content" />
           <ScalarProperty Name="question_dateCreate" ColumnName="question_dateCreate" />
