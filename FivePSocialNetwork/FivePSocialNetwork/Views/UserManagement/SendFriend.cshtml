@@ -1,9 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "ManagementFriend";
+    ViewBag.Title = "SendFriend";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
-
 <div class="header pb-6" style="background-color:orange">
     <div class="container-fluid">
         <div class="header-body">
@@ -95,7 +94,7 @@
 <script>
     var app = angular.module('myApp', ["ui.bootstrap"]);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("/UserManagement/ListFriend")
+        $http.get("/UserManagement/SendFriendJson")
             .then(function (response) {
                 //Gia dinh
                 $scope.filteredTodos = []
@@ -127,7 +126,9 @@
                 $scope.listTechnologyUser = response.data;
             }, function (response) {
                 // Second function handles error
-                    $scope.listTechnologyUser = "Something went wrong";
+                $scope.listTechnologyUser = "Something went wrong";
             });
     });
 </script>
+
+

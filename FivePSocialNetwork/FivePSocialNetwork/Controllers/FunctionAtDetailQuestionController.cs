@@ -359,6 +359,15 @@ namespace FivePSocialNetwork.Controllers
                 db.SaveChanges();
                 return View();
             }
+            else if(checkTickQuestion.tickQuestion_recycleBin == true)
+            {
+                question.question_popular++;
+                question.question_totalTick++;
+                checkTickQuestion.tickQuestion_recycleBin = false;
+                checkTickQuestion.tickQuestion_dateCreate = DateTime.Now;
+                db.SaveChanges();
+                return View();
+            }
             else
             {
                 question.question_popular--;

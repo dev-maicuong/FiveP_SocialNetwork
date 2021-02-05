@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ManagementFriend";
+    ViewBag.Title = "FriendNew";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
 
@@ -60,7 +60,7 @@
         <div class="col-xl-12 card">
             <div class="row">
 
-                <div class="col-xl-2 p-3 cardlist" ng-repeat="x in filteredTodos| filter: txtSearch">
+                <div class="col-xl-2 p-3 cardlist" ng-repeat="x in listFriend| filter: txtSearch">
                     <div class="row">
                         <div class="col-4">
                             <a href="cateview.php" class="w-100">
@@ -82,43 +82,20 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-            <pagination ng-model="currentPage"
-                        total-items="list.length"
-                        max-size="maxSize"
-                        boundary-links="true">
-            </pagination>
         </div>
     </div>
 </div>
 <script>
-    var app = angular.module('myApp', ["ui.bootstrap"]);
+    var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("/UserManagement/ListFriend")
+        $http.get("/UserManagement/FriendNewJson")
             .then(function (response) {
-                //Gia dinh
-                $scope.filteredTodos = []
-                    , $scope.currentPage = 1
-                    , $scope.numPerPage = 12
-                    , $scope.maxSize = 5;
-
-                //Xac dinh list phan trang
-                $scope.makeTodos = function () {
-                    $scope.list = response.data;
-                }
-                $scope.makeTodos();
-
-                //Phân trang
-                $scope.$watch('currentPage + numPerPage', function () {
-                    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-                        , end = begin + $scope.numPerPage;
-
-                    $scope.filteredTodos = $scope.list.slice(begin, end);
-                });
+                // First function handles success
+                $scope.listFriend = response.data;
             }, function (response) {
                 // Second function handles error
-                $scope.content = "Something went wrong";
+                    $scope.listFriend = "Something went wrong";
             });
         //Show công nghệ user
         $http.get("/UserManagement/ListTechnologyUser")
@@ -127,7 +104,7 @@
                 $scope.listTechnologyUser = response.data;
             }, function (response) {
                 // Second function handles error
-                    $scope.listTechnologyUser = "Something went wrong";
+                $scope.listTechnologyUser = "Something went wrong";
             });
     });
 </script>

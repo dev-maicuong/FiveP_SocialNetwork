@@ -240,6 +240,7 @@
     <Compile Include="Models\Json\ListTags.cs" />
     <Compile Include="Models\Json\ListTechnology.cs" />
     <Compile Include="Models\Json\ListTechnologyQuestion.cs" />
+    <Compile Include="Models\Json\ListtechnologyUsers.cs" />
     <Compile Include="Models\Json\ListTick.cs" />
     <Compile Include="Models\Json\ListUsers.cs" />
     <Compile Include="Models\Json\ProvincialAdmin.cs" />
@@ -4299,7 +4300,6 @@
     <Content Include="Views\View\Member.cshtml" />
     <Content Include="Views\View\Technology.cshtml" />
     <Content Include="Views\View\Post.cshtml" />
-    <Content Include="Views\UserManagement\ManagementQuestion.cshtml" />
     <Content Include="Views\UserManagement\ManagementFriend.cshtml" />
     <Content Include="Views\UserManagement\ManagementTick.cshtml" />
     <Content Include="Views\UserManagement\ManagementNotification.cshtml" />
@@ -4336,6 +4336,9 @@
     <Content Include="Views\Center\FilterQuestionVote.cshtml" />
     <Content Include="Views\Center\FilterQuestionView.cshtml" />
     <Content Include="Views\Center\ForUser.cshtml" />
+    <Content Include="Views\UserManagement\FriendNew.cshtml" />
+    <Content Include="Views\UserManagement\FriendInvitation.cshtml" />
+    <Content Include="Views\UserManagement\SendFriend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

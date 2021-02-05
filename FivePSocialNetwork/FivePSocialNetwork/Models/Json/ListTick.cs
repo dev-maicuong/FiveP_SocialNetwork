@@ -14,6 +14,11 @@ namespace FivePSocialNetwork.Models.Json
         public Nullable<bool> tickQuestion_recycleBin { get; set; }
         public string question_content { get; set; }
         public string question_title { get; set; }
+        public Nullable<int> question_totalRate { get; set; }
+        public Nullable<int> question_Answer { get; set; }
+        public Nullable<int> question_view { get; set; }
+        public Nullable<int> question_totalComment { get; set; }
+
 
     }
 }

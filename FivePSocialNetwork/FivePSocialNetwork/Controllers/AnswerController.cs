@@ -471,5 +471,30 @@ namespace FivePSocialNetwork.Controllers
                 return View();
             }
         }
+        public ActionResult AnswerCorrect(int? answer_id, int? question_id)
+        {
+            Answer answer = db.Answers.Find(answer_id);
+            if (answer.answer_correct == true)
+            {
+                answer.answer_correct = false;
+                db.SaveChanges();
+            }
+            else
+            {
+                Answer check = db.Answers.FirstOrDefault(n => n.question_id == question_id && n.answer_correct == true && n.answer_activate == true && n.answer_userStatus == true && n.answer_admin_recycleBin == false && n.answer_recycleBin == false);
+                if (check == null)
+                {
+                    answer.answer_correct = true;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Answers.Find(check.answer_id).answer_correct = false;
+                    answer.answer_correct = true;
+                    db.SaveChanges();
+                }
+            }
+            return View();
+        }
     }
 }

@@ -33,7 +33,35 @@ namespace FivePSocialNetwork.Controllers
             }
             
         }
-
+        public JsonResult ListQuestions_UserAnswer(int? user_id)
+        {
+            List<Question> questions = db.Answers.Where(n => n.answer_activate == true && n.answer_userStatus == true && n.answer_recycleBin == false && n.answer_admin_recycleBin == false && n.user_id == user_id).GroupBy(x => x.question_id).Select(y => y.FirstOrDefault()).Select(n=>n.Question).ToList();
+            List<ListQuestions> listQuestions = questions.Select(n => new ListQuestions
+            {
+                question_id = n.question_id,
+                question_content = n.question_content,
+                question_dateCreate = n.question_dateCreate.Value.ToShortDateString(),
+                question_dateEdit = n.question_dateEdit.Value.ToShortDateString(),
+                user_id = n.user_id,
+                question_title = n.question_title,
+                question_Answer = n.question_Answer,
+                question_view = n.question_view,
+                question_totalComment = n.question_totalComment,
+                question_totalRate = n.question_totalRate,
+                question_medalCalculator = n.question_medalCalculator,
+                question_userStatus = n.question_userStatus,
+                question_popular = n.question_popular,
+                user_firstName = n.User.user_firstName,
+                user_lastName = n.User.user_lastName,
+                user_popular = n.User.user_popular,
+                user_goldMedal = n.User.user_goldMedal,
+                user_silverMedal = n.User.user_silverMedal,
+                user_brozeMedal = n.User.user_brozeMedal,
+                user_vipMedal = n.User.user_vipMedal,
+                user_avatar = n.User.user_avatar,
+            }).ToList();
+            return Json(listQuestions, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public ActionResult AddFriend([Bind(Include = "friend_id,userRequest_id,userResponse_id,friend_status,friend_dateRequest,friend_dateResponse,friend_dateUnfriend,friend_recycleBin")] Friend friend, Message message)
         {
@@ -124,10 +152,6 @@ namespace FivePSocialNetwork.Controllers
 
 
         //---------------------------------------------user Quản lý câu hỏi --------------------------------
-        public ActionResult ManagementQuestion()
-        {
-            return View();
-        }
         public JsonResult ListQuestions(int? user_id)
         {
             List<Question> questions = db.Questions.Where(n => n.question_activate == true && n.question_admin_recycleBin == false && n.user_id == user_id).ToList();
@@ -180,6 +204,7 @@ namespace FivePSocialNetwork.Controllers
         }
 
         //---------------------------------------------user quản lý bạn bè--------------------------------
+        //Tất cả bạn bè
         public ActionResult ManagementFriend()
         {
             return View();
@@ -191,30 +216,151 @@ namespace FivePSocialNetwork.Controllers
             {
                 int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
                 List<Friend> friends = db.Friends.Where(n => (n.userResponse_id == user_id || n.userRequest_id == user_id) && n.friend_status == true && n.friend_recycleBin == false).ToList();
-                List<ListFriend> listFriends = friends.Select(n => new ListFriend
+                List<ListUsers> listUsers = new List<ListUsers>();
+                foreach(var item in friends)
                 {
-                    userRequest_id = n.userRequest_id,
-                    userResponse_id = n.userResponse_id,
-                    friend_dateRequest = n.friend_dateRequest.Value.ToShortDateString(),
-                    friend_dateResponse = n.friend_dateResponse.Value.ToShortDateString(),
-                    friend_dateUnfriend = n.friend_dateUnfriend.Value.ToShortDateString(),
-                    friend_status = n.friend_status,
-                    user_firstName = n.User.user_firstName,
-                    user_lastName = n.User.user_lastName,
-                    user_avatar = n.User.user_avatar,
-                    user_popular = n.User.user_popular,
-                    user_goldMedal = n.User.user_goldMedal,
-                    user_silverMedal = n.User.user_silverMedal,
-                    user_brozeMedal = n.User.user_brozeMedal,
-                    user_vipMedal = n.User.user_vipMedal,
-
-                }).ToList();
-                return Json(listFriends, JsonRequestBehavior.AllowGet);
+                    if(item.userRequest_id == user_id)
+                    {
+                        listUsers.Add(new ListUsers
+                        {
+                            user_id = (int)item.userResponse_id,
+                            user_firstName = item.User1.user_firstName,
+                            user_lastName = item.User1.user_lastName,
+                            user_avatar = item.User1.user_avatar,
+                            user_popular = item.User1.user_popular
+                        });
+                    }
+                    else if(item.userResponse_id == user_id)
+                    {
+                        listUsers.Add(new ListUsers
+                        {
+                            user_id = (int)item.userRequest_id,
+                            user_firstName = item.User.user_firstName,
+                            user_lastName = item.User.user_lastName,
+                            user_avatar = item.User.user_avatar,
+                            user_popular = item.User.user_popular
+                        });
+                    }
+                }
+                return Json(listUsers, JsonRequestBehavior.AllowGet);
             }
 
             return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
         }
+        //Bạn bè mới kết bạn gần đây
+        public ActionResult FriendNew()
+        {
+            return View();
+        }
+        public JsonResult FriendNewJson()
+        {
+            //Kiểm tra cookie
+            if (Request.Cookies["user_id"] != null)
+            {
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                List<Friend> friends = db.Friends.Where(n => (n.userResponse_id == user_id || n.userRequest_id == user_id) && n.friend_status == true && n.friend_recycleBin == false).OrderByDescending(n=>n.friend_dateResponse).Take(18).ToList();
+                List<ListUsers> listUsers = new List<ListUsers>();
+                foreach (var item in friends)
+                {
+                    if (item.userRequest_id == user_id)
+                    {
+                        listUsers.Add(new ListUsers
+                        {
+                            user_id = (int)item.userResponse_id,
+                            user_firstName = item.User1.user_firstName,
+                            user_lastName = item.User1.user_lastName,
+                            user_avatar = item.User1.user_avatar,
+                            user_popular = item.User1.user_popular
+                        });
+                    }
+                    else if (item.userResponse_id == user_id)
+                    {
+                        listUsers.Add(new ListUsers
+                        {
+                            user_id = (int)item.userRequest_id,
+                            user_firstName = item.User.user_firstName,
+                            user_lastName = item.User.user_lastName,
+                            user_avatar = item.User.user_avatar,
+                            user_popular = item.User.user_popular
+                        });
+                    }
+                }
+                return Json(listUsers, JsonRequestBehavior.AllowGet);
+            }
 
+            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+        }
+        //Lời mời kết bạn
+        public ActionResult FriendInvitation()
+        {
+            return View();
+        }
+        public JsonResult FriendInvitationJson()
+        {
+            //Kiểm tra cookie
+            if (Request.Cookies["user_id"] != null)
+            {
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                List<Friend> friends = db.Friends.Where(n => n.userResponse_id == user_id && n.friend_status == false && n.friend_recycleBin == false).ToList();
+                List<ListUsers> listUsers = new List<ListUsers>();
+                foreach (var item in friends)
+                {
+                    listUsers.Add(new ListUsers
+                    {
+                        user_id = (int)item.userRequest_id,
+                        user_firstName = item.User.user_firstName,
+                        user_lastName = item.User.user_lastName,
+                        user_avatar = item.User.user_avatar,
+                        user_popular = item.User.user_popular
+                    });
+                }
+                return Json(listUsers, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+        }
+        //Lời kết bạn gửi đi
+        public ActionResult SendFriend()
+        {
+            return View();
+        }
+        public JsonResult SendFriendJson()
+        {
+            //Kiểm tra cookie
+            if (Request.Cookies["user_id"] != null)
+            {
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                List<Friend> friends = db.Friends.Where(n => n.userRequest_id == user_id && n.friend_status == false && n.friend_recycleBin == false).ToList();
+                List<ListUsers> listUsers = new List<ListUsers>();
+                foreach (var item in friends)
+                {
+                    listUsers.Add(new ListUsers
+                    {
+                        user_id = (int)item.userResponse_id,
+                        user_firstName = item.User1.user_firstName,
+                        user_lastName = item.User1.user_lastName,
+                        user_avatar = item.User1.user_avatar,
+                        user_popular = item.User1.user_popular
+                    });
+                }
+                return Json(listUsers, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+        }
+        //----------------------------------------Công nghệ user--------------------------------
+        public JsonResult ListTechnologyUser()
+        {
+            List<Teachnology_User> teachnology_Users = db.Teachnology_User.Where(n => n.technology_recycleBin == false).ToList();
+            List<ListtechnologyUsers> listtechnologyUsers = teachnology_Users.Select(n => new ListtechnologyUsers
+            {
+                technologyUser_id = n.technologyUser_id,
+                user_id = n.user_id,
+                technology_id = n.technology_id,
+                technology_name = n.Technology.technology_name
+            }).ToList();
+            return Json(listtechnologyUsers, JsonRequestBehavior.AllowGet);
+        }
         //---------------------------------------------user quản lý các bài viết đã đánh dấu--------------------------------
         public ActionResult ManagementTick()
         {
@@ -234,14 +380,25 @@ namespace FivePSocialNetwork.Controllers
                     tickQuestion_dateCreate = n.tickQuestion_dateCreate.Value.ToShortDateString(),
                     question_content = n.Question.question_content,
                     question_title = n.Question.question_title,
-
-
+                    question_totalRate = n.Question.question_totalRate,
+                    question_Answer = n.Question.question_Answer,
+                    question_view = n.Question.question_view,
+                    question_totalComment = n.Question.question_totalComment
                 }).ToList();
                 return Json(listTicks, JsonRequestBehavior.AllowGet);
             }
             return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
         }
-
+        public ActionResult UnTick(int? id)
+        {
+            if(Request.Cookies["user_id"] != null)
+            {
+                db.Tick_Question.Find(id).tickQuestion_recycleBin = true;
+                db.SaveChanges();
+                return View();
+            }
+            return View();
+        }
         //---------------------------------------------user quản lý các thông báo--------------------------------
         //hiển thị tất cả thông báo trong phần quản lý
         public ActionResult ManagementNotification()
@@ -274,7 +431,16 @@ namespace FivePSocialNetwork.Controllers
             }
             return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
         }
-
+        public ActionResult RecycleBinNotification(int? id)
+        {
+            if (Request.Cookies["user_id"] != null)
+            {
+                db.Notifications.Find(id).notification_recycleBin = true;
+                db.SaveChanges();
+                return View();
+            }
+            return View();
+        }
         //---------------------------------------------user quản lý các bài viết--------------------------------
         public ActionResult ManagementPost()
         {

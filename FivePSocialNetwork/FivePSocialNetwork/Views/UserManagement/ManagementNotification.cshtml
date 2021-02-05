@@ -3,7 +3,7 @@
     ViewBag.Title = "ManagementNotification";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
-<div class="header bg-primary pb-6">
+<div class="header pb-6" style="background-color:orange">
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -18,16 +18,13 @@
                     </nav>
                 </div>
                 <div class="col-lg-6 col-5 text-right">
-                    <a href="@Url.Action("PostQuestion","Question")" class="btn btn-sm btn-neutral"><i class="far fa-paper-plane"></i> Đặt câu hỏi?</a>
-                    <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>
+                    @*<a href="@Url.Action("PostQuestion","Question")" class="btn btn-sm btn-neutral"><i class="far fa-paper-plane"></i> Đặt câu hỏi?</a>
+                    <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>*@
                 </div>
             </div>
-            <!-- Card stats -->
-
         </div>
     </div>
 </div>
-
 <!-- Page content -->
 <div class="container-fluid mt--6" ng-app="myApp">
     <div class="row" ng-controller="myCtrl">
@@ -35,24 +32,19 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header border-0">
-                    <h3 class="mb-0">.. Thông báo...</h3>
+                    <h3 class="mb-0">Các thông báo của bạn</h3>
                 </div>
-
-                <div class="float-right" style="padding: 10px;">
-                    <a href="#" style="margin-left: 5px;">Nổi tiếng &nbsp;&nbsp;&nbsp; </a>
-                    <a href="#" style="margin-left: 5px;">Trả lời &nbsp;&nbsp;&nbsp;</a>
-
-
-                    <a href="#" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp; <i class="fas fa-undo-alt"></i></a>
-
-                </div>
-
+                @*<div class="float-right" style="padding: 10px;">
+            <a href="#" style="margin-left: 5px;">Nổi tiếng &nbsp;&nbsp;&nbsp; </a>
+            <a href="#" style="margin-left: 5px;">Trả lời &nbsp;&nbsp;&nbsp;</a>
+            <a href="#" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp; <i class="fas fa-undo-alt"></i></a>
+        </div>*@
                 <div class="form-group mb-0">
                     <div class="input-group input-group-alternative input-group-merge">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                         </div>
-                        <input class="form-control" placeholder="Tìm ..." type="text">
+                        <input class="form-control" ng-model="txtSearch" placeholder="Tìm ..." type="text">
                     </div>
                 </div>
 
@@ -64,18 +56,15 @@
                             <tr>
                                 <th scope="col" class="text-center"> Stt</th>
                                 <th scope="col" class="sort" data-sort="name">Câu hỏi</th>
-
                                 <th scope="col" class="text-center">
-                                    <a href="#"><i class="fas fa-long-arrow-alt-up" style="font-size:25px"></i></a>
-                                    <a href="#"><i class="fas fa-long-arrow-alt-down" style="font-size:25px"></i></a>
+                                    @*<a href="#"><i class="fas fa-long-arrow-alt-up" style="font-size:25px"></i></a>
+                                    <a href="#"><i class="fas fa-long-arrow-alt-down" style="font-size:25px"></i></a>*@
                                 </th>
-
-
                             </tr>
                         </thead>
                         <tbody class="list">
 
-                            <tr ng-repeat="x in listNotification">
+                            <tr ng-repeat="x in filteredTodos| filter: txtSearch">
                                 <td class="text-center">
                                     {{$index}}
                                 </td>
@@ -86,36 +75,62 @@
                                             <i class="fas fa-info-circle"></i>
                                         </a>
                                         <div class="media-body">
-                                            <span class="name mb-0 text-sm">
+                                            <span class="name mb-0 text-sm" ng-show="x.question_title.length > 50">
+                                                {{x.question_title.substring(0, 50) + "..."}}
+                                            </span>
+                                            <span class="name mb-0 text-sm" ng-show="x.question_title.length < 50">
                                                 {{x.question_title}}
                                             </span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="budget text-center">
-                                    <a href="@Url.Action("RecycleBinNotification","Display")"><i class="fas fa-times" style="font-size:23px"></i></a>
+                                    <a ng-click="recycleBinNotification(x.notification_id,$index)" href="#"><i class="fas fa-times" style="font-size:23px"></i></a>
                                 </td>
-
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
-
             </div>
+            <pagination ng-model="currentPage"
+                        total-items="list.length"
+                        max-size="maxSize"
+                        boundary-links="true">
+            </pagination>
         </div>
     </div>
 </div>
 <script>
-    var app = angular.module('myApp', []);
+    var app = angular.module('myApp', ["ui.bootstrap"]);
     app.controller('myCtrl', function ($scope, $http) {
         $http.get("/UserManagement/ListNotification")
             .then(function (response) {
-                // First function handles success
-                $scope.listNotification = response.data;
+                //Gia dinh
+                $scope.filteredTodos = []
+                    , $scope.currentPage = 1
+                    , $scope.numPerPage = 12
+                    , $scope.maxSize = 5;
+
+                //Xac dinh list phan trang
+                $scope.makeTodos = function () {
+                    $scope.list = response.data;
+                }
+                $scope.makeTodos();
+
+                //Phân trang
+                $scope.$watch('currentPage + numPerPage', function () {
+                    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                        , end = begin + $scope.numPerPage;
+
+                    $scope.filteredTodos = $scope.list.slice(begin, end);
+                });
             }, function (response) {
                 // Second function handles error
-                    $scope.listNotification = "Something went wrong";
+                $scope.content = "Something went wrong";
             });
+        $scope.recycleBinNotification = function (id, idx) {
+            $scope.filteredTodos.splice(idx, 1);
+            $http.get("/UserManagement/RecycleBinNotification?id=" + id)
+        }
     });
 </script>

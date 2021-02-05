@@ -475,7 +475,7 @@ namespace FivePSocialNetwork.Controllers
                 }
             }
             db.SaveChanges();
-            return View(user_id);
+            return Redirect(Request.UrlReferrer.ToString());
         }
         public ActionResult Security()
         {

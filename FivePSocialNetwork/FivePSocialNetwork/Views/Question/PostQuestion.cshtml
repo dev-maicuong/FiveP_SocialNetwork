@@ -1,4 +1,5 @@
 ﻿@using FivePSocialNetwork.Models;
+@model Question
 @{
     if (Request.Cookies["user_id"] == null)
     {
@@ -7,7 +8,7 @@
     int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
     User user = db.Users.Find(user_id);
-
+    string strSelected = "selected";
     ViewBag.Title = "PostQuestion";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
@@ -22,7 +23,7 @@
     }
 </style>
 <script src="~/assets/ckeditor5/build/ckeditor.js"></script>
-<div class="header bg-primary pb-6">
+<div class="header pb-6" style="background-color:#ffa500">
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -92,13 +93,17 @@
                 <div class="card-body">
                     <form class="ui form" method="post">
                         @Html.AntiForgeryToken()
+                        @if(Model != null)
+                        {
+                            <input type="hidden" name="question_id" value="@Model.question_id"/>
+                        }
                         <h6 class="heading-small text-muted mb-4">Đặt câu hỏi?</h6>
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group field">
                                         <label class="form-control-label" for="input-address"><i class="fas fa-pen-alt"></i> Tiêu để câu hỏi?</label>
-                                        <input value="" name="question_title" class="form-control" placeholder="................................" type="text">
+                                        <input value="@if (Model != null) { @Model.question_title} " name="question_title" class="form-control" placeholder="................................" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +111,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group field">
                                         <label class="form-control-label" for="input-address"><i class="far fa-edit"></i> Chi tiết</label>
-                                        <textarea class="form-control" id="editor" name="question_content" placeholder="................................"></textarea>
+                                        <textarea class="form-control" id="editor" name="question_content" placeholder="................................">@if (Model != null) { @Model.question_content} </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -115,16 +120,34 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-address"><i class="fas fa-tags"></i> Seo</label>
                                         <div class="ui fluid multiple search selection dropdown field">
-                                            <input name="strTagsQuestion" type="hidden">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">Skills</div>
-                                            <div class="menu">
-                                                <div class="item" data-value="angular">Angular</div>
-                                                <div class="item" data-value="css">CSS</div>
-                                                <div class="item" data-value="design">Graphic Design</div>
-                                                <div class="item" data-value="ember">Ember</div>
-                                                <div class="item" data-value="html">HTML</div>
-                                            </div>
+                                            @if (Model != null)
+                                            {
+                                                List<Tags_Question> tags_Questions = db.Tags_Question.Where(n => n.question_id == Model.question_id).ToList();
+                                                <input name="strTagsQuestion" type="hidden" value="@foreach (var item in tags_Questions) { if (item.Equals(tags_Questions.Last())) {@(item.tagsQuestion_name) }else{@(item.tagsQuestion_name + ",")} }">
+                                                <i class="dropdown icon"></i>
+                                                <div class="default text">Từ khóa</div>
+                                                <div class="menu">
+                                                    <div class="item" data-value="angular">Angular</div>
+                                                    <div class="item" data-value="css">CSS</div>
+                                                    <div class="item" data-value="design">Graphic Design</div>
+                                                    <div class="item" data-value="ember">Ember</div>
+                                                    <div class="item" data-value="html">HTML</div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input name="strTagsQuestion" type="hidden">
+                                                <i class="dropdown icon"></i>
+                                                <div class="default text">Từ khóa</div>
+                                                <div class="menu">
+                                                    <div class="item" data-value="angular">Angular</div>
+                                                    <div class="item" data-value="css">CSS</div>
+                                                    <div class="item" data-value="design">Graphic Design</div>
+                                                    <div class="item" data-value="ember">Ember</div>
+                                                    <div class="item" data-value="html">HTML</div>
+                                                </div>
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +163,17 @@
                                         <select class="ui fluid search dropdown" name="technologyQuestion" multiple="">
                                             @foreach (var item in technologies)
                                             {
-                                                <option value="@item.technology_id">@item.technology_name</option>
+                                                if (Model != null)
+                                                {
+                                                    List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n => n.question_id == Model.question_id).ToList();
+
+                                                    <option value="@item.technology_id" @foreach (var item2 in teachnology_Questions) { if (item2.technology_id == item.technology_id) { @strSelected } }>@item.technology_name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.technology_id">@item.technology_name</option>
+
+                                                }
 
                                             }
                                         </select>

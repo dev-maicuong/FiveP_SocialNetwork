@@ -13,9 +13,29 @@ namespace FivePSocialNetwork.Controllers
         FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
         // GET: Question
         //Giao diện đăng câu hỏi.
-        public ActionResult PostQuestion()
+        public ActionResult PostQuestion(int? id)
         {
-            return View();
+            //nếu ko có cookies cho về trang tất cả câu hỏi.
+            if (Request.Cookies["user_id"] == null)
+            {
+                return Redirect(HomeCenter);
+            }
+            // khi tồn tại cookies
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Question check = db.Questions.SingleOrDefault(n => n.user_id == user_id && n.question_id == id);
+            if(id == null)
+            {
+                return View();
+            }
+            else if(check == null)
+            {
+                return View();
+            }
+            else
+            {
+                Question question = db.Questions.FirstOrDefault(n => n.question_id == id && n.question_activate == true && n.question_userStatus == true && n.question_admin_recycleBin == false && n.question_recycleBin == false);
+                return View(question);
+            }
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -30,23 +50,34 @@ namespace FivePSocialNetwork.Controllers
             }
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-
             //tách chuỗi thẻ tags
             string[] tagsQuestion = strTagsQuestion.Split(',');
-
-            if (question.question_dateCreate != null)
+            
+            if (question.question_id != 0)
             {
+                Question check = db.Questions.SingleOrDefault(n => n.user_id == user_id && n.question_id == question.question_id);
+                if (check == null)
+                {
+                    return Redirect(HomeCenter);
+                }
+                Question question1 = db.Questions.Find(question.question_id);
                 //công nghệ
-                List<Teachnology_Question> technology_Posts = db.Teachnology_Question.Where(n => n.question_id == question.question_id).ToList();
-                if (technology_Posts == null)
+                List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n => n.question_id == question.question_id).ToList();
+                question1.question_keywordSearch = question.question_title + question.question_content;
+                if (teachnology_Questions == null)
                 {
                     foreach (var item in technologyQuestion)
                     {
+                        question1.question_keywordSearch = question1.question_keywordSearch + db.Technologies.Find(item).technology_name;
+                        Technology technology = db.Technologies.Find(item);
+                        technology.technology_totalQuestion += 1;
+                        technology.technology_popular += 1;
                         Teachnology_Question tp = new Teachnology_Question()
                         {
                             question_id = question.question_id,
                             technology_id = item,
-                            
+                            teachnologyQuestion_recycleBin = false
+
                         };
                         db.Teachnology_Question.Add(tp);
                     }
@@ -55,7 +86,7 @@ namespace FivePSocialNetwork.Controllers
                 {
                     //Xóa
                     int variable = 0;
-                    foreach (var item in technology_Posts)
+                    foreach (var item in teachnology_Questions)
                     {
                         foreach (var item2 in technologyQuestion)
                         {
@@ -67,6 +98,9 @@ namespace FivePSocialNetwork.Controllers
                         }
                         if (variable == 0)
                         {
+                            Technology technology = db.Technologies.Find(item.technology_id);
+                            technology.technology_totalQuestion -= 1;
+                            technology.technology_popular -= 1;
                             db.Teachnology_Question.Remove(db.Teachnology_Question.Find(item.teachnologyQuestion_id));
                             db.SaveChanges();
                         }
@@ -74,20 +108,26 @@ namespace FivePSocialNetwork.Controllers
                     }
 
                     //Thêm
-                    List<Teachnology_Question> technology_Posts1 = db.Teachnology_Question.Where(n => n.question_id == question.question_id).ToList();
+                    List<Teachnology_Question> teachnology_Questions1 = db.Teachnology_Question.Where(n => n.question_id == question.question_id).ToList();
                     variable = 0;
                     foreach (var item in technologyQuestion)
                     {
-                        foreach (var item2 in technology_Posts1)
+                        foreach (var item2 in teachnology_Questions1)
                         {
                             if (item == item2.technology_id)
                             {
+                                question1.question_keywordSearch = question1.question_keywordSearch + db.Technologies.Find(item).technology_name;
+
                                 variable = 1;
                                 break;
                             }
                         }
                         if (variable == 0)
                         {
+                            question1.question_keywordSearch = question1.question_keywordSearch + db.Technologies.Find(item).technology_name;
+                            Technology technology = db.Technologies.Find(item);
+                            technology.technology_totalQuestion += 1;
+                            technology.technology_popular += 1;
                             Teachnology_Question tp = new Teachnology_Question()
                             {
                                 question_id = question.question_id,
@@ -105,6 +145,8 @@ namespace FivePSocialNetwork.Controllers
                 {
                     foreach (var item in tagsQuestion)
                     {
+                        question1.question_keywordSearch = question1.question_keywordSearch + item;
+
                         Tags_Question tag = new Tags_Question()
                         {
                             tagsQuestion_name = item,
@@ -145,12 +187,15 @@ namespace FivePSocialNetwork.Controllers
                         {
                             if (item == item2.tagsQuestion_name)
                             {
+                                question1.question_keywordSearch = question1.question_keywordSearch + item;
                                 variable = 1;
                                 break;
                             }
                         }
                         if (variable == 0)
                         {
+                            question1.question_keywordSearch = question1.question_keywordSearch + item;
+
                             Tags_Question tag = new Tags_Question()
                             {
                                 tagsQuestion_name = item,
@@ -162,28 +207,14 @@ namespace FivePSocialNetwork.Controllers
                         variable = 0;
                     }
                 }
-                question.question_dateCreate = DateTime.Now;
-                question.question_dateEdit = DateTime.Now;
-                question.user_id = user_id;
-                question.question_totalTick = 0;
-                question.question_activate = true;
-                question.question_Answer = 0;
-                question.question_totalComment = 0;
-                question.question_view = 0;
-                question.question_totalRate = 0;
-                question.question_medalCalculator = 0;
-                question.question_recycleBin = false;
-                question.question_userStatus = true;
-                question.question_popular = 0;
-                question.question_admin_recycleBin = true;
                 //lưu từ khóa tìm kiếm đang còn...
-                question.question_keywordSearch = question.question_content + question.question_title;
-
-                db.Questions.Add(question);
+                question1.question_content = question.question_content;
+                question1.question_title = question.question_title;
+                question1.question_dateEdit = DateTime.Now;
                 db.SaveChanges();
                 return View(question);
             }
-            else if (question.question_dateCreate == null)
+            else if (question.question_id == 0)
             {
                 //lưu tỉm kiếm
                 question.question_keywordSearch = question.question_content + question.question_title;
@@ -191,6 +222,9 @@ namespace FivePSocialNetwork.Controllers
                 {
                     // lưu tên công nghệ
                     question.question_keywordSearch = question.question_keywordSearch + db.Technologies.Find(item).technology_name;
+                    Technology technology = db.Technologies.Find(item);
+                    technology.technology_totalQuestion += 1;
+                    technology.technology_popular += 1;
                     //lưu công nghệ câu hỏi
                     Teachnology_Question tp = new Teachnology_Question()
                     {
