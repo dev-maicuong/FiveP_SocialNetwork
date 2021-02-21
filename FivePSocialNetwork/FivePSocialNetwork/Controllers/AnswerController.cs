@@ -12,6 +12,36 @@ namespace FivePSocialNetwork.Controllers
     {
         FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
         // GET: Answer
+        public ActionResult PostAnswer(int? id)
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Answer answer = db.Answers.SingleOrDefault(n => n.answer_id == id && n.user_id == user_id);
+            if(answer != null)
+            {
+                return View(answer);
+            }
+            return Redirect("/Center/IndexCenter");
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditAnser(int? answer_id , string answer_content)
+        {
+            db.Answers.Find(answer_id).answer_content = answer_content;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        public ActionResult RecycleBinAnswer(int? id)
+        {
+            db.Answers.Find(id).answer_recycleBin = true;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        public ActionResult RecycleBinComment(int? id)
+        {
+            db.Comment_Answer.Find(id).commentAnswer_userStatus = false;
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
@@ -190,6 +220,8 @@ namespace FivePSocialNetwork.Controllers
                 if (replyPostCalculateMedal == 4)
                 {
                     db.Users.Find(answer.user_id).user_brozeMedal++;
+                    db.Users.Find(answer.user_id).user_popular += db.Questions.Find(answer.question_id).question_popular;
+
                 }
                 else if (replyPostCalculateMedal == 8)
                 {
@@ -222,10 +254,14 @@ namespace FivePSocialNetwork.Controllers
                 //Lưu huy chương người dùng
                 answer.answer_medalCalculate--;
                 answer.answer_totalRate--;
+                var idRepLyPost = answer_id;
+                var idPost = db.Answers.Find(idRepLyPost).question_id.Value;
+                db.Questions.Find(idPost).question_popular--;
                 db.SaveChanges();
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3)
                 {
+                    db.Users.Find(answer.user_id).user_popular -= db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7)
@@ -244,9 +280,7 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(answer.user_id).user_vipMedal--;
                 }
                 //Lưu đánh giá trả lời bài viết
-                var idRepLyPost = answer_id;
-                var idPost = db.Answers.Find(idRepLyPost).question_id.Value;
-                db.Questions.Find(idPost).question_popular--;
+                
                 db.Rate_Answer.Find(checkRateAnswer.rateAnswer_id).rateAnswer_rateStatus = null;
                 db.SaveChanges();
                 return View();
@@ -260,6 +294,7 @@ namespace FivePSocialNetwork.Controllers
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4)
                 {
+                    db.Users.Find(answer.user_id).user_popular += db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8)
@@ -294,6 +329,7 @@ namespace FivePSocialNetwork.Controllers
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4 || replyPostCalculateMedal == 5)
                 {
+                    db.Users.Find(answer.user_id).user_popular += db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8 || replyPostCalculateMedal == 9)
@@ -340,6 +376,7 @@ namespace FivePSocialNetwork.Controllers
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3)
                 {
+                    db.Users.Find(answer.user_id).user_popular -= db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7)
@@ -373,10 +410,14 @@ namespace FivePSocialNetwork.Controllers
                 //Lưu huy chương
                 answer.answer_medalCalculate++;
                 answer.answer_totalRate++;
+                var idRepLyPost = answer_id;
+                var idPost = db.Answers.Find(idRepLyPost).question_id.Value;
+                db.Questions.Find(idPost).question_popular++;
                 db.SaveChanges();
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4)
                 {
+                    db.Users.Find(answer.user_id).user_popular += db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8)
@@ -395,9 +436,7 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(answer.user_id).user_goldMedal--;
                 }
                 //Lưu đánh giá
-                var idRepLyPost = answer_id;
-                var idPost = db.Answers.Find(idRepLyPost).question_id.Value;
-                db.Questions.Find(idPost).question_popular++;
+                
                 db.Rate_Answer.Find(check.rateAnswer_id).rateAnswer_rateStatus = null;
                 db.SaveChanges();
                 return View();
@@ -411,6 +450,7 @@ namespace FivePSocialNetwork.Controllers
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3)
                 {
+                    db.Users.Find(answer.user_id).user_popular -= db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7)
@@ -441,10 +481,14 @@ namespace FivePSocialNetwork.Controllers
                 //Lưu huy chương
                 answer.answer_medalCalculate -= 2;
                 answer.answer_totalRate-=2;
+                var idRepLyPost = answer_id;
+                var idPost = db.Answers.Find(idRepLyPost).question_id.Value;
+                db.Questions.Find(idPost).question_popular -= 2;
                 db.SaveChanges();
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3 || replyPostCalculateMedal == 2)
                 {
+                    db.Users.Find(answer.user_id).user_popular -= db.Questions.Find(answer.question_id).question_popular;
                     db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7 || replyPostCalculateMedal == 6)
@@ -463,9 +507,7 @@ namespace FivePSocialNetwork.Controllers
                     db.Users.Find(answer.user_id).user_goldMedal++;
                 }
                 //Lưu đánh giá
-                var idRepLyPost = answer_id;
-                var idPost = db.Answers.Find(idRepLyPost).question_id.Value;
-                db.Questions.Find(idPost).question_popular -= 2;
+                
                 db.Rate_Answer.Find(check.rateAnswer_id).rateAnswer_rateStatus = false;
                 db.SaveChanges();
                 return View();
@@ -474,9 +516,15 @@ namespace FivePSocialNetwork.Controllers
         public ActionResult AnswerCorrect(int? answer_id, int? question_id)
         {
             Answer answer = db.Answers.Find(answer_id);
+            User user = db.Users.Find(answer.user_id);
+            Question question = db.Questions.Find(question_id);
+
             if (answer.answer_correct == true)
             {
                 answer.answer_correct = false;
+                user.user_vipMedal -= 1;
+                user.user_popular -= question.question_popular;
+                question.question_popular -= 10;
                 db.SaveChanges();
             }
             else
@@ -485,12 +533,20 @@ namespace FivePSocialNetwork.Controllers
                 if (check == null)
                 {
                     answer.answer_correct = true;
+                    user.user_vipMedal += 1;
+                    user.user_popular += question.question_popular;
+                    question.question_popular += 10;
                     db.SaveChanges();
                 }
                 else
                 {
                     db.Answers.Find(check.answer_id).answer_correct = false;
+                    db.Users.Find(check.user_id).user_vipMedal -= 1;
+                    db.Users.Find(check.user_id).user_popular -= db.Questions.Find(check.question_id).question_popular;
+
                     answer.answer_correct = true;
+                    user.user_vipMedal += 1;
+                    user.user_popular += question.question_popular;
                     db.SaveChanges();
                 }
             }

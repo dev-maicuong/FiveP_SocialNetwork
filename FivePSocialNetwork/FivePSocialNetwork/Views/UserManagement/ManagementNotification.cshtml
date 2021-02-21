@@ -57,8 +57,7 @@
                                 <th scope="col" class="text-center"> Stt</th>
                                 <th scope="col" class="sort" data-sort="name">Câu hỏi</th>
                                 <th scope="col" class="text-center">
-                                    @*<a href="#"><i class="fas fa-long-arrow-alt-up" style="font-size:25px"></i></a>
-                                    <a href="#"><i class="fas fa-long-arrow-alt-down" style="font-size:25px"></i></a>*@
+                                    Bỏ thông báo
                                 </th>
                             </tr>
                         </thead>
@@ -75,12 +74,14 @@
                                             <i class="fas fa-info-circle"></i>
                                         </a>
                                         <div class="media-body">
-                                            <span class="name mb-0 text-sm" ng-show="x.question_title.length > 50">
-                                                {{x.question_title.substring(0, 50) + "..."}}
-                                            </span>
-                                            <span class="name mb-0 text-sm" ng-show="x.question_title.length < 50">
-                                                {{x.question_title}}
-                                            </span>
+                                            <a ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
+                                                <span class="name mb-0 text-sm" ng-show="x.question_title.length > 50">
+                                                    {{x.question_title.substring(0, 50) + "..."}}
+                                                </span>
+                                                <span class="name mb-0 text-sm" ng-show="x.question_title.length < 50">
+                                                    {{x.question_title}}
+                                                </span>
+                                            </a> 
                                         </div>
                                     </div>
                                 </td>

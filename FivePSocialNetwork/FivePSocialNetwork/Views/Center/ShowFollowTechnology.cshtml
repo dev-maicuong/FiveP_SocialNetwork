@@ -1,7 +1,7 @@
 ﻿
 @using FivePSocialNetwork.Models;
 @{
-    ViewBag.Title = "FilterQuestionView";
+    ViewBag.Title = "ShowFollowTechnology";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
     if (Request.Cookies["user_id"] != null)
     {
@@ -21,7 +21,7 @@
             <div class="col-xl-8">
                 @Html.Action("DefaultIndexCenter", "ShareView")
                 <div>
-                    <h2>Câu hỏi có lượt xem cao nhất.</h2>
+                    <h2>Các câu hỏi dành cho bạn</h2>
                 </div>
                 <div class="row">
                     <div ng-repeat="x in filteredTodos" class="hov col-lg-12 bg-white mt-3" style="box-shadow: 0 0 5px 1px lightgrey;">
@@ -149,7 +149,7 @@
     var app = angular.module('myApp', ["ui.bootstrap"]);
     app.controller('myCtrl', function ($scope, $http) {
         // câu hỏi gần đây
-        $http.get("/Center/FilterQuestionViewJson")
+        $http.get("/Center/ShowFollowTechnologyJson?id=" + @ViewBag.id)
             .then(function (response) {
                 //Gia dinh
                 $scope.filteredTodos = []
@@ -183,15 +183,6 @@
                 // Second function handles error
                 $scope.listUsers = "Something went wrong";
             });
-        //show User gợi ý kết bạn
-        $http.get("/ShareView/SuggestiotMakeFriends")
-            .then(function (response) {
-                // First function handles success
-                $scope.listSuggestiotMakeFriends = response.data;
-            }, function (response) {
-                // Second function handles error
-                $scope.listSuggestiotMakeFriends = "Something went wrong";
-            });
         // show công nghệ phổ biến
         $http.get("/Center/ListTechnologyPopular")
             .then(function (response) {
@@ -200,6 +191,15 @@
             }, function (response) {
                 // Second function handles error
                 $scope.listTechnologyPopular = "Something went wrong";
+            });
+        //show User gợi ý kết bạn
+        $http.get("/ShareView/SuggestiotMakeFriends")
+            .then(function (response) {
+                // First function handles success
+                $scope.listSuggestiotMakeFriends = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listSuggestiotMakeFriends = "Something went wrong";
             });
         //công nghệ câu hỏi
         $http.get("/UserManagement/ListTechnologyQuestion")
@@ -213,6 +213,3 @@
     });
 
 </script>
-
-
-

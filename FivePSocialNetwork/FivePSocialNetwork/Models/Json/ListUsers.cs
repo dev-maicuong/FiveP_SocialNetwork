@@ -18,6 +18,7 @@ namespace FivePSocialNetwork.Models.Json
         public string user_avatar { get; set; }
         public string user_coverImage { get; set; }
         public Nullable<bool> user_activate { get; set; }
+        public Nullable<bool> user_statusOnline { get; set; }
         public Nullable<bool> user_recycleBin { get; set; }
         public string user_dateCreate { get; set; }
         public string user_dateEdit { get; set; }

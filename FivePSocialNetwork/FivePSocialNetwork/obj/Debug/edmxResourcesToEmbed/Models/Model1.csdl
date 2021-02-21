@@ -499,6 +499,7 @@
     <NavigationProperty Name="Tick_Question" Relationship="Self.FK_Tick_Question_User" FromRole="User" ToRole="Tick_Question" />
     <NavigationProperty Name="View_Post" Relationship="Self.FK_View_Post_User" FromRole="User" ToRole="View_Post" />
     <NavigationProperty Name="View_Question" Relationship="Self.FK_View_Question_User" FromRole="User" ToRole="View_Question" />
+    <Property Name="user_statusOnline" Type="Boolean" />
   </EntityType>
   <EntityType Name="View_Post">
     <Key>

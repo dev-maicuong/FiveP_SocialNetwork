@@ -19,7 +19,7 @@ namespace FivePSocialNetwork.Controllers
             {
                 int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
                 View_Question check = db.View_Question.SingleOrDefault(n => n.question_id == id && n.user_id == user_id);
-                if(check != null && check.viewQuestion_dateCreate.Value.TimeOfDay.Minutes + 30 < DateTime.Now.TimeOfDay.Minutes)
+                if (check != null && (check.viewQuestion_dateCreate.Value.Minute + 30 < DateTime.Now.Minute || check.viewQuestion_dateCreate.Value.Minute - 30 > DateTime.Now.Minute || check.viewQuestion_dateCreate.Value.Hour != DateTime.Now.Hour || check.viewQuestion_dateCreate.Value.Day != DateTime.Now.Day || check.viewQuestion_dateCreate.Value.Year != DateTime.Now.Year))
                 {
                     // Lưu bảng View_Question
                     db.View_Question.Find(check.viewQuestion_id).viewQuestion_dateCreate = DateTime.Now;
@@ -40,10 +40,56 @@ namespace FivePSocialNetwork.Controllers
                     db.SaveChanges();
                 }
             }
-            Question question = db.Questions.SingleOrDefault(n => n.question_id == id && n.question_activate == true && n.question_userStatus == true && n.question_recycleBin == false && n.question_admin_recycleBin == false);
-            return View(question);
+            Question question = db.Questions.SingleOrDefault(n => n.question_id == id && n.question_activate == true && n.question_recycleBin == false && n.question_admin_recycleBin == false);
+            if(question.question_userStatus == true)
+            {
+                return View(question);
+            }
+            else if(question.question_userStatus == false && question.user_id == int.Parse(Request.Cookies["user_id"].Value.ToString()))
+            {
+                return View(question);
+            }
+            else
+            {
+                return Redirect("/Home/Index");
+            }
         }
-        //Danh gia1 questions true
+        //--------------------------------------------Tùy chọn cho bài viết----------------------------------
+        //Đồi trường userStatur trong question == true
+        public ActionResult QuestionStaturT(int? id)
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Question question = db.Questions.FirstOrDefault(n => n.question_id == id && n.user_id == user_id);
+            if(question != null)
+            {
+                question.question_userStatus = true;
+                db.SaveChanges();
+            }
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        public ActionResult QuestionStaturF(int? id)
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Question question = db.Questions.FirstOrDefault(n => n.question_id == id && n.user_id == user_id);
+            if (question != null)
+            {
+                question.question_userStatus = false;
+                db.SaveChanges();
+            }
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+        public ActionResult recycleBinQueston(int? id)
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Question question = db.Questions.FirstOrDefault(n => n.question_id == id && n.user_id == user_id);
+            if (question != null)
+            {
+                question.question_recycleBin = true;
+                db.SaveChanges();
+            }
+            return Redirect("/UserManagement/PageUser");
+        }
+        //--------------------------------------------Danh giá questions true----------------------------------
         [HttpPost]
         [AllowAnonymous]
         public ActionResult RateQuestionT(Rate_Question rate_Question,int? question_id)
@@ -389,6 +435,7 @@ namespace FivePSocialNetwork.Controllers
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
             Show_Activate_Question check = db.Show_Activate_Question.FirstOrDefault(n => n.question_id == question_id && n.user_id == user_id);
+            
             if (check == null)
             {
                 db.Questions.Find(question_id).question_popular++;
@@ -396,14 +443,14 @@ namespace FivePSocialNetwork.Controllers
                 show_Activate_Question.showActivateQ_dateCreate = DateTime.Now;
                 db.Show_Activate_Question.Add(show_Activate_Question);
                 db.SaveChanges();
-                return View();
+                return Redirect(Request.UrlReferrer.ToString());
             }
             else
             {
                 db.Questions.Find(question_id).question_popular--;
                 db.Show_Activate_Question.Remove(db.Show_Activate_Question.Find(check.showActivateQ_id));
                 db.SaveChanges();
-                return View();
+                return Redirect(Request.UrlReferrer.ToString());
             }
 
         }

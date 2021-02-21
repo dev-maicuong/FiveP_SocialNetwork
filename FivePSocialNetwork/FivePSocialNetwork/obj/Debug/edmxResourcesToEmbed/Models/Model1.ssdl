@@ -405,6 +405,7 @@
     <Property Name="user_brozeMedal" Type="int" />
     <Property Name="user_vipMedal" Type="int" />
     <Property Name="user_phone" Type="varchar" MaxLength="15" />
+    <Property Name="user_statusOnline" Type="bit" />
   </EntityType>
   <EntityType Name="View_Post">
     <Key>

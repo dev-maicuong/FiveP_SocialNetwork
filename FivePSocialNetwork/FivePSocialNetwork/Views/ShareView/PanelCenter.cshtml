@@ -7,13 +7,13 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search form -->
-            <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+            <form action="@Url.Action("Search","Center")" method="get" class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
                 <div class="form-group mb-0">
                     <div class="input-group input-group-alternative input-group-merge">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                         </div>
-                        <input class="form-control" placeholder="Bạn cần tìm gì ...?" type="text">
+                        <input class="form-control" name="search" placeholder="Bạn cần tìm gì ...?" type="text">
                     </div>
                 </div>
                 @*<div class="">
@@ -212,6 +212,14 @@
                             <a href="@Url.Action("Security","Account")" class="dropdown-item">
                                 <i class="fas fa-shield-alt"></i>
                                 <span>Bảo mật và đăng nhập</span>
+                            </a>
+                            <a href="@Url.Action("HistoryDeleteQuestion","UserManagement")" class="dropdown-item">
+                                <i class="fas fa-history"></i>
+                                <span class="nav-link-text">Lịch sử xóa câu hỏi</span>
+                            </a>
+                            <a href="@Url.Action("HistoryDeleteAnswer","UserManagement")" class="dropdown-item">
+                                <i class="fas fa-history"></i>
+                                <span class="nav-link-text">Lịch sử xóa câu trả lời</span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="@Url.Action("Logout","Account")" class="dropdown-item">

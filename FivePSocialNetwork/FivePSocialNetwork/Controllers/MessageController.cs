@@ -84,10 +84,15 @@ namespace FivePSocialNetwork.Controllers
                     if(item.userRequest_id != user_id)
                     {
                         fiterUsers.Add(new ListUsers
-                        { 
+                        {
+                            user_statusOnline = item.User.user_statusOnline,
                             user_id = (int)item.userRequest_id ,
                             user_firstName = item.User.user_firstName,
                             user_lastName = item.User.user_lastName,
+                            user_vipMedal = item.User.user_vipMedal,
+                            user_goldMedal = item.User.user_goldMedal,
+                            user_silverMedal = item.User.user_silverMedal,
+                            user_brozeMedal = item.User.user_brozeMedal,
                             user_avatar = item.User.user_avatar
                         });
                     }
@@ -95,9 +100,14 @@ namespace FivePSocialNetwork.Controllers
                     {
                         fiterUsers.Add(new ListUsers
                         { 
+                            user_statusOnline = item.User1.user_statusOnline,
                             user_id = (int)item.userResponse_id,
                             user_firstName = item.User1.user_firstName,
                             user_lastName = item.User1.user_lastName,
+                            user_vipMedal = item.User1.user_vipMedal,
+                            user_goldMedal = item.User1.user_goldMedal,
+                            user_silverMedal = item.User1.user_silverMedal,
+                            user_brozeMedal = item.User1.user_brozeMedal,
                             user_avatar = item.User1.user_avatar
                         });
                     }
@@ -105,9 +115,14 @@ namespace FivePSocialNetwork.Controllers
                 List<ListUsers> listUsers = fiterUsers.Select(n => new ListUsers
                 {
                     user_id = n.user_id,
+                    user_statusOnline = n.user_statusOnline,
                     user_firstName = n.user_firstName,
                     user_lastName = n.user_lastName,
                     user_avatar = n.user_avatar,
+                    user_vipMedal = n.user_vipMedal,
+                    user_goldMedal = n.user_goldMedal,
+                    user_silverMedal = n.user_silverMedal,
+                    user_brozeMedal = n.user_brozeMedal,
                     message = db.Messages.OrderByDescending(m=>m.message_dateSend).FirstOrDefault(m=>m.messageSender_id == n.user_id).message_content,
                     message_dateSend = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_dateSend.ToString()
                 }).ToList();

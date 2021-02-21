@@ -4339,12 +4339,18 @@
     <Content Include="Views\UserManagement\FriendNew.cshtml" />
     <Content Include="Views\UserManagement\FriendInvitation.cshtml" />
     <Content Include="Views\UserManagement\SendFriend.cshtml" />
+    <Content Include="Views\Answer\PostAnswer.cshtml" />
+    <Content Include="Views\Center\Search.cshtml" />
+    <Content Include="Views\Center\ShowFollowTechnology.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\UserManagement\ManagementAcceptAnswer.cshtml" />
+    <Content Include="Views\UserManagement\HistoryDeleteQuestion.cshtml" />
+    <Content Include="Views\UserManagement\HistoryDeleteAnswer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Answer\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

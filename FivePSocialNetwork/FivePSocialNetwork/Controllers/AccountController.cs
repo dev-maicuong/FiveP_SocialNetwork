@@ -71,6 +71,7 @@ namespace FivePSocialNetwork.Controllers
             else if(user != null)
             {
                 user.user_dateLogin = DateTime.Now;
+                user.user_statusOnline = true;
                 db.SaveChanges();
                 HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
                 cookie.Expires.AddDays(10);
@@ -102,7 +103,7 @@ namespace FivePSocialNetwork.Controllers
                 var verificationCodesPhone = random.Next(100000, 999999).ToString();
                 Session["verificationCodesPhone"] = verificationCodesPhone;
                 Session.Timeout = 3;
-                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "edd2ecc03a085692deb9d3e21477632f");
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "24a47bd743acdb6ae8fd58d16929c585");
                 var from = new PhoneNumber("+17202880938");
                 var message = MessageResource.Create(
                     from: from,
@@ -166,6 +167,7 @@ namespace FivePSocialNetwork.Controllers
                 {
                     User user = (User)Session["user"];
                     user.user_dateLogin = DateTime.Now;
+                    user.user_statusOnline = true;
                     db.SaveChanges();
                     HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
                     cookie.Expires.AddDays(10);
@@ -186,6 +188,7 @@ namespace FivePSocialNetwork.Controllers
                 {
                     User user = (User)Session["user"];
                     user.user_dateLogin = DateTime.Now;
+                    user.user_statusOnline = true;
                     db.SaveChanges();
                     HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
                     cookie.Expires.AddDays(10);
@@ -249,6 +252,7 @@ namespace FivePSocialNetwork.Controllers
             user.user_loginAuthentication = false;
             user.user_verifyPhoneNumber = false;
             user.user_popular = 0;
+            user.user_statusOnline = true;
             user.user_vipMedal = 0;
             user.user_silverMedal = 0;
             user.user_goldMedal = 0;
@@ -280,6 +284,9 @@ namespace FivePSocialNetwork.Controllers
         }
         public ActionResult Logout()
         {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            db.Users.Find(user_id).user_statusOnline = false;
+            db.SaveChanges();
             HttpCookie cookie = new HttpCookie("user_id");
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
@@ -500,7 +507,7 @@ namespace FivePSocialNetwork.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Email(User user, string user_email)
+        public ActionResult Email(User user, string user_email , string password)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -509,6 +516,22 @@ namespace FivePSocialNetwork.Controllers
             }
             // khi tồn tại cookies
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+
+            //Mã hóa mật khẩu
+            MD5 md5 = new MD5CryptoServiceProvider();
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(password));
+            byte[] sresult = md5.Hash;
+            StringBuilder sstrBuilder = new StringBuilder();
+            for (int i = 0; i < sresult.Length; i++)
+            {
+                sstrBuilder.Append(sresult[i].ToString("x2"));
+            }
+            password = sstrBuilder.ToString();
+            // kiểm tra password
+            if (db.Users.Find(user_id).user_pass != password)
+            {
+                return Redirect(HomeCenter);
+            }
             user = db.Users.Find(user_id);
             user.user_email = user_email;
             user.user_emailAuthentication = false;
@@ -588,7 +611,7 @@ namespace FivePSocialNetwork.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Numberphone(User user, string user_phone)
+        public ActionResult Numberphone(User user, string user_phone ,string password)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -605,7 +628,21 @@ namespace FivePSocialNetwork.Controllers
                 Session.Timeout = 3;
                 return Redirect(Request.UrlReferrer.ToString());
             }
-            
+            //Mã hóa mật khẩu
+            MD5 md5 = new MD5CryptoServiceProvider();
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(password));
+            byte[] sresult = md5.Hash;
+            StringBuilder sstrBuilder = new StringBuilder();
+            for (int i = 0; i < sresult.Length; i++)
+            {
+                sstrBuilder.Append(sresult[i].ToString("x2"));
+            }
+            password = sstrBuilder.ToString();
+            // kiểm tra password
+            if (db.Users.Find(user_id).user_pass != password)
+            {
+                return Redirect(HomeCenter);
+            }
             user = db.Users.Find(user_id);
             user.user_phone = user_phone;
             user.user_verifyPhoneNumber = false;
@@ -635,7 +672,7 @@ namespace FivePSocialNetwork.Controllers
             var verificationCodesPhone = random.Next(100000, 999999).ToString();
             Session["verificationCodesPhone"] = verificationCodesPhone;
             Session.Timeout = 3;
-            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "edd2ecc03a085692deb9d3e21477632f");
+            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "24a47bd743acdb6ae8fd58d16929c585");
             var from = new PhoneNumber("+17202880938");
             var message = MessageResource.Create(
                 from: from,
@@ -825,8 +862,8 @@ namespace FivePSocialNetwork.Controllers
             {
                 //Mã hóa mật khẩu
                 MD5 smd5 = new MD5CryptoServiceProvider();
-                md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(newPass));
-                byte[] sresult = md5.Hash;
+                smd5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(newPass));
+                byte[] sresult = smd5.Hash;
                 StringBuilder sstrBuilder = new StringBuilder();
                 for (int i = 0; i < sresult.Length; i++)
                 {
@@ -924,6 +961,97 @@ namespace FivePSocialNetwork.Controllers
             user.user_coverImage = user_coverImage.FileName;
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
+        }
+        //---------------------------------------------------Quên mật khẩu-----------------------------------------------
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ForgotPassword(FormCollection f)
+        {
+            String strSend = f["send"].ToString();
+            User userPhone = db.Users.SingleOrDefault(n => n.user_phone == strSend && n.user_verifyPhoneNumber == true);
+            User userEmail = db.Users.SingleOrDefault(n => n.user_email == strSend && n.user_emailAuthentication == true);
+            if(userPhone !=null)
+            {
+                var userphone = strSend;
+                var remove = userphone.ToString().Remove(0, 1);
+                var to = "+84" + remove;
+                Random random = new Random();
+                var newPass = random.Next(100000, 999999).ToString();
+                Session["verificationCodesPhone"] = newPass;
+                Session.Timeout = 3;
+                //Mã hóa mật khẩu
+                MD5 md5 = new MD5CryptoServiceProvider();
+                md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(newPass));
+                byte[] sresult = md5.Hash;
+                StringBuilder sstrBuilder = new StringBuilder();
+                for (int i = 0; i < sresult.Length; i++)
+                {
+                    sstrBuilder.Append(sresult[i].ToString("x2"));
+                }
+                var password = sstrBuilder.ToString();
+                userPhone.user_pass = password;
+                db.SaveChanges();
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "24a47bd743acdb6ae8fd58d16929c585");
+                var from = new PhoneNumber("+17202880938");
+                var message = MessageResource.Create(
+                    from: from,
+                    to: to,
+                    body: "Five_P xin chào " + " Mật khẩu mới của bạn là : " + newPass
+                );
+                Content(message.Sid);
+                return RedirectToAction("Login");
+            }
+            else if(userEmail != null)
+            {
+                try
+                {
+                    WebMail.SmtpServer = "smtp.gmail.com";//Máy chủ gmail.
+                    WebMail.SmtpPort = 587; // Cổng
+                    WebMail.SmtpUseDefaultCredentials = true;
+                    //Gửi gmail với giao thức bảo mật.
+                    WebMail.EnableSsl = true;
+                    //Tài khoản dùng để đăng nhập vào gmail để gửi.
+                    WebMail.UserName = "cuongembaubang@gmail.com";
+                    WebMail.Password = "trung2010203";
+                    // Nội dung gửi.
+                    WebMail.From = "cuongembaubang@gmail.com";
+
+                    Random random = new Random();
+                    var code = random.Next(100000, 999999).ToString();
+
+                    //Mã hóa mật khẩu
+                    MD5 md5 = new MD5CryptoServiceProvider();
+                    md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(code));
+                    byte[] sresult = md5.Hash;
+                    StringBuilder sstrBuilder = new StringBuilder();
+                    for (int i = 0; i < sresult.Length; i++)
+                    {
+                        sstrBuilder.Append(sresult[i].ToString("x2"));
+                    }
+                    var password = sstrBuilder.ToString();
+                    userEmail.user_pass = password;
+                    db.SaveChanges();
+
+                    string strTitle = "Mật khẩu mới của bạn là : " + code;
+                    Session["confirmemail"] = code;
+                    Session.Timeout = 3;
+                    //Gửi gmail.
+                    WebMail.Send(to: userEmail.user_email, subject: "Mật khẩu mới của bạn trên Five_P", body: strTitle, isBodyHtml: true);
+                    return RedirectToAction("Login");
+                }
+                catch (Exception)
+                {
+                    ViewBag.notification = "Không gửi được email";
+                }
+            }
+            else
+            {
+                ViewBag.forgotPassword = "Phương thức của bạn chưa xác thực, Vui lòng chọn phương thức khác!";
+            }
+            return View();
         }
 
     }

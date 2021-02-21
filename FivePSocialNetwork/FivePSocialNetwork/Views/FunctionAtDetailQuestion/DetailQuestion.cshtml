@@ -4,6 +4,8 @@
     ViewBag.Title = "DetailQuestion";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    var varColororangered = "orangered";
+    var varColorMain = "#172b4d";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/stackoverflow-light.min.css">
 <script src="~/assets/ckeditor5/build/ckeditor.js"></script>
@@ -78,46 +80,89 @@
                     <div class="row">
                         <div class="col-2">
                             <!--Đánh giá bài viết-->
+                            @if (Request.Cookies["user_id"] != null)
+                            {
+                                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                                Rate_Question checkRate_Question = db.Rate_Question.SingleOrDefault(n => n.user_id == user_id && n.question_id == Model.question_id);
+                                Tick_Question checkTick_Question = db.Tick_Question.SingleOrDefault(n => n.user_id == user_id && n.question_id == Model.question_id);
+                                Show_Activate_Question checkShow_Activate_Question = db.Show_Activate_Question.SingleOrDefault(n => n.user_id == user_id && n.question_id == Model.question_id);
+                                <center>
+                                    <form ng-submit="rateQuestionT()" method="post" class="changSizeButtonRatePost">
+                                        <button type="submit" onclick="btnRateQuestionT()" class="btn btn-sm"><i id="imgRateQuestionT" style="font-size:200%;color:@if (checkRate_Question != null && checkRate_Question.rateQuestion_rateStatus == true) { @varColororangered } else { @varColorMain }" class="fa fa-chevron-up"></i></button>
+                                    </form>
+                                </center>
+                                <center>
+                                    <div style="text-align: center">
+                                        <p style="margin-top:6px;font-size:15px;" id="totalRateQuestion">@Model.question_totalRate</p>
+                                    </div>
+                                </center>
+                                <center>
+                                    <form ng-submit="rateQuestionF()" class="changSizeButtonRatePost">
+                                        <button type="submit" onclick="btnRateQuestionF()" class="btn btn-sm"><i id="imgRateQuestionF" class="fa fa-chevron-down" style="font-size:200%;color:@if (checkRate_Question != null && checkRate_Question.rateQuestion_rateStatus == false) { @varColororangered } else { @varColorMain }"></i></button>
+                                    </form>
+                                </center>
+                                <!--đánh dấu-->
+                                <center>
+                                    <form ng-submit="tickQuestion()" class="changSizeButtonRatePost">
+                                        <button type="submit" onclick="btnTickQuestion()" class="btn btn-sm"><i id="imgTickQuestion" class="ni ni-book-bookmark" style="font-size:200%;color:@if (checkTick_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
+                                    </form>
+                                </center>
+                                <center>
+                                    <span id="totalTickQuestion" class="text-center border-bottom" style="font-size:11px">@Model.question_totalTick</span>
+                                </center>
+                                <!--show hoạt động-->
+                                <center>
+                                    <form ng-submit="showActivateQuestion()" class="changSizeButtonRatePost">
+                                        <button type="submit" ng-click="btnShowActivate()" class="btn btn-sm mt-2"><i id="imgShowActivate" class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
+                                    </form>
+                                </center>
+                            }
+                            else
+                            {
+                                <center>
+                                    <span><i style="font-size:150%;" class="fa fa-chevron-up"></i></span>
+                                </center>
+                                <center>
+                                    <div style="text-align: center">
+                                        <p style="margin-top:6px;font-size:15px;" id="number">@Model.question_totalRate</p>
+                                    </div>
+                                </center>
+                                <center>
+                                    <span><i class="fa fa-chevron-down" style="font-size:150%;"></i></span>
+
+                                </center>
+                                <!--đánh dấu-->
+                                <center>
+                                    <span><i class="ni ni-book-bookmark" style="font-size:150%;"></i></span>
+
+                                </center>
+                                <center>
+                                    <span class="text-center border-bottom" style="font-size:11px">@Model.question_totalTick</span>
+                                </center>
+                                <!--show hoạt động-->
+                                <center>
+                                    <span class=" mt-2"><i class="ni ni-compass-04" style="font-size:150%;"></i></span>
+                                </center>
+                            }
+
                             <center>
-                                <form ng-submit="rateQuestionT()" method="post" class="changSizeButtonRatePost">
-                                    <button type="submit" ng-click="downumber(1)" class="btn btn-sm"><i style="font-size:200%;" class="fa fa-chevron-up"></i></button>
-                                </form>
-                            </center>
-                            <center>
-                                <div style="text-align: center">
-                                    <p style="margin-top:6px;font-size:15px;" id="number">@Model.question_totalRate</p>
-                                </div>
-                            </center>
-                            <center>
-                                <form ng-submit="rateQuestionF()" class="changSizeButtonRatePost">
-                                    <button type="submit" ng-click="" class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:200%;"></i></button>
-                                </form>
-                            </center>
-                            <!--đánh dấu-->
-                            <center>
-                                <form ng-submit="tickQuestion()" class="changSizeButtonRatePost">
-                                    <button type="submit" class="btn btn-sm"><i class="ni ni-book-bookmark" style="font-size:200%;"></i></button>
-                                </form>
-                            </center>
-                            <center>
-                                <span class="text-center border-bottom" style="font-size:11px">@Model.question_totalTick</span>
-                            </center>
-                            <!--show hoạt động-->
-                            <center>
-                                <form ng-submit="showActivateQuestion()" class="changSizeButtonRatePost">
-                                    <button type="submit" class="btn btn-sm mt-2"><i class="ni ni-compass-04" style="font-size:200%;"></i></button>
-                                </form>
-                            </center>
+                                <span class="text-center border-bottom" style="font-size:11px">
+                                    @if (Model.question_userStatus == true)
+                                    {<i class="fas fa-globe-europe" style="font-size:120%;"></i>}
+                                    else
+                                    {<i class="fas fa-user" style="font-size:120%;"></i>}
+                            </span>
+                        </center>
                         </div>
                         <div class="col-10">
                             <div class="row m-0">
                                 <div class="">
-                                    <a class="text-decoration-none" href="">
+                                    <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = Model.user_id })">
                                         <img class="profile-pic" src="~/Image/Users/@Model.User.user_avatar" width="44" height="44" alt="...">
                                     </a>
                                 </div>
                                 <div class="flex-grow-1 pl-2">
-                                    <a class="text-decoration-none" href="">
+                                    <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = Model.user_id })">
                                         <h2 class="text-capitalize h5 mb-0">@Model.User.user_firstName @Model.User.user_lastName @Model.question_popular <i class="fas fa-fire" style="color:red"></i></h2>
                                     </a>
                                     <p class="small text-dark m-0 mt-1">@Model.User.user_vipMedal<i class="fab fa-galactic-senate" style="color:orangered;font-size:24px"></i> @Model.User.user_goldMedal<i class="fas fa-award" style="color:yellow"></i>@Model.User.user_silverMedal<i class="fas fa-award" style="color:silver"></i> @Model.User.user_brozeMedal<i class="fas fa-award" style="color:#e88d15"></i>  </p>
@@ -128,11 +173,39 @@
                                     <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-chevron-down"></i>
                                     </a>
-
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item text-primary" href="@Url.Action("PostQuestion","Question",new { id = Model.question_id})"><i class="far fa-edit"></i> Sửa câu hỏi</a>
-                                        <a class="dropdown-item text-primary" href="#"><i class="fas fa-eraser"></i> Xóa câu hỏi</a>
-                                    </div>
+                                    @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == Model.user_id || Request.Cookies["admin_id"] != null)
+                                    {
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item text-primary" href="@Url.Action("QuestionStaturF","FunctionAtDetailQuestion",new { id = Model.question_id})"><i class="fas fa-eye"></i>Chỉ mình tôi xem</a>
+                                            <a class="dropdown-item text-primary" href="@Url.Action("QuestionStaturT","FunctionAtDetailQuestion",new { id = Model.question_id})"><i class="fas fa-eye"></i>tất cả mọi người có thể xem</a>
+                                            <a class="dropdown-item text-primary" href="@Url.Action("PostQuestion","Question",new { id = Model.question_id})"><i class="far fa-edit"></i> Sửa câu hỏi</a>
+                                            <a class="dropdown-item text-primary" data-toggle="modal" data-target="#modal-notification" href="#"><i class="fas fa-eraser"></i> Xóa câu hỏi</a>
+                                        </div>
+                                        //Model xóa
+                                        <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                            <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                                <div class="modal-content bg-gradient-danger">
+                                                    <div class="modal-header">
+                                                        @*<h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>*@
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="py-3 text-center">
+                                                            <i class="ni ni-bell-55 ni-3x"></i>
+                                                            @*<h4 class="heading mt-4">Bạn đang thực</h4>*@
+                                                            <p>Bạn có chắc chắn với hành động của mình!</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="@Url.Action("recycleBinQueston","FunctionAtDetailQuestion",new { id = Model.question_id})" class="btn btn-white">Xóa câu hỏi này!</a>
+                                                        <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Đóng</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
 
                             </div>
@@ -162,7 +235,8 @@
                             <div>
                                 @foreach (var item in teachnology_Questions)
                                 {
-                                    <span class="badge badge-primary">@item.Technology.technology_name</span>
+                                    <a href="@Url.Action("ShowFollowTechnology","Center",new {id = item.technology_id })"><span class="badge badge-primary">@item.Technology.technology_name</span></a>
+                                    
                                 }
                             </div>
                         </div>
@@ -203,7 +277,6 @@
                 <p>Trả lời <i class="fas fa-reply-all"></i></p>
             </div>
             <div class="card">
-
                 @foreach (var item in answers)
                 {
                     <section class="mt-4">
@@ -211,38 +284,114 @@
                             <!-- post header -->
                             <div class="row">
                                 <div class="col-2">
-                                    <center>
-                                        <form ng-submit="rateAnswerT(@(item.answer_id))" class="changSizeButtonRatePost">
-                                            <button type="submit" class="btn btn-sm"><i class="fa fa-chevron-up" style="font-size:200%"></i></button>
-                                        </form>
-                                    </center>
-                                    <script>
+                                    @if (Request.Cookies["user_id"] != null)
+                                    {
+                                        int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                                        Rate_Answer checkRate_Answer = db.Rate_Answer.SingleOrDefault(n => n.user_id == user_id && n.answer_id == item.answer_id);
+                                        Show_Activate_Question checkShow_Activate_Question = db.Show_Activate_Question.SingleOrDefault(n => n.user_id == user_id && n.question_id == Model.question_id);
 
-                                    </script>
-                                    <center>
-                                        <div style="text-align: center">
-                                            <p style="margin-top:6px;font-size:15px;">@item.answer_totalRate</p>
-                                        </div>
-                                    </center>
-                                    <center>
-                                        <form ng-submit="rateAnswerF(@(item.answer_id))" class="changSizeButtonRatePost">
-                                            <button type="submit" class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:200%;"></i></button>
-                                        </form>
-                                    </center>
+                                        <center>
+                                            <form ng-submit="rateAnswerT(@(item.answer_id))" class="changSizeButtonRatePost">
+                                                <button type="submit" onclick="btnRateAnswerT@(item.answer_id)()" class="btn btn-sm"><i id="imgRateAnswerT@(item.answer_id)" class="fa fa-chevron-up" style="font-size:200%;color:@if (checkRate_Answer != null && checkRate_Answer.rateAnswer_rateStatus == true) { @varColororangered} else { @varColorMain}"></i></button>
+                                            </form>
+                                        </center>
+                                        <center>
+                                            <div style="text-align: center">
+                                                <p style="margin-top:6px;font-size:15px;" id="totalRateAnswer@(item.answer_id)">@item.answer_totalRate</p>
+                                            </div>
+                                        </center>
+                                        <center>
+                                            <form ng-submit="rateAnswerF(@(item.answer_id))" class="changSizeButtonRatePost">
+                                                <button type="submit" onclick="btnRateAnswerF@(item.answer_id)()" class="btn btn-sm"><i id="imgRateAnswerF@(item.answer_id)" class="fa fa-chevron-down" style="font-size:200%;color:@if (checkRate_Answer != null && checkRate_Answer.rateAnswer_rateStatus == false) { @varColororangered} else { @varColorMain}"></i></button>
+                                            </form>
+                                        </center>
+                                        <!--show hoạt động
+            -->
+                                        <center>
+                                            <form action="@Url.Action("ShowActivateQuestion","FunctionAtDetailQuestion")" method="post" class="changSizeButtonRatePost">
+                                                <input type="hidden" name="question_id" value="@Model.question_id"/>
+                                                <button type="submit" class="btn btn-sm mt-2"><i class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
+                                            </form>
+                                        </center>
+                                        <script>
+                                            function btnRateAnswerT@(item.answer_id)()
+                                                {
+                                                    if (document.getElementById("imgRateAnswerF@(item.answer_id)").style.color == 'orangered')
+                                                    {
+                                                        document.getElementById("totalRateAnswer@(item.answer_id)").innerText = Number(document.getElementById("totalRateAnswer@(item.answer_id)").innerText) + 2;
+                                                        document.getElementById("imgRateAnswerT@(item.answer_id)").style.color = "orangered";
+                                                        document.getElementById("imgRateAnswerF@(item.answer_id)").style.color = "#172b4d";
+                                                    }
+                                                    else if (document.getElementById("imgRateAnswerT@(item.answer_id)").style.color == 'orangered')
+                                                    {
+                                                        document.getElementById("totalRateAnswer@(item.answer_id)").innerText = Number(document.getElementById("totalRateAnswer@(item.answer_id)").innerText) - 1;
+                                                        document.getElementById("imgRateAnswerT@(item.answer_id)").style.color = "#172b4d";
+                                                    }
+                                                    else {
+                                                        document.getElementById("totalRateAnswer@(item.answer_id)").innerText = Number(document.getElementById("totalRateAnswer@(item.answer_id)").innerText) + 1;
+                                                        document.getElementById("imgRateAnswerT@(item.answer_id)").style.color = "orangered";
+                                                    }
+                                            }
+                                            function btnRateAnswerF@(item.answer_id)()
+                                            {
+                                                if (document.getElementById("imgRateAnswerT@(item.answer_id)").style.color == 'orangered') {
+                                                    document.getElementById("totalRateAnswer@(item.answer_id)").innerText = Number(document.getElementById("totalRateAnswer@(item.answer_id)").innerText) - 2;
+                                                    document.getElementById("imgRateAnswerF@(item.answer_id)").style.color = "orangered";
+                                                    document.getElementById("imgRateAnswerT@(item.answer_id)").style.color = "#172b4d";
+                                                }
+                                                else if (document.getElementById("imgRateAnswerF@(item.answer_id)").style.color == 'orangered') {
+                                                    document.getElementById("totalRateAnswer@(item.answer_id)").innerText = Number(document.getElementById("totalRateAnswer@(item.answer_id)").innerText) + 1;
+                                                    document.getElementById("imgRateAnswerF@(item.answer_id)").style.color = "#172b4d";
+                                                }
+                                                else {
+                                                    document.getElementById("totalRateAnswer@(item.answer_id)").innerText = Number(document.getElementById("totalRateAnswer@(item.answer_id)").innerText) - 1;
+                                                    document.getElementById("imgRateAnswerF@(item.answer_id)").style.color = "orangered";
+                                                }
+                                            }
+                                        </script>
+                                    }
+                                    else
+                                    {
+                                        <center>
+                                            <span class="btn btn-sm"><i class="fa fa-chevron-up" style="font-size:150%"></i></span>
+                                        </center>
+                                        <center>
+                                            <div style="text-align: center">
+                                                <p style="margin-top:6px;font-size:15px;">@item.answer_totalRate</p>
+                                            </div>
+                                        </center>
+                                        <center>
+                                            <span class="btn btn-sm"><i class="fa fa-chevron-down" style="font-size:150%;"></i></span>
+                                        </center>
+                                    }
+
                                     @if (Request.Cookies["user_id"] != null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == Model.user_id)
                                     {
                                         if (item.answer_correct == true)
                                         {
                                             <center>
-                                                <button type="button" class="btn btn-sm" ng-click="answerCorrect(@(item.answer_id))"><i class="fas fa-check" style="font-size:25px;color:green"></i></button>
+                                                <button type="button" class="btn btn-sm" onclick="btnAnswerCorrect@(item.answer_id)()" ng-click="answerCorrect(@(item.answer_id))"><i id="imgAnswerCorresct@(item.answer_id)" class="fas fa-check" style="font-size:25px;color:green"></i></button>
                                             </center>
                                         }
                                         else
                                         {
                                             <center>
-                                                <button type="button" class="btn btn-sm" ng-click="answerCorrect(@(item.answer_id))"><i class="fas fa-check" style="font-size:25px"></i></button>
+                                                <button type="button" class="btn btn-sm" onclick="btnAnswerCorrect@(item.answer_id)()" ng-click="answerCorrect(@(item.answer_id))"><i id="imgAnswerCorresct@(item.answer_id)" class="fas fa-check" style="font-size:25px;color:#172b4d"></i></button>
                                             </center>
                                         }
+                                        <script>
+                                            //Đồi màu nút AnswerCorrect
+                                                function btnAnswerCorrect@(item.answer_id)()
+                                                {
+                                                    if (document.getElementById("imgAnswerCorresct@(item.answer_id)").style.color == "green")
+                                                    {
+                                                        document.getElementById("imgAnswerCorresct@(item.answer_id)").style.color = "#172b4d";
+                                                    }
+                                                    else {
+                                                        document.getElementById("imgAnswerCorresct@(item.answer_id)").style.color = 'green';
+                                                    }
+                                                }
+                                        </script>
                                     }
                                     else if (item.answer_correct == true)
                                     {
@@ -250,25 +399,17 @@
                                             <i class="fas fa-check" style="font-size:25px;color:green"></i>
                                         </center>
                                     }
-                                    <!--Hoạt động-->
-                                    <center>
-                                        <form ng-submit="showActivateQuestion()" class="changSizeButtonRatePost">
-                                            <button type="submit" class="btn btn-sm"><i class="ni ni-compass-04" style="font-size:200%"></i></button>
-                                        </form>
-                                    </center>
-                                    <!--hien thị hoạt động bài viết này-->
-
                                 </div>
                                 <div class="col-10">
                                     <div class="row m-0">
                                         <div class="">
-                                            <a class="text-decoration-none" href="#">
+                                            <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = item.user_id })">
                                                 <img class="profile-pic" src="~/Image/Users/@item.User.user_avatar" width="40" height="40" alt="...">
                                             </a>
                                         </div>
                                         <div class="flex-grow-1 pl-2">
-                                            <a class="text-decoration-none" href="#">
-                                                <h2 class="text-capitalize h5 mb-0"> @item.User.user_firstName @item.User.user_lastName</h2>
+                                            <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = item.user_id })">
+                                                <h2 class="text-capitalize h5 mb-0"> @item.User.user_firstName @item.User.user_lastName @item.User.user_popular <i class="fas fa-fire" style="color:red"></i></h2>
                                             </a>
                                             <p class="small text-dark m-0 mt-1">
                                                 @item.User.user_vipMedal<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i>@item.User.user_goldMedal<i class="fas fa-award" style="color:yellow"></i>@item.User.user_silverMedal <i class="fas fa-award" style="color:silver"></i> @item.User.user_brozeMedal
@@ -283,11 +424,13 @@
                                             </a>
 
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item text-primary" href="#">Edit</a>
-                                                <a class="dropdown-item text-primary" href="#">Delete</a>
+                                                @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == item.user_id || Request.Cookies["admin_id"] != null)
+                                                {
+                                                    <a class="dropdown-item text-primary" href="@Url.Action("PostAnswer","Answer",new { id = item.answer_id})">Sửa câu trả lời này</a>
+                                                    <a class="dropdown-item text-primary" onclick="return window.confirm('Bạn có chắc muốn xóa câu trả lời này!')" href="@Url.Action("RecycleBinAnswer","Answer",new { id = item.answer_id})">Xóa câu trả lời này</a>
+                                                }
                                             </div>
                                         </div>
-
                                     </div>
                                     <!-- post body -->
                                     <div class="">
@@ -337,13 +480,12 @@
                                                     <!-- comment header -->
                                                     <div class="d-flex">
                                                         <div class="">
-                                                            <a class="text-decoration-none" href="#">
+                                                            <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = itemComment.user_id })">
                                                                 <img class="profile-pic" src="~/Image/Users/@itemComment.User.user_avatar" width="40" height="40" alt="...">
-
                                                             </a>
                                                         </div>
                                                         <div class="flex-grow-1 pl-2">
-                                                            <a class="text-decoration-none text-capitalize h6 m-0" href="@Url.Action("","")">@itemComment.User.user_firstName @item.User.user_lastName</a>
+                                                            <a class="text-decoration-none text-capitalize h6 m-0" href="@Url.Action("PageUser","UserManagement", new {id = itemComment.user_id })">@itemComment.User.user_firstName @item.User.user_lastName</a>
                                                             <p class="small m-0 text-muted">@itemComment.commentAnswer_dateEdit.Value.ToShortDateString()</p>
                                                         </div>
                                                         <div>
@@ -351,10 +493,11 @@
                                                                 <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                     <i class="fas fa-chevron-down"></i>
                                                                 </a>
-
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                                    <a class="dropdown-item text-primary" href="#">Edit</a>
-                                                                    <a class="dropdown-item text-primary" href="#">Delete</a>
+                                                                    @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == itemComment.user_id || Request.Cookies["admin_id"] != null)
+                                                                    {
+                                                                        <a class="dropdown-item text-primary" onclick="return window.confirm('Bạn có chắc muốn xóa comment này!')" href="@Url.Action("RecycleBinComment","Answer",new { id = itemComment.commentAnswer_id})">Xóa comment này</a>
+                                                                    }
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -459,7 +602,7 @@
                         <span style="font-size:28px">...</span>
                     </div>
                 </div>
-                <div class="">
+                @*<div class="">
                     <div class="card-body">
                         <h4 class="card-title">Bài viết liên quan</h4>
 
@@ -478,7 +621,7 @@
                         }
                         <span style="font-size:28px">...</span>
                     </div>
-                </div>
+                </div>*@
 
             </div>
         </div>
@@ -562,6 +705,15 @@
             $scope.answerCorrect = function (id) {
                 $http.get("/Answer/AnswerCorrect?answer_id=" + id + "&question_id=" +@Model.question_id)
             }
+            //hoạt động bài viết
+            $scope.btnShowActivate = function () {
+                if (document.getElementById("imgShowActivate").style.color == "orangered") {
+                    document.getElementById("imgShowActivate").style.color = "#172b4d";
+                }
+                else {
+                    document.getElementById("imgShowActivate").style.color = "orangered";
+                }
+            }
             //show User
             $http.get("/Message/ListUsers")
                 .then(function (response) {
@@ -572,6 +724,50 @@
                     $scope.listUsers = "Something went wrong";
                 });
         });
+    //đổi màu các nút vow
+    function btnRateQuestionT() {
+        if (document.getElementById("imgRateQuestionF").style.color == 'orangered') {
+            document.getElementById("totalRateQuestion").innerText = Number(document.getElementById("totalRateQuestion").innerText) + 2;
+            document.getElementById("imgRateQuestionT").style.color = "orangered";
+            document.getElementById("imgRateQuestionF").style.color = "#172b4d";
+        }
+        else if (document.getElementById("imgRateQuestionT").style.color == 'orangered') {
+            document.getElementById("totalRateQuestion").innerText = Number(document.getElementById("totalRateQuestion").innerText) - 1;
+            document.getElementById("imgRateQuestionT").style.color = "#172b4d";
+        }
+        else {
+            document.getElementById("totalRateQuestion").innerText = Number(document.getElementById("totalRateQuestion").innerText) + 1;
+            document.getElementById("imgRateQuestionT").style.color = "orangered";
+        }
+    }
+    function btnRateQuestionF() {
+        if (document.getElementById("imgRateQuestionT").style.color == 'orangered') {
+            document.getElementById("totalRateQuestion").innerText = Number(document.getElementById("totalRateQuestion").innerText) - 2;
+            document.getElementById("imgRateQuestionF").style.color = "orangered";
+            document.getElementById("imgRateQuestionT").style.color = "#172b4d";
+        }
+        else if (document.getElementById("imgRateQuestionF").style.color == 'orangered') {
+            document.getElementById("totalRateQuestion").innerText = Number(document.getElementById("totalRateQuestion").innerText) + 1;
+            document.getElementById("imgRateQuestionF").style.color = "#172b4d";
+        }
+        else {
+            document.getElementById("totalRateQuestion").innerText = Number(document.getElementById("totalRateQuestion").innerText) - 1;
+            document.getElementById("imgRateQuestionF").style.color = "orangered";
+        }
+    }
+    //Đổi màu nút tick post
+    function btnTickQuestion() {
+        if (document.getElementById("imgTickQuestion").style.color == 'orangered') {
+            document.getElementById("imgTickQuestion").style.color = '#172b4d';
+            document.getElementById("totalTickQuestion").innerText = Number(document.getElementById("totalTickQuestion").innerText) - 1;
+
+        }
+        else {
+            document.getElementById("imgTickQuestion").style.color = 'orangered';
+            document.getElementById("totalTickQuestion").innerText = Number(document.getElementById("totalTickQuestion").innerText) + 1;
+        }
+    }
+
 </script>
 
 

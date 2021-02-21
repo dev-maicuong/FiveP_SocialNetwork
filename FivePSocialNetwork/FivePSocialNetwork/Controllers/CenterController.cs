@@ -332,9 +332,85 @@ namespace FivePSocialNetwork.Controllers
                     }
                 }
             }
-            return Json(listQuestions1, JsonRequestBehavior.AllowGet);
+            return Json(listQuestions1.GroupBy(n => n.question_id).Select(n => n.FirstOrDefault()), JsonRequestBehavior.AllowGet);
         }
-
+        //-----------------------------------------Tìm kiếm---------------------------------
+        public ActionResult Search(string search)
+        {
+            TempData["search"] = search;
+            return View();
+        }
+        public JsonResult SearchJson()
+        {
+            string search = TempData["search"].ToString();
+            List<Question> questions = db.Questions.Where(n => n.question_userStatus == true && n.question_activate == true && n.question_admin_recycleBin == false && n.question_recycleBin == false && n.question_keywordSearch.Contains(search)).OrderByDescending(n=>n.question_view).ToList();
+            List<ListQuestions> listQuestions = questions.Select(n => new ListQuestions
+            {
+                question_id = n.question_id,
+                question_content = n.question_content,
+                user_id = n.user_id,
+                question_dateCreate = n.question_dateCreate.Value.ToShortDateString(),
+                question_dateEdit = n.question_dateEdit.Value.ToShortDateString(),
+                user_firstName = n.User.user_firstName,
+                user_lastName = n.User.user_lastName,
+                user_popular = n.User.user_popular,
+                user_silverMedal = n.User.user_silverMedal,
+                user_goldMedal = n.User.user_goldMedal,
+                user_brozeMedal = n.User.user_brozeMedal,
+                user_vipMedal = n.User.user_vipMedal,
+                question_title = n.question_title,
+                question_Answer = n.question_Answer,
+                question_totalComment = n.question_totalComment,
+                question_view = n.question_view,
+                question_totalRate = n.question_totalRate,
+                question_medalCalculator = n.question_medalCalculator,
+                question_recycleBin = n.question_recycleBin,
+                question_userStatus = n.question_userStatus,
+                question_popular = n.question_popular,
+                question_admin_recycleBin = n.question_admin_recycleBin,
+                question_keywordSearch = n.question_keywordSearch,
+                user_avatar = n.User.user_avatar,
+            }).ToList();
+            return Json(listQuestions, JsonRequestBehavior.AllowGet);
+        }
+        //-----------------------------------------Hiển thị theo công nghệ---------------------------------
+        public ActionResult ShowFollowTechnology(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+        public JsonResult ShowFollowTechnologyJson(int? id)
+        {
+            List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n => n.technology_id == id && n.teachnologyQuestion_recycleBin == false).ToList();
+            List<ListQuestions> listQuestions = teachnology_Questions.Select(n => new ListQuestions
+            {
+                question_id = (int)n.question_id,
+                question_content = n.Question.question_content,
+                user_id = n.Question.user_id,
+                question_dateCreate = n.Question.question_dateCreate.Value.ToShortDateString(),
+                question_dateEdit = n.Question.question_dateEdit.Value.ToShortDateString(),
+                user_firstName = n.Question.User.user_firstName,
+                user_lastName = n.Question.User.user_lastName,
+                user_popular = n.Question.User.user_popular,
+                user_silverMedal = n.Question.User.user_silverMedal,
+                user_goldMedal = n.Question.User.user_goldMedal,
+                user_brozeMedal = n.Question.User.user_brozeMedal,
+                user_vipMedal = n.Question.User.user_vipMedal,
+                question_title = n.Question.question_title,
+                question_Answer = n.Question.question_Answer,
+                question_totalComment = n.Question.question_totalComment,
+                question_view = n.Question.question_view,
+                question_totalRate = n.Question.question_totalRate,
+                question_medalCalculator = n.Question.question_medalCalculator,
+                question_recycleBin = n.Question.question_recycleBin,
+                question_userStatus = n.Question.question_userStatus,
+                question_popular = n.Question.question_popular,
+                question_admin_recycleBin = n.Question.question_admin_recycleBin,
+                question_keywordSearch = n.Question.question_keywordSearch,
+                user_avatar = n.Question.User.user_avatar,
+            }).ToList();
+            return Json(listQuestions, JsonRequestBehavior.AllowGet);
+        }
 
         //-----------------------------------------Phần sắp xếp theo các ưu điểm---------------------------------
         // Sắp xếp theo điểm thưởng.

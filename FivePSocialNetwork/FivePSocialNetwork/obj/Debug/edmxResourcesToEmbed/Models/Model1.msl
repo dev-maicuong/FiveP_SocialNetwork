@@ -400,6 +400,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="user_statusOnline" ColumnName="user_statusOnline" />
           <ScalarProperty Name="user_id" ColumnName="user_id" />
           <ScalarProperty Name="user_pass" ColumnName="user_pass" />
           <ScalarProperty Name="user_firstName" ColumnName="user_firstName" />

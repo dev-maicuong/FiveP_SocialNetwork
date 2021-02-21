@@ -183,24 +183,17 @@ namespace FivePSocialNetwork.Controllers
         }
         public JsonResult ListTechnologyQuestion()
         {
-            //Kiểm tra cookie
-            if (Request.Cookies["user_id"] != null)
+            List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n => n.teachnologyQuestion_recycleBin == false).ToList();
+            List<ListTechnologyQuestion> listTechnologyQuestions = teachnology_Questions.Select(n => new ListTechnologyQuestion
             {
-                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-                List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n=>n.teachnologyQuestion_recycleBin == false).ToList();
-                List<ListTechnologyQuestion> listTechnologyQuestions = teachnology_Questions.Select(n => new ListTechnologyQuestion
-                {
-                    teachnologyQuestion_id = n.teachnologyQuestion_id,
-                    technology_id = n.technology_id,
-                    question_id = n.question_id,
-                    teachnologyQuestion_recycleBin = n.teachnologyQuestion_recycleBin,
-                    technology_name = n.Technology.technology_name
-                    
-                }).ToList();
-                return Json(listTechnologyQuestions, JsonRequestBehavior.AllowGet);
-            }
+                teachnologyQuestion_id = n.teachnologyQuestion_id,
+                technology_id = n.technology_id,
+                question_id = n.question_id,
+                teachnologyQuestion_recycleBin = n.teachnologyQuestion_recycleBin,
+                technology_name = n.Technology.technology_name
 
-            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+            }).ToList();
+            return Json(listTechnologyQuestions, JsonRequestBehavior.AllowGet);
         }
 
         //---------------------------------------------user quản lý bạn bè--------------------------------
@@ -436,6 +429,96 @@ namespace FivePSocialNetwork.Controllers
             if (Request.Cookies["user_id"] != null)
             {
                 db.Notifications.Find(id).notification_recycleBin = true;
+                db.SaveChanges();
+                return View();
+            }
+            return View();
+        }
+        //---------------------------------------------user quản lý các câu trả lời đã duyệt--------------------------------
+        public ActionResult ManagementAcceptAnswer()
+        {
+            return View();
+        }
+        public JsonResult ListAcceptAnswer()
+        {
+            if (Request.Cookies["user_id"] != null)
+            {
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                List<Answer> answers = db.Answers.Where(n => n.answer_admin_recycleBin == false && n.answer_recycleBin == false && n.answer_userStatus == true && n.answer_activate == true && n.Question.user_id == user_id && n.answer_correct == true).ToList();
+                List<ListAnswer> listAnswers = answers.Select(n => new ListAnswer
+                {
+                    answer_id = n.answer_id,
+                    answer_content = n.answer_content,
+                    user_id = n.user_id,
+                    question_id = n.question_id,
+                    answer_dateCreate = n.answer_dateCreate.Value.ToShortDateString(),
+                    answer_dateEdit = n.answer_dateEdit.Value.ToShortDateString(),
+                    
+                }).ToList();
+                return Json(listAnswers, JsonRequestBehavior.AllowGet);
+            }
+            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+        }
+        //---------------------------------------------user quản lý lịch sử xóa câu hỏi--------------------------------
+        public ActionResult HistoryDeleteQuestion()
+        {
+            return View();
+        }
+        public JsonResult ListHistoryDeleteQuestion()
+        {
+            if (Request.Cookies["user_id"] != null)
+            {
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                List<Question> questions = db.Questions.Where(n => n.question_admin_recycleBin == false && n.question_recycleBin == true && n.question_activate == true && n.user_id == user_id).ToList();
+                List<ListQuestions> listQuestions = questions.Select(n => new ListQuestions
+                {
+                    question_id = n.question_id,
+                    user_id = n.user_id,
+                    question_title = n.question_title
+
+                }).ToList();
+                return Json(listQuestions, JsonRequestBehavior.AllowGet);
+            }
+            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult RecycleBinQuestion(int? id)
+        {
+            if (Request.Cookies["user_id"] != null)
+            {
+                db.Questions.Find(id).question_recycleBin = false;
+                db.SaveChanges();
+                return View();
+            }
+            return View();
+        }
+        //---------------------------------------------user quản lý lịch sử xóa câu trả lời--------------------------------
+        public ActionResult HistoryDeleteAnswer()
+        {
+            return View();
+        }
+        public JsonResult ListHistoryDeleteAnswer()
+        {
+            if (Request.Cookies["user_id"] != null)
+            {
+                int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                List<Answer> answers = db.Answers.Where(n => n.answer_admin_recycleBin == false && n.answer_recycleBin == true && n.answer_activate == true && n.user_id == user_id).ToList();
+                List<ListAnswer> listAnswers = answers.Select(n => new ListAnswer
+                {
+                    answer_id = n.answer_id,
+                    answer_content = n.answer_content,
+                    user_id = n.user_id,
+                    question_id = n.question_id
+
+                }).ToList();
+                return Json(listAnswers, JsonRequestBehavior.AllowGet);
+            }
+            return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult RecycleBinAnswer(int? id)
+        {
+            if (Request.Cookies["user_id"] != null)
+            {
+                db.Answers.Find(id).answer_recycleBin = false;
                 db.SaveChanges();
                 return View();
             }

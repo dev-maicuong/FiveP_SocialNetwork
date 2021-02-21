@@ -66,7 +66,7 @@
                                             </div>
                                             <div class="col-lg-7 mt-3">
                                                 Công nghệ :
-                                                <a href="#" ng-repeat="y in listTechnologyQuestion" ng-show="y.question_id == x.question_id"> {{y.technology_name}} |</a>
+                                                <a ng-repeat="y in listTechnologyQuestion" ng-show="y.question_id == x.question_id" ng-href="/Center/ShowFollowTechnology?id={{y.technology_id}}"> {{y.technology_name}} |</a>
                                             </div>
                                             <div class="col-lg-5">
                                                 <a ng-href="/UserManagement/PageUser?id=x.user_id">
@@ -147,7 +147,6 @@
 <script>
     var app = angular.module('myApp', ["ui.bootstrap"]);
     app.controller('myCtrl', function ($scope, $http) {
-        // câu hỏi gần đây
         $http.get("/Center/ForUserJson")
             .then(function (response) {
                 //Gia dinh
@@ -181,6 +180,15 @@
             }, function (response) {
                 // Second function handles error
                 $scope.listUsers = "Something went wrong";
+            });
+        //show User gợi ý kết bạn
+        $http.get("/ShareView/SuggestiotMakeFriends")
+            .then(function (response) {
+                // First function handles success
+                $scope.listSuggestiotMakeFriends = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listSuggestiotMakeFriends = "Something went wrong";
             });
         // show công nghệ phổ biến
         $http.get("/Center/ListTechnologyPopular")

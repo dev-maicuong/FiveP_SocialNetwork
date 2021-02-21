@@ -5,10 +5,34 @@
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
 }
+<style>
+    .scroll_text {
+        height: 450px;
+        overflow: auto;
+        padding: 0px 15px;
+    }
 
-<div class="main-content" id="panel">
+        .scroll_text::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll_text::-webkit-scrollbar-track {
+            background-color: #f8f9fe
+        }
+
+        .scroll_text::-webkit-scrollbar-thumb {
+            border: 1px solid rgba(92, 92, 92, 0.5);
+            border-radius: 10px;
+        }
+
+            .scroll_text::-webkit-scrollbar-thumb:hover {
+                background-color: #000;
+            }
+
+</style>
+<div class="main-content" id="panel" ng-app="myApp">
     <!-- Page content -->
-    <div class="container-fluid mt-2">
+    <div class="container-fluid mt-2" ng-controller="myCtrl">
         <div class="row">
             <div class="col-xl-4 order-xl-2 mt-3">
                 <div class="card-profile">
@@ -29,7 +53,7 @@
                                 <a href="#" class="btn btn-sm btn-info  mr-4 "><i class="fas fa-user-plus"></i> Kết bạn.</a>
                                 <a href="#" class="btn btn-sm btn-default float-right"><i class="fab fa-facebook-messenger"></i> Nhắn tin.</a>
                             }
-                            else if (Request.Cookies["user_id"].ToString() != Model.user_id.ToString())
+                            else if (int.Parse(Request.Cookies["user_id"].Value.ToString()) != Model.user_id)
                             {
                                 <form action="@Url.Action("AddFriend","UserManagement")" method="post">
                                     <input type="hidden" name="userResponse_id" value="@Model.user_id" />
@@ -37,12 +61,9 @@
                                         int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
                                         Friend friend1 = db.Friends.FirstOrDefault(n => n.userRequest_id == user_id && n.userResponse_id == Model.user_id && n.friend_status == false);
                                         Friend friend2 = db.Friends.FirstOrDefault(n => n.userRequest_id == Model.user_id && n.userResponse_id == user_id && n.friend_status == false);
-                                        Friend friend3 = db.Friends.FirstOrDefault(n => ((n.userRequest_id == Model.user_id && n.userResponse_id == user_id) ||(n.userRequest_id == user_id && n.userResponse_id == Model.user_id)) && n.friend_status == true);
-                                        if (user_id == Model.user_id)
-                                        {
-                                            <button type="button" class="btn btn-sm btn-info ml-4 float-left"><i class="fas fa-user"></i> Tôi</button>
-                                        }
-                                        else if (friend1 != null)
+                                        Friend friend3 = db.Friends.FirstOrDefault(n => ((n.userRequest_id == Model.user_id && n.userResponse_id == user_id) || (n.userRequest_id == user_id && n.userResponse_id == Model.user_id)) && n.friend_status == true);
+
+                                        if (friend1 != null)
                                         {
                                             <button type="submit" class="btn btn-sm btn-info ml-4 float-left"><i class="fas fa-user-minus"></i> Hủy lời mời</button>
                                         }
@@ -135,13 +156,26 @@
                     <div class="">
                         <div class="card-body">
                             <h4 class="card-title">Gợi ý kết bạn</h4>
-                            <div class="row">
-                                <div class="col-2 mr--1">
-                                    <a href="#"><i class="fas fa-info-circle"></i></a>
+                            <div class="scroll_text">
+
+                                <div class="row" ng-repeat="x in listSuggestiotMakeFriends">
+                                    <div class="col-2">
+                                        <img class="rounded-circle" style="width: 38px; height: 38px;" src="~/Image/Users/{{x.user_avatar}}" alt="">
+                                    </div>
+                                    <div class="col-7">
+                                        <a ng-href="/UserManagement/PageUser?id={{x.user_id}}" class="h5 m-0">
+                                            {{x.user_firstName +" "+ x.user_lastName}} <i ng-show="x.user_statusOnline == false" class="fas fa-circle" style="font-size:6px"></i><i ng-show="x.user_statusOnline == true" class="fas fa-circle" style="font-size:6px;color:greenyellow"></i>
+                                        </a>
+                                        <div class="h7 text-muted">{{x.user_vipMedal}}<i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i>  {{x.user_goldMedal}}<i class="fas fa-award" style="color:yellow;font-size:11px"></i>  {{x.user_silverMedal}}<i class="fas fa-award" style="color:silver;font-size:11px"></i>   {{x.user_brozeMedal}}<i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <form action="@Url.Action("AddFriend","UserManagement")" method="post">
+                                            <input type="hidden" name="userResponse_id" value="{{x.user_id}}" />
+                                            <button type="submit" class="btn btn-link"><i class="fas fa-user-plus"></i></button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="col-xl-10 ml--3">
-                                    ...
-                                </div>
+
                             </div>
                             <span style="font-size:28px">...</span>
                         </div>
@@ -149,14 +183,14 @@
                 </div>
                 <!--Link trung tâm-->
             </div>
-            <div class="col-xl-8 order-xl-1" ng-app="myApp">
-                <div class="row" ng-controller="myCtrl">
+            <div class="col-xl-8 order-xl-1" >
+                <div class="row" >
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Câu hỏi của bạn </a>
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Câu hỏi. </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Câu hỏi bạn trả lời.</a>
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Câu trả lời.</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -199,7 +233,7 @@
                                                     <div class="col-lg-12">
                                                         <h2 class="w-100 text-info">
                                                             <span class="bg-info text-white" style="border-radius:5px "><small class="p-1">+{{x.question_popular}}</small></span>
-                                                            <a href="#">
+                                                            <a  ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
                                                                 {{x.question_title}}
                                                             </a>
                                                         </h2>
@@ -212,7 +246,7 @@
                                                     </div>
                                                     <div class="col-lg-7 mt-3">
                                                         Công nghệ :
-                                                        <a ng-repeat="y in listTechnologyQuestion" href="#" ng-show="y.question_id == x.question_id"> {{y.technology_name}} |</a>
+                                                        <a ng-repeat="y in listTechnologyQuestion" ng-href="/Center/ShowFollowTechnology?id={{y.technology_id}}" ng-show="y.question_id == x.question_id"> {{y.technology_name}} |</a>
 
                                                     </div>
                                                     <div class="col-lg-5">
@@ -274,7 +308,7 @@
                                                     <div class="col-lg-12">
                                                         <h2 class="w-100 text-info">
                                                             <span class="bg-info text-white" style="border-radius:5px "><small class="p-1">+{{x.question_popular}}</small></span>
-                                                            <a href="#">
+                                                            <a  ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
                                                                 {{x.question_title}}
                                                             </a>
                                                         </h2>
@@ -287,7 +321,7 @@
                                                     </div>
                                                     <div class="col-lg-7 mt-3">
                                                         Công nghệ :
-                                                        <a ng-repeat="y in listTechnologyQuestion" href="#" ng-show="y.question_id == x.question_id"> {{y.technology_name}} |</a>
+                                                        <a ng-repeat="y in listTechnologyQuestion" ng-href="/Center/ShowFollowTechnology?id={{y.technology_id}}" ng-show="y.question_id == x.question_id"> {{y.technology_name}} |</a>
 
                                                     </div>
                                                     <div class="col-lg-5">
@@ -343,6 +377,15 @@
             }, function (response) {
                 // Second function handles error
                     $scope.listQuestionsUserAnswer = "Something went wrong";
+            });
+        //show User gợi ý kết bạn
+        $http.get("/ShareView/SuggestiotMakeFriends")
+            .then(function (response) {
+                // First function handles success
+                $scope.listSuggestiotMakeFriends = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listSuggestiotMakeFriends = "Something went wrong";
             });
     });
 </script>

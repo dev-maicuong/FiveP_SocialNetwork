@@ -410,6 +410,7 @@
           <Property Name="user_brozeMedal" Type="int" />
           <Property Name="user_vipMedal" Type="int" />
           <Property Name="user_phone" Type="varchar" MaxLength="15" />
+          <Property Name="user_statusOnline" Type="bit" />
         </EntityType>
         <EntityType Name="View_Post">
           <Key>
@@ -1751,6 +1752,7 @@
           <NavigationProperty Name="Tick_Question" Relationship="Self.FK_Tick_Question_User" FromRole="User" ToRole="Tick_Question" />
           <NavigationProperty Name="View_Post" Relationship="Self.FK_View_Post_User" FromRole="User" ToRole="View_Post" />
           <NavigationProperty Name="View_Question" Relationship="Self.FK_View_Question_User" FromRole="User" ToRole="View_Question" />
+          <Property Name="user_statusOnline" Type="Boolean" />
         </EntityType>
         <EntityType Name="View_Post">
           <Key>
@@ -2998,6 +3000,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="user_statusOnline" ColumnName="user_statusOnline" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="user_pass" ColumnName="user_pass" />
                 <ScalarProperty Name="user_firstName" ColumnName="user_firstName" />

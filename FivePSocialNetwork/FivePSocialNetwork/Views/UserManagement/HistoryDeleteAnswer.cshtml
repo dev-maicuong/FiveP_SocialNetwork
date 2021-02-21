@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ManagementTick";
+    ViewBag.Title = "HistoryDeleteAnswer";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
 
@@ -9,18 +9,18 @@
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">Bài viết đã đánh dấu</h6>
+                    <h6 class="h2 text-white d-inline-block mb-0">Thông báo</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="@Url.Action("IndexCenter","Center")">Trang chủ</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Đánh dấu</li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thông báo</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="col-lg-6 col-5 text-right">
                     @*<a href="@Url.Action("PostQuestion","Question")" class="btn btn-sm btn-neutral"><i class="far fa-paper-plane"></i> Đặt câu hỏi?</a>
-                    <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>*@
+                        <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>*@
                 </div>
             </div>
         </div>
@@ -33,13 +33,13 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header border-0">
-                    <h3 class="mb-0"> Bài viết bạn đã đánh dấu</h3>
+                    <h3 class="mb-0">Câu trả lời đã xóa</h3>
                 </div>
                 @*<div class="float-right" style="padding: 10px;">
-                    <a href="#" style="margin-left: 5px;">Nổi tiếng &nbsp;&nbsp;&nbsp; </a>
-                    <a href="#" style="margin-left: 5px;">Trả lời &nbsp;&nbsp;&nbsp;</a>
-                    <a href="#" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp; <i class="fas fa-undo-alt"></i></a>
-                </div>*@
+                        <a href="#" style="margin-left: 5px;">Nổi tiếng &nbsp;&nbsp;&nbsp; </a>
+                        <a href="#" style="margin-left: 5px;">Trả lời &nbsp;&nbsp;&nbsp;</a>
+                        <a href="#" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp; <i class="fas fa-undo-alt"></i></a>
+                    </div>*@
                 <div class="form-group mb-0">
                     <div class="input-group input-group-alternative input-group-merge">
                         <div class="input-group-prepend">
@@ -48,52 +48,46 @@
                         <input class="form-control" ng-model="txtSearch" placeholder="Tìm ..." type="text">
                     </div>
                 </div>
+
+                <!-- Light table -->
+
                 <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                        <thead class="thead-light">
+                    <table class="w-100 mt-3">
+                        <thead>
                             <tr>
-                                <th scope="col" class="sort" data-sort="name">Câu hỏi</th>
-                                <th scope="col">
-                                    Bỏ đánh dấu
+                                <th scope="col" class="text-center"> Stt</th>
+                                <th scope="col" class="sort" data-sort="name">Câu trả lời</th>
+                                <th scope="col" class="text-center">
+                                    Khôi phục
                                 </th>
-                                <th scope="col" class="text-right"> Stt</th>
                             </tr>
                         </thead>
                         <tbody class="list">
+
                             <tr ng-repeat="x in filteredTodos| filter: txtSearch">
-                                <td scope="row">
+                                <td class="text-center">
+                                    {{$index}}
+                                </td>
+                                <td scope="row" class="w-75">
                                     <div class="media align-items-center">
-                                        <a class="mr-2">
-                                            <center><i class="fa fa-chevron-up" style="font-size:200%"></i></center>
-                                            <center>
-                                                <p>{{x.question_totalRate}}</p>
-                                            </center>
-                                            <center><i class="fa fa-chevron-down mt--3" style="font-size:200%"></i></center>
+                                        <a href="@Url.Action("IndexDetailQuestion","DetailQuestion")" class="mr-2">
+
+                                            <i class="fas fa-info-circle"></i>
                                         </a>
                                         <div class="media-body">
-                                            <div>
-                                                <a ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
-                                                    <p class="mb--2" ng-show="x.question_title.length > 50">
-                                                        {{x.question_title.substring(0, 50) + "..."}}
-                                                    </p>
-                                                    <p class="mb--2" ng-show="x.question_title.length < 51">
-                                                        {{x.question_title}}
-                                                    </p>
-                                                </a>
-                                                
-                                            </div>
-                                            <div class="d-flex align-items-center mt-2">
-                                                <i class="fas fa-reply"></i> {{x.question_Answer}} &nbsp;&nbsp; <i class="far fa-comment-dots"></i> {{x.question_totalComment}}&nbsp;&nbsp; <i class="far fa-eye"></i> {{x.question_view}}
-                                            </div>
+                                            <a ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
+                                                <span class="name mb-0 text-sm" ng-show="x.answer_content.length > 50">
+                                                    {{x.answer_content.substring(0, 50) + "..."}}
+                                                </span>
+                                                <span class="name mb-0 text-sm" ng-show="x.answer_content.length < 50">
+                                                    {{x.answer_content}}
+                                                </span>
+                                            </a>
                                         </div>
-
                                     </div>
                                 </td>
-                                <td class="budget ">
-                                    <a ng-click="unTick(x.tickQuestion_id,$index)" href="#" data-toggle="tooltip" data-placement="top" title="Bỏ đánh dấu"><i class="far fa-check-circle" style="font-size:23px"></i></a>
-                                </td>
-                                <td class="text-right">
-                                    {{$index+1}}
+                                <td class="budget text-center">
+                                    <a href="#" ng-click="recycleBinAnswer(x.answer_id,$index)"><i class="fas fa-history" style="font-size:23px"></i></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,7 +105,7 @@
 <script>
     var app = angular.module('myApp', ["ui.bootstrap"]);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("/UserManagement/ListTick")
+        $http.get("/UserManagement/ListHistoryDeleteAnswer")
             .then(function (response) {
                 //Gia dinh
                 $scope.filteredTodos = []
@@ -136,9 +130,10 @@
                 // Second function handles error
                 $scope.content = "Something went wrong";
             });
-        $scope.unTick = function (id, idx) {
+        $scope.recycleBinAnswer = function (id, idx) {
             $scope.filteredTodos.splice(idx, 1);
-            $http.get("/UserManagement/UnTick?id=" + id)
+            $http.get("/UserManagement/RecycleBinAnswer?id=" + id)
         }
     });
 </script>
+

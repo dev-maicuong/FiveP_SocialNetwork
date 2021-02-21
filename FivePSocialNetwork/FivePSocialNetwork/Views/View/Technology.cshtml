@@ -71,11 +71,11 @@
                     <div class="text-left border" style="background-color:#f8f9fe;padding:10px">
 
                         <div class="title">
-                            <a href="#" class="badge badge-pill badge-info text-uppercase"><i class="fas fa-tag"></i>{{x.technology_name}}</a>
+                            <a ng-href="/Center/ShowFollowTechnology?id={{x.technology_id}}" class="badge badge-pill badge-info text-uppercase"><i class="fas fa-tag"></i>{{x.technology_name}}</a>
                         </div>
 
                         <div class="text">
-                            <span>{{x.technology_note}} Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
+                            <span>{{x.technology_note}}</span>
                         </div>
                         <div class="row">
                             <div class="col-xl-5">
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-xl-7">
 
-                                <p class="text-left text-muted mb-0" style="font-size:12px;font-family:Arial">834 asked today, 5355 this week</p>
+                                <p class="text-left text-muted mb-0" style="font-size:12px;font-family:Arial">{{x.technology_popular}} nổi tiếng</p>
                             </div>
                         </div>
                     </div>
