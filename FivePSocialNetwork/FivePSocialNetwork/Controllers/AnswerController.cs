@@ -83,6 +83,17 @@ namespace FivePSocialNetwork.Controllers
                     }
                 }
             }
+            //tự động đánh dấu hoạt động cho người trả lời bài viết để dc thông báo!
+            Show_Activate_Question checkUser = db.Show_Activate_Question.SingleOrDefault(n => n.user_id == user_id && n.question_id == answer.question_id);
+            if(checkUser == null)
+            {
+                db.Show_Activate_Question.Add(new Show_Activate_Question
+                {
+                    showActivateQ_dateCreate = DateTime.Now,
+                    user_id = user_id,
+                    question_id = answer.question_id
+                });
+            }
             // thông báo ai trả lời bài viết cho người viết bài
             var idUserPost = db.Questions.Find(answer.question_id).user_id;
             if (idUserPost != user_id)
@@ -329,7 +340,7 @@ namespace FivePSocialNetwork.Controllers
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 4 || replyPostCalculateMedal == 5)
                 {
-                    db.Users.Find(answer.user_id).user_popular += db.Questions.Find(answer.question_id).question_popular;
+                    db.Users.Find(answer.user_id).user_popular += db.Questions.Find(answer.question_id).question_popular + 1;
                     db.Users.Find(answer.user_id).user_brozeMedal++;
                 }
                 else if (replyPostCalculateMedal == 8 || replyPostCalculateMedal == 9)
@@ -488,7 +499,7 @@ namespace FivePSocialNetwork.Controllers
                 var replyPostCalculateMedal = answer.answer_medalCalculate;
                 if (replyPostCalculateMedal == 3 || replyPostCalculateMedal == 2)
                 {
-                    db.Users.Find(answer.user_id).user_popular -= db.Questions.Find(answer.question_id).question_popular;
+                    db.Users.Find(answer.user_id).user_popular -= db.Questions.Find(answer.question_id).question_popular +1;
                     db.Users.Find(answer.user_id).user_brozeMedal--;
                 }
                 else if (replyPostCalculateMedal == 7 || replyPostCalculateMedal == 6)
@@ -523,8 +534,8 @@ namespace FivePSocialNetwork.Controllers
             {
                 answer.answer_correct = false;
                 user.user_vipMedal -= 1;
-                user.user_popular -= question.question_popular;
-                question.question_popular -= 10;
+                user.user_popular -= 60;
+                question.question_popular -= 30;
                 db.SaveChanges();
             }
             else
@@ -534,19 +545,20 @@ namespace FivePSocialNetwork.Controllers
                 {
                     answer.answer_correct = true;
                     user.user_vipMedal += 1;
-                    user.user_popular += question.question_popular;
-                    question.question_popular += 10;
+                    question.question_popular += 30;
+                    user.user_popular += 60;
                     db.SaveChanges();
                 }
                 else
                 {
+                    //user bỏ dấu tick
                     db.Answers.Find(check.answer_id).answer_correct = false;
                     db.Users.Find(check.user_id).user_vipMedal -= 1;
-                    db.Users.Find(check.user_id).user_popular -= db.Questions.Find(check.question_id).question_popular;
-
+                    db.Users.Find(check.user_id).user_popular -= 60;
+                    //user đánh dấu tick
                     answer.answer_correct = true;
                     user.user_vipMedal += 1;
-                    user.user_popular += question.question_popular;
+                    user.user_popular += 60;
                     db.SaveChanges();
                 }
             }

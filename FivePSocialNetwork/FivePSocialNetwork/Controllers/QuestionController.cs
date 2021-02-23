@@ -216,6 +216,7 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (question.question_id == 0)
             {
+                
                 //lưu tỉm kiếm
                 question.question_keywordSearch = question.question_content + question.question_title;
                 foreach (var item in technologyQuestion)
@@ -263,6 +264,15 @@ namespace FivePSocialNetwork.Controllers
                 question.question_popular = 0;
                 question.question_admin_recycleBin = false;
                 db.Questions.Add(question);
+                db.SaveChanges();
+                //Tự đánh dấu để nhận thông báo cho bài viết của mình
+                Question lastQuestion = db.Questions.Where(n => n.user_id == user_id).OrderByDescending(n=>n.question_dateCreate).FirstOrDefault();
+                db.Show_Activate_Question.Add(new Show_Activate_Question
+                {
+                    showActivateQ_dateCreate = DateTime.Now,
+                    user_id = user_id,
+                    question_id = lastQuestion.question_id
+                });
                 db.SaveChanges();
                 return View(question);
             }

@@ -732,6 +732,8 @@
     <Content Include="assets\Center\img\brand\5p.png" />
     <Content Include="assets\Center\img\brand\blue.png" />
     <Content Include="assets\Center\img\brand\favicon.png" />
+    <Content Include="assets\Center\img\brand\Logo.png" />
+    <Content Include="assets\Center\img\brand\LogoFiveP.png" />
     <Content Include="assets\Center\img\brand\white.png" />
     <Content Include="assets\Center\img\icons\common\github.svg" />
     <Content Include="assets\Center\img\icons\common\google.svg" />

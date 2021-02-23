@@ -71,7 +71,6 @@
                                             <div class="col-lg-5">
                                                 <a ng-href="/UserManagement/PageUser?id={{x.user_id}}">
                                                     <img src="~/Image/Users/{{x.user_avatar}}" style="width: 38px; height: 38px; border-radius: 50px; border: 1px solid green" />
-
                                                     <b style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">{{x.user_firstName + " " + x.user_lastName}}</b>
                                                     <span>{{x.user_popular}} <i class="fas fa-fire" style="color:red"></i></span>
                                                 </a>
@@ -79,7 +78,6 @@
                                                 <span class="h7 text-muted mt--2 border-bottom">{{x.user_vipMedal}}<i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i> &nbsp;  {{x.user_goldMedal}} <i class="fas fa-award" style="color:yellow;font-size:11px"></i> &nbsp;  {{x.user_silverMedal}} <i class="fas fa-award" style="color:silver;font-size:11px"></i> &nbsp;  {{x.user_brozeMedal}} <i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </span>
                                                 <br />
                                                 <span><i class="fa fa-calendar">&nbsp;</i>Đăng ngày:  {{x.question_dateEdit}}</span>
-
                                             </div>
                                         </div>
                                     </div>
@@ -146,7 +144,6 @@
                                             <div class="col-lg-5">
                                                 <a ng-href="/UserManagement/PageUser?id={{x.user_id}}">
                                                     <img src="~/Image/Users/{{x.user_avatar}}" style="width: 38px; height: 38px; border-radius: 50px; border: 1px solid green" />
-
                                                     <b style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">{{x.user_firstName + " " + x.user_lastName}}</b>
                                                     <span>{{x.user_popular}} <i class="fas fa-fire" style="color:red"></i></span>
                                                 </a>
@@ -154,7 +151,6 @@
                                                 <span class="h7 text-muted mt--2 border-bottom">{{x.user_vipMedal}}<i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i> &nbsp;  {{x.user_goldMedal}} <i class="fas fa-award" style="color:yellow;font-size:11px"></i> &nbsp;  {{x.user_silverMedal}} <i class="fas fa-award" style="color:silver;font-size:11px"></i> &nbsp;  {{x.user_brozeMedal}} <i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </span>
                                                 <br />
                                                 <span><i class="fa fa-calendar">&nbsp;</i>Đăng ngày:  {{x.question_dateEdit}}</span>
-
                                             </div>
                                         </div>
                                     </div>
@@ -371,7 +367,6 @@
                                             <div class="col-lg-5">
                                                 <a ng-href="/UserManagement/PageUser?id={{x.user_id}}">
                                                     <img src="~/Image/Users/{{x.user_avatar}}" style="width: 38px; height: 38px; border-radius: 50px; border: 1px solid green" />
-
                                                     <b style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">{{x.user_firstName + " " + x.user_lastName}}</b>
                                                     <span>{{x.user_popular}} <i class="fas fa-fire" style="color:red"></i></span>
                                                 </a>
@@ -379,7 +374,6 @@
                                                 <span class="h7 text-muted mt--2 border-bottom">{{x.user_vipMedal}}<i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i> &nbsp;  {{x.user_goldMedal}} <i class="fas fa-award" style="color:yellow;font-size:11px"></i> &nbsp;  {{x.user_silverMedal}} <i class="fas fa-award" style="color:silver;font-size:11px"></i> &nbsp;  {{x.user_brozeMedal}} <i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </span>
                                                 <br />
                                                 <span><i class="fa fa-calendar">&nbsp;</i>Đăng ngày:  {{x.question_dateEdit}}</span>
-
                                             </div>
                                         </div>
                                     </div>
@@ -398,7 +392,6 @@
                                 </div>
                                 <div class="ml-2">
                                     <a href="#" class="h5 m-0">{{x.user_firstName +" "+ x.user_lastName}}</a>
-
                                     <div class="h7 text-muted">{{x.user_vipMedal}}<i class="fab fa-galactic-senate" style="color:orangered;font-size:28px"></i> {{x.user_goldMedal}}<i class="fas fa-award" style="color:yellow"></i>  {{x.user_silverMedal}}<i class="fas fa-award" style="color:silver"></i> {{x.user_brozeMedal}}<i class="fas fa-award" style="color:#e88d15"></i> </div>
                                 </div>
                             </div>
@@ -428,24 +421,12 @@
                         </p>
                         <div>
                             <span class="badge badge-primary" ng-repeat="y in listTechnologyQuestions" ng-show="y.question_id == x.question_id">{{y.technology_name}}</span>
-
                         </div>
-
-
                     </div>
-
                     <div class="card-footer">
                         <a class="card-link"><i class="fas fa-fire-alt"></i> Nổi tiếng {{x.user_popular}}</a>
                         <a class="card-link"><i class="fas fa-reply-all"></i> Trả lời {{x.question_Answer}}</a>
                         <a class="card-link"><i class="fas fa-eye"></i> Lượt xem {{x.question_view}}</a>
-                    </div>
-                </div>
-
-
-                <div class="clearfix"></div>
-                <div class="row">
-                    <div class="col-xl-12 float-left">
-                        phân trang
                     </div>
                 </div>
             </div>

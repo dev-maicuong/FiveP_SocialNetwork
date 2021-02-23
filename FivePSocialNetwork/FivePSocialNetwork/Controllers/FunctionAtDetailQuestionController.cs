@@ -19,14 +19,13 @@ namespace FivePSocialNetwork.Controllers
             {
                 int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
                 View_Question check = db.View_Question.SingleOrDefault(n => n.question_id == id && n.user_id == user_id);
-                if (check != null && (check.viewQuestion_dateCreate.Value.Minute + 30 < DateTime.Now.Minute || check.viewQuestion_dateCreate.Value.Minute - 30 > DateTime.Now.Minute || check.viewQuestion_dateCreate.Value.Hour != DateTime.Now.Hour || check.viewQuestion_dateCreate.Value.Day != DateTime.Now.Day || check.viewQuestion_dateCreate.Value.Year != DateTime.Now.Year))
+                if (check != null && (check.viewQuestion_dateCreate.Value.Hour != DateTime.Now.Hour || check.viewQuestion_dateCreate.Value.Day != DateTime.Now.Day || check.viewQuestion_dateCreate.Value.Year != DateTime.Now.Year))
                 {
                     // Lưu bảng View_Question
                     db.View_Question.Find(check.viewQuestion_id).viewQuestion_dateCreate = DateTime.Now;
                     // lưu bảng question
                     db.Questions.Find(id).question_view += 1;
                     db.SaveChanges();
-
                 }
                 else if(check == null)
                 {

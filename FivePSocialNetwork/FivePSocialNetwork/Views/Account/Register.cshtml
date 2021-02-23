@@ -67,7 +67,9 @@ Author URL: http://w3layouts.com
                                     <input type="password" name="Pass_retype" id="Pass_retype" placeholder="">
                                 </div>
                                 <button type="submit" class="btn btn-style mt-3 submit">Thành viên 5P </button>
-                                <p class="already"> <a href="#signin"> Quên mật khẩu?</a></p>
+                                <p class="already"> <a href="@Url.Action("Login","Account")"> Đăng nhập</a></p>
+                                <p class="already"> <a href="@Url.Action("ForgotPassword","Account")"> Quên mật khẩu?</a></p>
+
                                 <div class="ui error message"></div>
                             </form>
 

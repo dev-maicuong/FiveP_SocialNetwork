@@ -11,7 +11,7 @@
     <div class="content">
         <div class="page-inner">
             <div class="page-header">
-                <h4 class="page-title">Database tỉnh</h4>
+                <h4 class="page-title">Database xã</h4>
                 <ul class="breadcrumbs">
                     <li class="nav-home">
                         <a href="#">
@@ -28,7 +28,7 @@
                         <i class="flaticon-right-arrow"></i>
                     </li>
                     <li class="nav-item">
-                        <a href="#">Database tỉnh</a>
+                        <a href="#">Database xã</a>
                     </li>
                 </ul>
             </div>
@@ -118,10 +118,16 @@
 
                                                 @Html.AntiForgeryToken()
                                                 <div class="row">
-                                                    <div class="col-md-12 pr-0">
+                                                    @*<div class="col-md-12 pr-0">
                                                         <div class="form-group form-group-default">
                                                             <label>Tên</label>
                                                             <input name="commune_name" id="addPosition" required="" type="text" class="form-control" placeholder="Tên..">
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="col-md-12 pr-0">
+                                                        <div class="form-group form-group-default">
+                                                            <label>Tên ds</label>
+                                                            <input name="dsxa" id="" required="" type="text" class="form-control" placeholder="Tên..">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 pr-0">
@@ -130,6 +136,7 @@
                                                             <select name="district_id" class="form-control">
                                                                 @foreach(var item in districts)
                                                                 {
+                                                                <option value="1201">Tân Sơn</option>
                                                                     <option value="@item.district_id">@item.district_name</option>
                                                                 }
                                                             </select>
@@ -270,7 +277,7 @@
                 //Gia dinh
                 $scope.filteredTodos = []
                     , $scope.currentPage = 1
-                    , $scope.numPerPage = 12
+                    , $scope.numPerPage = 50
                     , $scope.maxSize = 5;
 
                 //Xac dinh list phan trang

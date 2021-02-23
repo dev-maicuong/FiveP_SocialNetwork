@@ -290,7 +290,7 @@ namespace FivePSocialNetwork.Controllers
             HttpCookie cookie = new HttpCookie("user_id");
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
-            return Redirect(HomeCenter);
+            return RedirectToAction("Login");
         }
         //-------------------------------------------------Cài đặt thông tin cá nhân----------------------------------
         public ActionResult SettingAccount()

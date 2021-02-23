@@ -28,7 +28,7 @@ namespace FivePSocialNetwork.Areas.Admin.Controllers
                 provincial_dateEdit = n.provincial_dateEdit.ToString(),
                 provincial_recycleBin = n.provincial_recycleBin
 
-            }).ToList();
+            }).OrderBy(n=>n.provincial_name).ToList();
             return Json(provincialAdmins, JsonRequestBehavior.AllowGet);
         }
         public JsonResult RecycleBinProvincialJson()
@@ -104,7 +104,7 @@ namespace FivePSocialNetwork.Areas.Admin.Controllers
                 provincial_id = n.provincial_id,
                 provincial_name = n.Provincial.provincial_name
 
-            }).ToList();
+            }).OrderBy(n=>n.provincial_name).ToList();
             return Json(districtAdmins, JsonRequestBehavior.AllowGet);
         }
         //Thêm huyện
@@ -186,13 +186,26 @@ namespace FivePSocialNetwork.Areas.Admin.Controllers
             return Json(comuneAdmins, JsonRequestBehavior.AllowGet);
         }
         //Thêm -----------
-        public ActionResult CreateCommune([Bind(Include = "commune_id,commune_name,commune_activate,commune_dateCreate,commune_dateEdit,commune_recycleBin,district_id")] Commune commune)
+        public ActionResult CreateCommune([Bind(Include = "commune_id,commune_name,commune_activate,commune_dateCreate,commune_dateEdit,commune_recycleBin,district_id")] Commune commune, string dsxa)
         {
-            commune.commune_activate = true;
-            commune.commune_dateCreate = DateTime.Now;
-            commune.commune_dateEdit = DateTime.Now;
-            commune.commune_recycleBin = false;
-            db.Communes.Add(commune);
+            //commune.commune_activate = true;
+            //commune.commune_dateCreate = DateTime.Now;
+            //commune.commune_dateEdit = DateTime.Now;
+            //commune.commune_recycleBin = false;
+            //db.Communes.Add(commune);
+            string[] xa = dsxa.Split(',');
+            foreach(var item in xa)
+            {
+                db.Communes.Add(new Commune
+                {
+                    commune_activate = true,
+                    commune_recycleBin = false,
+                    commune_dateCreate = DateTime.Now,
+                    commune_dateEdit = DateTime.Now,
+                    commune_name = item,
+                    district_id = commune.district_id
+                });
+            }
             db.SaveChanges();
             return RedirectToAction("Commune");
         }
