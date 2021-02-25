@@ -61,9 +61,10 @@ namespace FivePSocialNetwork.Controllers
                     return Redirect(HomeCenter);
                 }
                 Question question1 = db.Questions.Find(question.question_id);
+                User user = db.Users.Find(user_id);
                 //công nghệ
                 List<Teachnology_Question> teachnology_Questions = db.Teachnology_Question.Where(n => n.question_id == question.question_id).ToList();
-                question1.question_keywordSearch = question.question_title + question.question_content;
+                question1.question_keywordSearch = question.question_title + question.question_content+ user.user_firstName + user.user_lastName;
                 if (teachnology_Questions == null)
                 {
                     foreach (var item in technologyQuestion)
@@ -216,9 +217,9 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (question.question_id == 0)
             {
-                
+                User user = db.Users.Find(user_id);
                 //lưu tỉm kiếm
-                question.question_keywordSearch = question.question_content + question.question_title;
+                question.question_keywordSearch = question.question_content + question.question_title+ user.user_firstName + user.user_lastName;
                 foreach (var item in technologyQuestion)
                 {
                     // lưu tên công nghệ

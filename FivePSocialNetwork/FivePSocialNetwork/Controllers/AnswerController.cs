@@ -61,6 +61,16 @@ namespace FivePSocialNetwork.Controllers
             {
                 return Redirect(Request.UrlReferrer.ToString());
             }
+            //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+            List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 3).ToList();
+            if (checkAnswerMedal != null)
+            {
+                foreach (var item in checkAnswerMedal)
+                {
+                    db.Users.Find(item.user_id).user_popular += 1;
+                }
+            }
+
             //Bài viết
             db.Questions.Find(answer.question_id).question_Answer++;
             db.Questions.Find(answer.question_id).question_popular++;
@@ -204,7 +214,15 @@ namespace FivePSocialNetwork.Controllers
             Question question = db.Questions.Find(question_id);
             question.question_totalComment += 1;
             question.question_popular += 1;
-
+            //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+            List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+            if (checkAnswerMedal != null)
+            {
+                foreach (var item in checkAnswerMedal)
+                {
+                    db.Users.Find(item.user_id).user_popular += 1;
+                }
+            }
             db.Comment_Answer.Add(comment_Answer);
             db.SaveChanges();
             return Redirect(Request.UrlReferrer.ToString());
@@ -223,6 +241,16 @@ namespace FivePSocialNetwork.Controllers
             Answer answer = db.Answers.Find(answer_id);
             if (checkRateAnswer == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 //Lưu đánh giá huy chương
                 answer.answer_medalCalculate++;
                 answer.answer_totalRate++;
@@ -262,6 +290,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRateAnswer.rateAnswer_rateStatus == true)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 //Lưu huy chương người dùng
                 answer.answer_medalCalculate--;
                 answer.answer_totalRate--;
@@ -298,6 +336,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRateAnswer.rateAnswer_rateStatus == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 //Lưu huy chương người dùng
                 answer.answer_medalCalculate++;
                 answer.answer_totalRate++;
@@ -333,6 +381,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 2;
+                    }
+                }
+
                 //Lưu huy chương
                 answer.answer_medalCalculate += 2;
                 answer.answer_totalRate+=2;
@@ -380,6 +438,16 @@ namespace FivePSocialNetwork.Controllers
             Answer answer = db.Answers.Find(answer_id);
             if (check == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 //Lưu huy chương
                 answer.answer_medalCalculate--;
                 answer.answer_totalRate--;
@@ -418,6 +486,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (check.rateAnswer_rateStatus == false)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 //Lưu huy chương
                 answer.answer_medalCalculate++;
                 answer.answer_totalRate++;
@@ -454,6 +532,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (check.rateAnswer_rateStatus == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 //Lưu huy chương
                 answer.answer_medalCalculate--;
                 answer.answer_totalRate--;
@@ -489,6 +577,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == answer.question_id && n.answer_medalCalculate > 4).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 2;
+                    }
+                }
+
                 //Lưu huy chương
                 answer.answer_medalCalculate -= 2;
                 answer.answer_totalRate-=2;

@@ -65,6 +65,8 @@
     <EntitySetMapping Name="Denounce_User">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Denounce_User">
         <MappingFragment StoreEntitySet="Denounce_User">
+          <ScalarProperty Name="denounce_status" ColumnName="denounce_status" />
+          <ScalarProperty Name="denounce_viewStatus" ColumnName="denounce_viewStatus" />
           <ScalarProperty Name="denounceUser_id" ColumnName="denounceUser_id" />
           <ScalarProperty Name="accuser_id" ColumnName="accuser_id" />
           <ScalarProperty Name="discredit_id" ColumnName="discredit_id" />
@@ -400,6 +402,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="user_SecurityAccount" ColumnName="user_SecurityAccount" />
           <ScalarProperty Name="user_statusOnline" ColumnName="user_statusOnline" />
           <ScalarProperty Name="user_id" ColumnName="user_id" />
           <ScalarProperty Name="user_pass" ColumnName="user_pass" />
@@ -456,6 +459,16 @@
           <ScalarProperty Name="question_id" ColumnName="question_id" />
           <ScalarProperty Name="viewQuestion_dateCreate" ColumnName="viewQuestion_dateCreate" />
           <ScalarProperty Name="user_id" ColumnName="user_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_IP">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User_IP">
+        <MappingFragment StoreEntitySet="User_IP">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="userIP_dateLogin" ColumnName="userIP_dateLogin" />
+          <ScalarProperty Name="userIP_IP" ColumnName="userIP_IP" />
+          <ScalarProperty Name="userIP_id" ColumnName="userIP_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

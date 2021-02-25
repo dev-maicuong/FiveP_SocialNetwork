@@ -3,10 +3,13 @@
     ViewBag.Title = "VerificationCodesPhone";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
-
-<h2>Mã xác thực sẽ hết sau 3 phút.</h2>
-<form method="post">
-    <h2 class="text-danger">@ViewBag.verificationCodesPhone</h2>
-    <input type="number" name="verificationCode" class="form-control w-50" required="" placeholder="nhập mã xác thực.." />
-    <button type="submit" class="btn btn-dark">Xác thực</button>
-</form>
+<div class="row">
+    <div class="col-xl-12 p-9">
+        <h2><i class="fas fa-code"></i> Mã xác thực sẽ hết sau 3 phút.</h2>
+        <form method="post">
+            <h2 class="text-danger">@ViewBag.verificationCodesPhone</h2>
+            <input type="number" name="verificationCode" class="form-control w-50" required="" placeholder="nhập mã xác thực.." />
+            <button type="submit" class="btn btn-primary mt-2 w-50"><i class="far fa-check-circle"></i> Xác thực</button>
+        </form>
+    </div>
+</div>

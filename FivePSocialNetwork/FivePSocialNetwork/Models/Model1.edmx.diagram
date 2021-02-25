@@ -87,6 +87,8 @@
         <AssociationConnector Association="FivePSocialNetWorkModel.FK_Tick_Question_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePSocialNetWorkModel.FK_View_Post_User" ManuallyRouted="false" />
         <AssociationConnector Association="FivePSocialNetWorkModel.FK_View_Question_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FivePSocialNetWorkModel.User_IP" Width="1.5" PointX="8.25" PointY="41.5" />
+        <AssociationConnector Association="FivePSocialNetWorkModel.FK_User_IP_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

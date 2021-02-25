@@ -3,10 +3,14 @@
     ViewBag.Title = "EmailAuthentication";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
+<div class="row">
+    <div class="col-xl-12 p-9">
+        <h2><i class="fas fa-code"></i> Mã có hiệu lực trong 3p!</h2>
+        <form method="post">
+            <input type="text" name="codeAuthentication" class="form-control w-50" required="" placeholder="Nhập mã xác thực..." />
+            <button type="submit" class="btn btn-primary mt-2 w-50"><i class="far fa-check-circle"></i> Xác thực</button>
+        </form>
+    </div>
+</div>
 
-<h2>Mã có hiệu lực trong 3p</h2>
-<form method="post">
-    <input type="text" name="codeAuthentication" class="form-control" required="" placeholder="Nhập mã xác thực..."/>
-    <button type="submit" class="btn btn-dark">Xác thực</button>
-</form>
 

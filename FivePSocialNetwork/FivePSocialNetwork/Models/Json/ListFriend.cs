@@ -15,6 +15,10 @@ namespace FivePSocialNetwork.Models.Json
         public string friend_dateResponse { get; set; }
         public string friend_dateUnfriend { get; set; }
         public Nullable<bool> friend_recycleBin { get; set; }
+        public string nameuserRequest { get; set; }
+        public string nameuserResponse { get; set; }
+        public string avatauserResponse { get; set; }
+        public string avatauserRequest { get; set; }
 
         public string user_firstName { get; set; }
         public string user_avatar { get; set; }

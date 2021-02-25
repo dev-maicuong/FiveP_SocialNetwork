@@ -72,6 +72,8 @@
           <Property Name="denounceUser_content" Type="nvarchar" MaxLength="300" />
           <Property Name="denounceUser_dateCreate" Type="datetime" />
           <Property Name="denounceUser_recycleBin" Type="bit" />
+          <Property Name="denounce_viewStatus" Type="bit" />
+          <Property Name="denounce_status" Type="bit" />
         </EntityType>
         <EntityType Name="District">
           <Key>
@@ -411,6 +413,16 @@
           <Property Name="user_vipMedal" Type="int" />
           <Property Name="user_phone" Type="varchar" MaxLength="15" />
           <Property Name="user_statusOnline" Type="bit" />
+          <Property Name="user_SecurityAccount" Type="bit" />
+        </EntityType>
+        <EntityType Name="User_IP">
+          <Key>
+            <PropertyRef Name="userIP_id" />
+          </Key>
+          <Property Name="userIP_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userIP_IP" Type="varchar" MaxLength="50" />
+          <Property Name="userIP_dateLogin" Type="datetime" />
+          <Property Name="user_id" Type="int" />
         </EntityType>
         <EntityType Name="View_Post">
           <Key>
@@ -934,6 +946,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_IP_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_IP" Type="Self.User_IP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="User_IP">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Provincial">
           <End Role="Provincial" Type="Self.Provincial" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -1050,6 +1074,7 @@
           <EntitySet Name="Technology" EntityType="Self.Technology" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tick_Question" EntityType="Self.Tick_Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_IP" EntityType="Self.User_IP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="View_Post" EntityType="Self.View_Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="View_Question" EntityType="Self.View_Question" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Advertisement_User" Association="Self.FK_Advertisement_User">
@@ -1220,6 +1245,10 @@
             <End Role="District" EntitySet="District" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <AssociationSet Name="FK_User_IP_User" Association="Self.FK_User_IP_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="User_IP" EntitySet="User_IP" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Provincial" Association="Self.FK_User_Provincial">
             <End Role="Provincial" EntitySet="Provincial" />
             <End Role="User" EntitySet="User" />
@@ -1332,6 +1361,8 @@
           <Property Name="denounceUser_recycleBin" Type="Boolean" />
           <NavigationProperty Name="User" Relationship="Self.FK_Denounce_User_User" FromRole="Denounce_User" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Denounce_User_User1" FromRole="Denounce_User" ToRole="User" />
+          <Property Name="denounce_viewStatus" Type="Boolean" />
+          <Property Name="denounce_status" Type="Boolean" />
         </EntityType>
         <EntityType Name="District">
           <Key>
@@ -1753,6 +1784,8 @@
           <NavigationProperty Name="View_Post" Relationship="Self.FK_View_Post_User" FromRole="User" ToRole="View_Post" />
           <NavigationProperty Name="View_Question" Relationship="Self.FK_View_Question_User" FromRole="User" ToRole="View_Question" />
           <Property Name="user_statusOnline" Type="Boolean" />
+          <NavigationProperty Name="User_IP" Relationship="FivePSocialNetWorkModel.FK_User_IP_User" FromRole="User" ToRole="User_IP" />
+          <Property Name="user_SecurityAccount" Type="Boolean" />
         </EntityType>
         <EntityType Name="View_Post">
           <Key>
@@ -2594,7 +2627,34 @@
             <End Role="User" EntitySet="Users" />
             <End Role="View_Question" EntitySet="View_Question" />
           </AssociationSet>
+          <EntitySet Name="User_IP" EntityType="FivePSocialNetWorkModel.User_IP" />
+          <AssociationSet Name="FK_User_IP_User" Association="FivePSocialNetWorkModel.FK_User_IP_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User_IP" EntitySet="User_IP" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="User_IP">
+          <Key>
+            <PropertyRef Name="userIP_id" />
+          </Key>
+          <Property Name="userIP_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userIP_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="userIP_dateLogin" Type="DateTime" Precision="3" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="FivePSocialNetWorkModel.FK_User_IP_User" FromRole="User_IP" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_User_IP_User">
+          <End Type="FivePSocialNetWorkModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="FivePSocialNetWorkModel.User_IP" Role="User_IP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="User_IP">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2665,6 +2725,8 @@
           <EntitySetMapping Name="Denounce_User">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Denounce_User">
               <MappingFragment StoreEntitySet="Denounce_User">
+                <ScalarProperty Name="denounce_status" ColumnName="denounce_status" />
+                <ScalarProperty Name="denounce_viewStatus" ColumnName="denounce_viewStatus" />
                 <ScalarProperty Name="denounceUser_id" ColumnName="denounceUser_id" />
                 <ScalarProperty Name="accuser_id" ColumnName="accuser_id" />
                 <ScalarProperty Name="discredit_id" ColumnName="discredit_id" />
@@ -3000,6 +3062,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="user_SecurityAccount" ColumnName="user_SecurityAccount" />
                 <ScalarProperty Name="user_statusOnline" ColumnName="user_statusOnline" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="user_pass" ColumnName="user_pass" />
@@ -3056,6 +3119,16 @@
                 <ScalarProperty Name="question_id" ColumnName="question_id" />
                 <ScalarProperty Name="viewQuestion_dateCreate" ColumnName="viewQuestion_dateCreate" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_IP">
+            <EntityTypeMapping TypeName="FivePSocialNetWorkModel.User_IP">
+              <MappingFragment StoreEntitySet="User_IP">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="userIP_dateLogin" ColumnName="userIP_dateLogin" />
+                <ScalarProperty Name="userIP_IP" ColumnName="userIP_IP" />
+                <ScalarProperty Name="userIP_id" ColumnName="userIP_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -24,6 +24,7 @@ namespace FivePSocialNetwork.Controllers
             List<ListUsers> listUsers = users.Select(n => new ListUsers
             {
                 user_id = n.user_id,
+                user_popular = n.user_popular,
                 user_firstName = n.user_firstName,
                 user_lastName = n.user_lastName,
                 user_email = n.user_email,

@@ -38,9 +38,22 @@
 
 </style> 
 <div class="header bg-primary pb-6" ng-app="myApp">
-    <div class="container-fluid">
+    <div class="container-fluid"  ng-controller="myCtrl">
         <div class="header-body">
             <div class="row align-items-center py-4">
+                <div class="col-lg-12">
+                    @if (Session["checkPass"] != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="alert-inner--icon"><i class="ni ni-bell-55"></i></span>
+                            <span class="alert-inner--text"><strong>Thông báo!</strong> Mật khẩu không đúng! Vui lòng nhập mật khẩu khác.</span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        Session["checkPass"] = null;
+                    }
+                </div>
                 <div class="col-lg-6 col-7">
                     <h6 class="h2 text-white d-inline-block mb-0">Bảo mật</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
@@ -109,7 +122,7 @@
                             {
                                 @:Đã xác thực.
                             }
-                            else
+                            else if((user.user_phone != null ||user.user_phone != "")&& user.user_verifyPhoneNumber == false)
                             {
                                 <a href="@Url.Action("NumberPhoneVerification","Account")" class="btn btn-link"><span style="color:#fb577a">* Xác thực.</span></a>
                             }
@@ -117,6 +130,7 @@
                             @if (Session["checkPhone"] != null)
                             {
                                 <div style="color:orangered">@Session["checkPhone"].ToString()</div>
+                                Session["checkPhone"] = null;
                             }
                             <div class="collapse" id="collapseExampleNumberPhone">
                                 <div class="card card-body">
@@ -149,10 +163,10 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-7" ng-controller="myCtrl">
+                        <div class="col-xl-9">
                             Đăng nhập 2 lớp :&nbsp;&nbsp;&nbsp;
 
-                            @if (user.user_loginAuthentication == true)
+                            @if (user.user_loginAuthentication == true && (user.user_phone != null || user.user_phone != "" || user.user_email != null) && (user.user_verifyPhoneNumber == true || user.user_emailAuthentication == true))
                             {
                                 <label class="custom-toggle">
                                     <input type="checkbox" onclick="CheckAuthentication()" checked ng-click="changeAuthentication()" />
@@ -160,7 +174,7 @@
                                 </label>
                                 <span id="status">Bật.</span>
                             }
-                            else
+                            else if (user.user_loginAuthentication == false && (user.user_phone != null || user.user_phone != "" ||user.user_email != null) && (user.user_verifyPhoneNumber == true || user.user_emailAuthentication == true))
                             {
                                 <label class="custom-toggle">
                                     <input type="checkbox" onclick="CheckAuthentication()" ng-click="changeAuthentication()" />
@@ -168,6 +182,44 @@
                                 </label>
                                 <span id="status">Tắt.</span>
                             }
+                            else
+                            {
+                                <label class="custom-toggle">
+                                    <span class="custom-toggle-slider rounded-circle"></span>
+                                </label>
+                                <span style="color:#fb577a">* Bạn phải xác thực email hoặc số điện thoại mới sử dụng được chức năng này!</span>
+                            }
+                        </div>
+                        <div class="col-xl-8 mt-2">
+                            Bảo vệ tài khoản :&nbsp;&nbsp;&nbsp;
+                            @if (user.user_SecurityAccount == true && (user.user_phone != null || user.user_phone != "") && user.user_verifyPhoneNumber == true)
+                            {
+                                <label class="custom-toggle">
+                                    <a onclick="return window.confirm('Bạn có chắc muốn thực hiện hành động này! Tắt chức năng này, tài khoản sẽ mất an toàn.')" href="@Url.Action("SecurityAccount","Account")">
+                                        <input type="checkbox" checked onclick="CheckSecurityAccount()" />
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </a>
+                                </label>
+                                <span id="securityAccount">Bật.</span>
+                            }
+                            else if (user.user_SecurityAccount == false && (user.user_phone != null || user.user_phone != "") && user.user_verifyPhoneNumber == true)
+                            {
+                                <label class="custom-toggle">
+                                    <a href="@Url.Action("SecurityAccount","Account")">
+                                        <input type="checkbox" onclick="CheckSecurityAccount()" />
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </a>
+                                </label>
+                                <span id="securityAccount">Tắt.</span>
+                            }
+                            else
+                            {
+                                <label class="custom-toggle">
+                                    <span class="custom-toggle-slider rounded-circle"></span>
+                                </label>
+                                <span style="color:#fb577a">* Bạn phải xác thực số điện thoại mới sử dụng được chức năng này!</span>
+                            }
+                            <div>( Đổi mật khẩu, số điện thoại, email hệ thống sẽ gửi xác nhận về sdt của bạn.)</div>
                         </div>
                     </div>
                 </div>
@@ -186,6 +238,22 @@
                     </div>
                     
                 </div>
+                <div class="col-xl-12">
+                    <div class="title" style="color:white">
+                        <i class="fas fa-location-arrow"></i> Danh sách địa chỉ IP đăng nhập gần đây ( Xác thực email và số điện thoại để hệ thống gửi thông tin về cho bạn.)
+                    </div>
+                    @{ 
+                        List<User_IP> user_IPs = db.User_IP.Where(n => n.user_id == user_id).OrderByDescending(n=>n.userIP_dateLogin).ToList();
+                    }
+                    <div class="row">
+                        <div class="col-xl-9 card">
+                            @foreach(var item in user_IPs)
+                            {
+                                <div>IP : @item.userIP_IP &nbsp;&nbsp;&nbsp;/ Ngày đăng nhập : @item.userIP_dateLogin</div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -201,6 +269,12 @@
                 $scope.Welcomes = response.data;
             });
         }
+        $scope.changeSecurityAccount = function () {
+            $http({
+                method: "GET",
+                url: "/Account/SecurityAccount"
+            })
+        }
     });
     //xác thực 2 yếu tố
     function CheckAuthentication() {
@@ -209,6 +283,15 @@
         }
         else {
             document.getElementById("status").innerHTML = 'Bật.';
+        }
+    }
+    //Bảo vệ tài khoản
+    function CheckSecurityAccount() {
+        if (document.getElementById("securityAccount").innerHTML == 'Bật.') {
+            document.getElementById("securityAccount").innerHTML = 'Tắt.';
+        }
+        else {
+            document.getElementById("securityAccount").innerHTML = 'Bật.';
         }
     }
 </script>

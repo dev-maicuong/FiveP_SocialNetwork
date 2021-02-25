@@ -149,12 +149,18 @@ namespace FivePSocialNetwork.Controllers
                 return Redirect(Request.UrlReferrer.ToString());
             }
         }
-
-
         //---------------------------------------------user Quản lý câu hỏi --------------------------------
         public JsonResult ListQuestions(int? user_id)
         {
-            List<Question> questions = db.Questions.Where(n => n.question_activate == true && n.question_admin_recycleBin == false && n.user_id == user_id).ToList();
+            List<Question> questions = new List<Question>();
+            if (Request.Cookies["user_id"] == null || (user_id != int.Parse(Request.Cookies["user_id"].Value.ToString())))
+            {
+                questions = db.Questions.Where(n => n.question_activate == true && n.question_userStatus == true && n.question_admin_recycleBin == false && n.question_recycleBin == false && n.user_id == user_id).ToList();
+            }
+            else if (user_id == int.Parse(Request.Cookies["user_id"].Value.ToString()))
+            {
+                questions = db.Questions.Where(n => n.question_activate == true && n.question_admin_recycleBin == false && n.question_recycleBin == false && n.user_id == user_id).ToList();
+            }
             List<ListQuestions> listQuestions = questions.Select(n => new ListQuestions
             {
                 question_id = n.question_id,
@@ -547,6 +553,73 @@ namespace FivePSocialNetwork.Controllers
                 total_Question = db.Questions.Where(m => m.user_id == n.user_id).ToList().Count()
             }).ToList();
             return Json(listUsers, JsonRequestBehavior.AllowGet);
+        }
+        //---------------------------------------------Tố cáo user--------------------------------
+        [HttpPost]
+        public ActionResult Denounce(Denounce_User denounce_User, string reasonWrite, string reasonOption, int discredit_id)
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            if ((reasonOption == "0" || reasonOption == "6") && reasonWrite != "")
+            {
+                denounce_User.denounceUser_content = reasonWrite;
+            }
+            else if(reasonOption == "1" && reasonWrite != "")
+            {
+                denounce_User.denounceUser_content = "Tài khoản giả mạo! ----" + reasonWrite;
+            }
+            else if (reasonOption == "2" && reasonWrite != "")
+            {
+                denounce_User.denounceUser_content = "Tài khoản của bạn đã bị hack! ----" + reasonWrite;
+
+            }
+            else if (reasonOption == "3" && reasonWrite != "")
+            {
+                denounce_User.denounceUser_content = "Đăng câu hỏi không liên quan hoặc bậy bạ! ----" + reasonWrite;
+
+            }
+            else if (reasonOption == "4" && reasonWrite != "")
+            {
+                denounce_User.denounceUser_content = "Xúc phạm danh tự của bạn! ----" + reasonWrite;
+
+            }
+            else if (reasonOption == "5" && reasonWrite != "")
+            {
+                denounce_User.denounceUser_content = "Cố ý đăng câu trả lời không đúng với câu hỏi! ----" + reasonWrite;
+
+            }
+            else if (reasonOption == "1" && reasonWrite == "")
+            {
+                denounce_User.denounceUser_content = "Tài khoản giả mạo! ----";
+            }
+            else if (reasonOption == "2" && reasonWrite == "")
+            {
+                denounce_User.denounceUser_content = "Tài khoản của bạn đã bị hack! ----";
+
+            }
+            else if (reasonOption == "3" && reasonWrite == "")
+            {
+                denounce_User.denounceUser_content = "Đăng câu hỏi không liên quan hoặc bậy bạ! ----";
+
+            }
+            else if (reasonOption == "4" && reasonWrite == "")
+            {
+                denounce_User.denounceUser_content = "Xúc phạm danh tự của bạn! ----";
+
+            }
+            else if (reasonOption == "5" && reasonWrite == "")
+            {
+                denounce_User.denounceUser_content = "Cố ý đăng câu trả lời không đúng với câu hỏi! ----";
+
+            }
+            denounce_User.accuser_id = user_id;
+            denounce_User.discredit_id = discredit_id;
+            denounce_User.denounceUser_dateCreate = DateTime.Now;
+            denounce_User.denounceUser_recycleBin = false;
+            denounce_User.denounce_viewStatus = false;
+            denounce_User.denounce_status = false;
+            db.Denounce_User.Add(denounce_User);
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

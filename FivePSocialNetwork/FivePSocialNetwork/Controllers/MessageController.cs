@@ -123,6 +123,7 @@ namespace FivePSocialNetwork.Controllers
                     user_goldMedal = n.user_goldMedal,
                     user_silverMedal = n.user_silverMedal,
                     user_brozeMedal = n.user_brozeMedal,
+                    message_status = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_status,
                     message = db.Messages.OrderByDescending(m=>m.message_dateSend).FirstOrDefault(m=>m.messageSender_id == n.user_id).message_content,
                     message_dateSend = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_dateSend.ToString()
                 }).ToList();

@@ -33,7 +33,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header border-0">
-                    <h3 class="mb-0"> Bài viết bạn đã đánh dấu</h3>
+                    <h3 class="mb-0"><i class="ni ni-book-bookmark"></i> Bài viết bạn đã đánh dấu</h3>
                 </div>
                 @*<div class="float-right" style="padding: 10px;">
                     <a href="#" style="margin-left: 5px;">Nổi tiếng &nbsp;&nbsp;&nbsp; </a>
@@ -90,7 +90,7 @@
                                     </div>
                                 </td>
                                 <td class="budget ">
-                                    <a ng-click="unTick(x.tickQuestion_id,$index)" href="#" data-toggle="tooltip" data-placement="top" title="Bỏ đánh dấu"><i class="far fa-check-circle" style="font-size:23px"></i></a>
+                                    <a onclick="return window.confirm('Bạn có chắc muốn xóa comment này!')" ng-click="unTick(x.tickQuestion_id,$index)" data-toggle="tooltip" data-placement="top" title="Bỏ đánh dấu"><i class="far fa-check-circle" style="font-size:23px"></i></a>
                                 </td>
                                 <td class="text-right">
                                     {{$index+1}}

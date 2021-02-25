@@ -56,7 +56,7 @@
                 <div class="col-xl-12">
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
                         <span class="alert-icon"><i class="ni ni-like-2"></i></span>
-                        <span class="alert-text"><strong>Danh tiếng!</strong> Các bạn trả lời bài viết này, được sự đồng thuận cao của mọi người, điểm danh tiếng của các bạn sẽ tăng lên @Model.question_popular</span>
+                        <span class="alert-text"><strong>Danh tiếng!</strong> Các bạn trả lời bài viết này, câu trả lời của bạn được <span style="font-size:15px">+4 vote</span> , điểm danh tiếng của các bạn sẽ tăng lên <span style="font-size:17px;color:red"> @Model.question_popular</span> <i class="fas fa-fire" style="color:red"></i></span>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -76,7 +76,7 @@
             <section class="card mt-4">
                 <div class="border p-2">
                     <!-- post header -->
-                    
+
                     <div class="row">
                         <div class="col-2">
                             <!--Đánh giá bài viết-->
@@ -151,8 +151,8 @@
                                     {<i class="fas fa-globe-europe" style="font-size:120%;"></i>}
                                     else
                                     {<i class="fas fa-user" style="font-size:120%;"></i>}
-                            </span>
-                        </center>
+                                </span>
+                            </center>
                         </div>
                         <div class="col-10">
                             <div class="row m-0">
@@ -173,7 +173,7 @@
                                     <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-chevron-down"></i>
                                     </a>
-                                    @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == Model.user_id || Request.Cookies["admin_id"] != null)
+                                    @if (Request.Cookies["user_id"] != null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == Model.user_id || Request.Cookies["admin_id"] != null)
                                     {
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <a class="dropdown-item text-primary" href="@Url.Action("QuestionStaturF","FunctionAtDetailQuestion",new { id = Model.question_id})"><i class="fas fa-eye"></i>Chỉ mình tôi xem</a>
@@ -236,7 +236,7 @@
                                 @foreach (var item in teachnology_Questions)
                                 {
                                     <a href="@Url.Action("ShowFollowTechnology","Center",new {id = item.technology_id })"><span class="badge badge-primary">@item.Technology.technology_name</span></a>
-                                    
+
                                 }
                             </div>
                         </div>
@@ -306,10 +306,10 @@
                                             </form>
                                         </center>
                                         <!--show hoạt động
-            -->
+                                -->
                                         <center>
                                             <form action="@Url.Action("ShowActivateQuestion","FunctionAtDetailQuestion")" method="post" class="changSizeButtonRatePost">
-                                                <input type="hidden" name="question_id" value="@Model.question_id"/>
+                                                <input type="hidden" name="question_id" value="@Model.question_id" />
                                                 <button type="submit" class="btn btn-sm mt-2"><i class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
                                             </form>
                                         </center>
@@ -424,10 +424,10 @@
                                             </a>
 
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == item.user_id || Request.Cookies["admin_id"] != null)
+                                                @if (Request.Cookies["user_id"] != null && (int.Parse(Request.Cookies["user_id"].Value.ToString()) == item.user_id || Request.Cookies["admin_id"] != null))
                                                 {
-                                                    <a class="dropdown-item text-primary" href="@Url.Action("PostAnswer","Answer",new { id = item.answer_id})">Sửa câu trả lời này</a>
-                                                    <a class="dropdown-item text-primary" onclick="return window.confirm('Bạn có chắc muốn xóa câu trả lời này!')" href="@Url.Action("RecycleBinAnswer","Answer",new { id = item.answer_id})">Xóa câu trả lời này</a>
+                                                    <a class="dropdown-item text-primary" href="@Url.Action("PostAnswer","Answer",new { id = item.answer_id})"><i class="fas fa-edit"></i> Sửa câu trả lời này</a>
+                                                    <a class="dropdown-item text-primary" onclick="return window.confirm('Bạn có chắc muốn xóa câu trả lời này!')" href="@Url.Action("RecycleBinAnswer","Answer",new { id = item.answer_id})"><i class="fas fa-eraser"></i> Xóa câu trả lời này</a>
                                                 }
                                             </div>
                                         </div>
@@ -485,7 +485,7 @@
                                                             </a>
                                                         </div>
                                                         <div class="flex-grow-1 pl-2">
-                                                            <a class="text-decoration-none text-capitalize h6 m-0" href="@Url.Action("PageUser","UserManagement", new {id = itemComment.user_id })">@itemComment.User.user_firstName @item.User.user_lastName</a>
+                                                            <a class="text-decoration-none text-capitalize h6 m-0" href="@Url.Action("PageUser","UserManagement", new {id = itemComment.user_id })">@itemComment.User.user_firstName @itemComment.User.user_lastName</a>
                                                             <p class="small m-0 text-muted">@itemComment.commentAnswer_dateEdit.Value.ToShortDateString()</p>
                                                         </div>
                                                         <div>
@@ -494,9 +494,9 @@
                                                                     <i class="fas fa-chevron-down"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                                    @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == itemComment.user_id || Request.Cookies["admin_id"] != null)
+                                                                    @if (Request.Cookies["user_id"] != null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == itemComment.user_id || Request.Cookies["admin_id"] != null)
                                                                     {
-                                                                        <a class="dropdown-item text-primary" onclick="return window.confirm('Bạn có chắc muốn xóa comment này!')" href="@Url.Action("RecycleBinComment","Answer",new { id = itemComment.commentAnswer_id})">Xóa comment này</a>
+                                                                        <a class="dropdown-item text-primary" onclick="return window.confirm('Bạn có chắc muốn xóa comment này!')" href="@Url.Action("RecycleBinComment","Answer",new { id = itemComment.commentAnswer_id})"><i class="fas fa-eraser"></i> Xóa comment này</a>
                                                                     }
                                                                 </div>
                                                             </div>
@@ -530,40 +530,40 @@
                     </div>
                 }
             </div>
-
-
-            <!-- Post Ends -->
             <!--- Post Form Begins -->
-            <section class="card">
-                <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
-                                <i class="far fa-newspaper"></i> Ý kiến của bạn về bài viết này
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <form action="@Url.Action("PostAnswer","Answer")" method="post">
-                        @Html.AntiForgeryToken()
+            @if (Request.Cookies["user_id"] != null && int.Parse(Request.Cookies["user_id"].Value.ToString()) != Model.user_id)
+            {
+                <section class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
+                                    <i class="far fa-newspaper"></i> Ý kiến của bạn về bài viết này
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <form action="@Url.Action("PostAnswer","Answer")" method="post">
+                            @Html.AntiForgeryToken()
 
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="posts-tab">
-                                <div class="form-group">
-                                    <label class="sr-only" for="message">post</label>
-                                    <input type="hidden" name="question_id" value="@Model.question_id" />
-                                    <textarea class="form-control" name="answer_content" id="message" rows="3" placeholder="Suy nghĩ của bạn về bài viết .."></textarea>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="posts-tab">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="message">post</label>
+                                        <input type="hidden" name="question_id" value="@Model.question_id" />
+                                        <textarea class="form-control" name="answer_content" id="message" rows="3" placeholder="Suy nghĩ của bạn về bài viết .."></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary"><i class="far fa-paper-plane"></i> Góp ý</button>
-                        </div>
-                    </form>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary"><i class="far fa-paper-plane"></i> Góp ý</button>
+                            </div>
+                        </form>
 
-                </div>
-            </section>
+                    </div>
+                </section>
+            }
             <!--- Post Form Ends -->
         </div>
         <div class="col-xl-4">
@@ -602,27 +602,6 @@
                         <span style="font-size:28px">...</span>
                     </div>
                 </div>
-                @*<div class="">
-                    <div class="card-body">
-                        <h4 class="card-title">Bài viết liên quan</h4>
-
-                        @for (var i = 0; i < 5; i++)
-                        {
-                            <a href="#">
-                                <div class="row">
-                                    <div class="col-2 mr--1">
-                                        <i class="fas fa-info-circle"></i>
-                                    </div>
-                                    <div class="col-xl-10 ml--3">
-                                        Limit the number of items in menu in react quizzes
-                                    </div>
-                                </div>
-                            </a>
-                        }
-                        <span style="font-size:28px">...</span>
-                    </div>
-                </div>*@
-
             </div>
         </div>
     <!-- Footer -->

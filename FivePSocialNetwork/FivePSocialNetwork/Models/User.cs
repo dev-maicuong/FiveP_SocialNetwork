@@ -40,6 +40,7 @@ namespace FivePSocialNetwork.Models
             this.Tick_Question = new HashSet<Tick_Question>();
             this.View_Post = new HashSet<View_Post>();
             this.View_Question = new HashSet<View_Question>();
+            this.User_IP = new HashSet<User_IP>();
         }
     
         public int user_id { get; set; }
@@ -78,6 +79,7 @@ namespace FivePSocialNetwork.Models
         public Nullable<int> user_vipMedal { get; set; }
         public string user_phone { get; set; }
         public Nullable<bool> user_statusOnline { get; set; }
+        public Nullable<bool> user_SecurityAccount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Advertisement> Advertisements { get; set; }
@@ -130,5 +132,7 @@ namespace FivePSocialNetwork.Models
         public virtual ICollection<View_Post> View_Post { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<View_Question> View_Question { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User_IP> User_IP { get; set; }
     }
 }

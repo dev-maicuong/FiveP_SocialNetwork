@@ -243,7 +243,10 @@
                         <div class="chat_img"> <img src="~/Image/Users/{{x.user_avatar}}" alt="sunil"> </div>
                         <div class="chat_ib">
                             <h5><a ng-href="/Message/Index?id={{x.user_id}}">{{x.user_firstName +" "+ x.user_lastName}}</a> <span class="chat_date">{{x.message_dateSend}}</span></h5>
-                            <p>
+                            <p ng-show="x.message_status == false" style="font-weight:800">
+                                {{x.message}}
+                            </p>
+                            <p ng-show="x.message_status == true">
                                 {{x.message}}
                             </p>
                         </div>

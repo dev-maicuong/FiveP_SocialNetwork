@@ -13,6 +13,8 @@ namespace FivePSocialNetwork.Models.Json
         public string tickQuestion_dateCreate { get; set; }
         public Nullable<bool> tickQuestion_recycleBin { get; set; }
         public string question_content { get; set; }
+        public string user_firstName { get; set; }
+        public string user_lastName { get; set; }
         public string question_title { get; set; }
         public Nullable<int> question_totalRate { get; set; }
         public Nullable<int> question_Answer { get; set; }

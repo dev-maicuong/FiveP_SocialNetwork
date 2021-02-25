@@ -25,12 +25,32 @@ namespace FivePSocialNetwork.Controllers
                     db.View_Question.Find(check.viewQuestion_id).viewQuestion_dateCreate = DateTime.Now;
                     // lưu bảng question
                     db.Questions.Find(id).question_view += 1;
+                    db.Questions.Find(id).question_popular += 1;
+                    //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                    List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == id && n.answer_medalCalculate > 3).ToList();
+                    if (checkAnswerMedal != null)
+                    {
+                        foreach (var item in checkAnswerMedal)
+                        {
+                            db.Users.Find(item.user_id).user_popular += 1;
+                        }
+                    }
                     db.SaveChanges();
                 }
                 else if(check == null)
                 {
+                    //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                    List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == id && n.answer_medalCalculate > 3).ToList();
+                    if (checkAnswerMedal != null)
+                    {
+                        foreach (var item in checkAnswerMedal)
+                        {
+                            db.Users.Find(item.user_id).user_popular += 1;
+                        }
+                    }
                     // lưu xem
-                    db.Questions.Find(id).question_view = 1;
+                    db.Questions.Find(id).question_view += 1;
+                    db.Questions.Find(id).question_popular += 1;
                     // lu7 bảng view
                     view_Question.viewQuestion_dateCreate = DateTime.Now;
                     view_Question.question_id = id;
@@ -104,6 +124,16 @@ namespace FivePSocialNetwork.Controllers
             Question question = db.Questions.Find(question_id);
             if (checkRate_Question == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 question.question_popular++;
                 question.question_medalCalculator++;
                 question.question_totalRate++;
@@ -139,6 +169,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRate_Question.rateQuestion_rateStatus == true)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 question.question_medalCalculator--;
                 question.question_totalRate--;
                 question.question_popular--;
@@ -173,6 +213,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRate_Question.rateQuestion_rateStatus == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 question.question_medalCalculator++;
                 question.question_totalRate++;
                 question.question_popular++;
@@ -206,6 +256,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 2;
+                    }
+                }
+
                 question.question_medalCalculator+=2;
                 question.question_totalRate+=2;
                 question.question_popular+=2;
@@ -250,6 +310,16 @@ namespace FivePSocialNetwork.Controllers
             Question question = db.Questions.Find(question_id);
             if (checkRateQuestion == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 //tính huy chương user
                 question.question_medalCalculator--;
                 question.question_totalRate--;
@@ -285,6 +355,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRateQuestion.rateQuestion_rateStatus == false)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 //Tính huy chương cho user
                 question.question_medalCalculator++;
                 question.question_totalRate++;
@@ -317,6 +397,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (checkRateQuestion.rateQuestion_rateStatus == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 //Lưu Huy chương user
                 question.question_medalCalculator--;
                 question.question_totalRate--;
@@ -349,6 +439,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 2;
+                    }
+                }
+
                 //tính huy chương user
                 question.question_medalCalculator-=2;
                 question.question_totalRate-=2;
@@ -395,6 +495,16 @@ namespace FivePSocialNetwork.Controllers
             Question question = db.Questions.Find(question_id);
             if (checkTickQuestion == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 question.question_popular++;
                 question.question_totalTick++;
                 tick_Question.user_id = user_id;
@@ -406,6 +516,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else if(checkTickQuestion.tickQuestion_recycleBin == true)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 question.question_popular++;
                 question.question_totalTick++;
                 checkTickQuestion.tickQuestion_recycleBin = false;
@@ -415,6 +535,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 question.question_popular--;
                 question.question_totalTick--;
                 db.Tick_Question.Remove(db.Tick_Question.Find(checkTickQuestion.tickQuestion_id));
@@ -437,6 +567,16 @@ namespace FivePSocialNetwork.Controllers
             
             if (check == null)
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular += 1;
+                    }
+                }
+
                 db.Questions.Find(question_id).question_popular++;
                 show_Activate_Question.user_id = user_id;
                 show_Activate_Question.showActivateQ_dateCreate = DateTime.Now;
@@ -446,6 +586,16 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
+                //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.
+                List<Answer> checkAnswerMedal = db.Answers.Where(n => n.question_id == question_id && n.answer_medalCalculate > 3).ToList();
+                if (checkAnswerMedal != null)
+                {
+                    foreach (var item in checkAnswerMedal)
+                    {
+                        db.Users.Find(item.user_id).user_popular -= 1;
+                    }
+                }
+
                 db.Questions.Find(question_id).question_popular--;
                 db.Show_Activate_Question.Remove(db.Show_Activate_Question.Find(check.showActivateQ_id));
                 db.SaveChanges();
@@ -453,37 +603,6 @@ namespace FivePSocialNetwork.Controllers
             }
 
         }
-        //public JsonResult DetailQuestionJson(ListQuestions listQuestions, int? id)
-        //{
-        //    Question question = db.Questions.Find(id);
-        //    listQuestions.question_id = question.question_id;
-        //    listQuestions.question_content = question.question_content;
-        //    listQuestions.user_id = question.user_id;
-        //    listQuestions.question_dateCreate = question.question_dateCreate.Value.ToShortDateString();
-        //    listQuestions.question_dateEdit = question.question_dateEdit.Value.ToShortDateString();
-        //    listQuestions.user_firstName = question.User.user_firstName;
-        //    listQuestions.user_lastName = question.User.user_lastName;
-        //    listQuestions.user_popular = question.User.user_popular;
-        //    listQuestions.user_silverMedal = question.User.user_silverMedal;
-        //    listQuestions.user_goldMedal = question.User.user_goldMedal;
-        //    listQuestions.user_brozeMedal = question.User.user_brozeMedal;
-        //    listQuestions.user_vipMedal = question.User.user_vipMedal;
-        //    listQuestions.question_title = question.question_title;
-        //    listQuestions.question_Answer = question.question_Answer;
-        //    listQuestions.question_totalComment = question.question_totalComment;
-        //    listQuestions.question_view = question.question_view;
-        //    listQuestions.question_totalRate = question.question_totalRate;
-        //    listQuestions.question_medalCalculator = question.question_medalCalculator;
-        //    listQuestions.question_recycleBin = question.question_recycleBin;
-        //    listQuestions.question_userStatus = question.question_userStatus;
-        //    listQuestions.question_popular = question.question_popular;
-        //    listQuestions.question_admin_recycleBin = question.question_admin_recycleBin;
-        //    listQuestions.question_keywordSearch = question.question_keywordSearch;
-        //    listQuestions.user_avatar = question.User.user_avatar;
-        //    return Json(listQuestions, JsonRequestBehavior.AllowGet);
-        //}
-        // thẻ câu hỏi
-        // thẻ tags
         public JsonResult TagsQuestionJson(int? id)
         {
             List<Tags_Question> tags_Questions = db.Tags_Question.Where(n => n.question_id == id).ToList();

@@ -47,5 +47,7 @@ namespace FivePSocialNetwork.Models.Json
         public int total_Question { get; set; }
         public string message { get; set; }
         public string message_dateSend { get; set; }
+        public Nullable<bool> message_status { get; set; }
+
     }
 }

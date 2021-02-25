@@ -67,6 +67,8 @@
     <Property Name="denounceUser_content" Type="nvarchar" MaxLength="300" />
     <Property Name="denounceUser_dateCreate" Type="datetime" />
     <Property Name="denounceUser_recycleBin" Type="bit" />
+    <Property Name="denounce_viewStatus" Type="bit" />
+    <Property Name="denounce_status" Type="bit" />
   </EntityType>
   <EntityType Name="District">
     <Key>
@@ -406,6 +408,16 @@
     <Property Name="user_vipMedal" Type="int" />
     <Property Name="user_phone" Type="varchar" MaxLength="15" />
     <Property Name="user_statusOnline" Type="bit" />
+    <Property Name="user_SecurityAccount" Type="bit" />
+  </EntityType>
+  <EntityType Name="User_IP">
+    <Key>
+      <PropertyRef Name="userIP_id" />
+    </Key>
+    <Property Name="userIP_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userIP_IP" Type="varchar" MaxLength="50" />
+    <Property Name="userIP_dateLogin" Type="datetime" />
+    <Property Name="user_id" Type="int" />
   </EntityType>
   <EntityType Name="View_Post">
     <Key>
@@ -929,6 +941,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_User_IP_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="User_IP" Type="Self.User_IP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="User_IP">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_User_Provincial">
     <End Role="Provincial" Type="Self.Provincial" Multiplicity="0..1" />
     <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -1045,6 +1069,7 @@
     <EntitySet Name="Technology" EntityType="Self.Technology" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tick_Question" EntityType="Self.Tick_Question" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_IP" EntityType="Self.User_IP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="View_Post" EntityType="Self.View_Post" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="View_Question" EntityType="Self.View_Question" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Advertisement_User" Association="Self.FK_Advertisement_User">
@@ -1214,6 +1239,10 @@
     <AssociationSet Name="FK_User_District" Association="Self.FK_User_District">
       <End Role="District" EntitySet="District" />
       <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_IP_User" Association="Self.FK_User_IP_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_IP" EntitySet="User_IP" />
     </AssociationSet>
     <AssociationSet Name="FK_User_Provincial" Association="Self.FK_User_Provincial">
       <End Role="Provincial" EntitySet="Provincial" />

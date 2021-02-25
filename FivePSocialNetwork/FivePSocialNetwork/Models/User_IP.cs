@@ -12,18 +12,13 @@ namespace FivePSocialNetwork.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Denounce_User
+    public partial class User_IP
     {
-        public int denounceUser_id { get; set; }
-        public Nullable<int> accuser_id { get; set; }
-        public Nullable<int> discredit_id { get; set; }
-        public string denounceUser_content { get; set; }
-        public Nullable<System.DateTime> denounceUser_dateCreate { get; set; }
-        public Nullable<bool> denounceUser_recycleBin { get; set; }
-        public Nullable<bool> denounce_viewStatus { get; set; }
-        public Nullable<bool> denounce_status { get; set; }
+        public int userIP_id { get; set; }
+        public string userIP_IP { get; set; }
+        public Nullable<System.DateTime> userIP_dateLogin { get; set; }
+        public Nullable<int> user_id { get; set; }
     
         public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
     }
 }

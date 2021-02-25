@@ -79,6 +79,8 @@
     <Property Name="denounceUser_recycleBin" Type="Boolean" />
     <NavigationProperty Name="User" Relationship="Self.FK_Denounce_User_User" FromRole="Denounce_User" ToRole="User" />
     <NavigationProperty Name="User1" Relationship="Self.FK_Denounce_User_User1" FromRole="Denounce_User" ToRole="User" />
+    <Property Name="denounce_viewStatus" Type="Boolean" />
+    <Property Name="denounce_status" Type="Boolean" />
   </EntityType>
   <EntityType Name="District">
     <Key>
@@ -500,6 +502,8 @@
     <NavigationProperty Name="View_Post" Relationship="Self.FK_View_Post_User" FromRole="User" ToRole="View_Post" />
     <NavigationProperty Name="View_Question" Relationship="Self.FK_View_Question_User" FromRole="User" ToRole="View_Question" />
     <Property Name="user_statusOnline" Type="Boolean" />
+    <NavigationProperty Name="User_IP" Relationship="FivePSocialNetWorkModel.FK_User_IP_User" FromRole="User" ToRole="User_IP" />
+    <Property Name="user_SecurityAccount" Type="Boolean" />
   </EntityType>
   <EntityType Name="View_Post">
     <Key>
@@ -1341,5 +1345,32 @@
       <End Role="User" EntitySet="Users" />
       <End Role="View_Question" EntitySet="View_Question" />
     </AssociationSet>
+    <EntitySet Name="User_IP" EntityType="FivePSocialNetWorkModel.User_IP" />
+    <AssociationSet Name="FK_User_IP_User" Association="FivePSocialNetWorkModel.FK_User_IP_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="User_IP" EntitySet="User_IP" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="User_IP">
+    <Key>
+      <PropertyRef Name="userIP_id" />
+    </Key>
+    <Property Name="userIP_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userIP_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="userIP_dateLogin" Type="DateTime" Precision="3" />
+    <Property Name="user_id" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="FivePSocialNetWorkModel.FK_User_IP_User" FromRole="User_IP" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_User_IP_User">
+    <End Type="FivePSocialNetWorkModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="FivePSocialNetWorkModel.User_IP" Role="User_IP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="User_IP">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
