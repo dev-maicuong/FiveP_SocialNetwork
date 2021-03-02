@@ -124,7 +124,6 @@ namespace FivePSocialNetwork.Controllers
                     message.messageRecipients_id = friend2.userRequest_id;
                     db.Messages.Add(message);
                     db.SaveChanges();
-
                     message.message_content = " Chào !";
                     message.message_dateSend = DateTime.Now;
                     message.message_recycleBin = false;
@@ -197,7 +196,6 @@ namespace FivePSocialNetwork.Controllers
                 question_id = n.question_id,
                 teachnologyQuestion_recycleBin = n.teachnologyQuestion_recycleBin,
                 technology_name = n.Technology.technology_name
-
             }).ToList();
             return Json(listTechnologyQuestions, JsonRequestBehavior.AllowGet);
         }
