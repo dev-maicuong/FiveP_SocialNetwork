@@ -103,7 +103,7 @@ namespace FivePSocialNetwork.Controllers
                     var userphone = user.user_phone;
                     var remove = userphone.ToString().Remove(0, 1);
                     var to = "+84" + remove;
-                    TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                    TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                     var from = new PhoneNumber("+17202880938");
                     var message = MessageResource.Create(
                         from: from,
@@ -145,7 +145,7 @@ namespace FivePSocialNetwork.Controllers
                 var verificationCodesPhone = random.Next(100000, 999999).ToString();
                 Session["verificationCodesPhone"] = verificationCodesPhone;
                 Session.Timeout = 3;
-                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                 var from = new PhoneNumber("+17202880938");
                 var message = MessageResource.Create(
                     from: from,
@@ -244,7 +244,7 @@ namespace FivePSocialNetwork.Controllers
                         var userphone = user.user_phone;
                         var remove = userphone.ToString().Remove(0, 1);
                         var to = "+84" + remove;
-                        TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                        TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                         var from = new PhoneNumber("+17202880938");
                         var message = MessageResource.Create(
                             from: from,
@@ -307,7 +307,7 @@ namespace FivePSocialNetwork.Controllers
                         var userphone = user.user_phone;
                         var remove = userphone.ToString().Remove(0, 1);
                         var to = "+84" + remove;
-                        TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                        TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                         var from = new PhoneNumber("+17202880938");
                         var message = MessageResource.Create(
                             from: from,
@@ -665,7 +665,7 @@ namespace FivePSocialNetwork.Controllers
                     var verificationCodesPhone = random.Next(100000, 999999).ToString();
                     Session["verificationCodesPhone"] = verificationCodesPhone;
                     Session.Timeout = 3;
-                    TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                    TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                     var from = new PhoneNumber("+17202880938");
                     var message = MessageResource.Create(
                         from: from,
@@ -742,7 +742,7 @@ namespace FivePSocialNetwork.Controllers
                 var verificationCodesPhone = random.Next(100000, 999999).ToString();
                 Session["verificationCodesPhone"] = verificationCodesPhone;
                 Session.Timeout = 3;
-                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                 var from = new PhoneNumber("+17202880938");
                 var message = MessageResource.Create(
                     from: from,
@@ -899,7 +899,7 @@ namespace FivePSocialNetwork.Controllers
                 var verificationCodesPhone = random.Next(100000, 999999).ToString();
                 Session["verificationCodesPhone"] = verificationCodesPhone;
                 Session.Timeout = 3;
-                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                 var from = new PhoneNumber("+17202880938");
                 var message = MessageResource.Create(
                     from: from,
@@ -963,7 +963,7 @@ namespace FivePSocialNetwork.Controllers
             var verificationCodesPhone = random.Next(100000, 999999).ToString();
             Session["verificationCodesPhone"] = verificationCodesPhone;
             Session.Timeout = 3;
-            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+            TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
             var from = new PhoneNumber("+17202880938");
             var message = MessageResource.Create(
                 from: from,
@@ -1171,7 +1171,7 @@ namespace FivePSocialNetwork.Controllers
                     var verificationCodesPhone = random.Next(100000, 999999).ToString();
                     Session["verificationCodesPhone"] = verificationCodesPhone;
                     Session.Timeout = 3;
-                    TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                    TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                     var from = new PhoneNumber("+17202880938");
                     var message = MessageResource.Create(
                         from: from,
@@ -1327,7 +1327,7 @@ namespace FivePSocialNetwork.Controllers
                 var password = sstrBuilder.ToString();
                 userPhone.user_pass = password;
                 db.SaveChanges();
-                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "0a0d505517d30f11dd5b84583e97bbe9");
+                TwilioClient.Init("AC50dec42d48ae8b908ec2ec1f11d4af56", "fe282f9f4b031eda82654c642d31becf");
                 var from = new PhoneNumber("+17202880938");
                 var message = MessageResource.Create(
                     from: from,
