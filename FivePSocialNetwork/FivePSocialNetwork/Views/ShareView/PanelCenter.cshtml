@@ -41,97 +41,34 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        @{
-                            List<Message> messagesCount = db.Messages.Where(n => n.messageRecipients_id == user_id && n.message_status == false && n.message_recycleBin == false).ToList();
-                            List<Message> messages = db.Messages.Where(n => n.messageRecipients_id == user_id && n.message_recycleBin == false).OrderByDescending(n => n.message_dateSend).Take(6).ToList();
-                        }
                         <a class="nav-link" href="#" id="messageNotification" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ni ni-chat-round" id="messageCount">@messagesCount.Count()</i>
+                            <i class="ni ni-chat-round" id="messageCount"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
                             <!-- Dropdown header -->
 
                             <div class="px-3 py-3">
-                                <h6 class="text-sm text-muted m-0">Có <strong class="text-primary">@messagesCount.Count()</strong> tin nhắn đến.</h6>
+                                <h6 class="text-sm text-muted m-0">Hiển thị<strong class="text-primary">16</strong>  tin nhắn gần nhất.</h6>
                             </div>
                             <!-- List group -->
-                            <div class="list-group list-group-flush">
-                                @foreach (var item in messages)
-                                {
-                                    <a href="@Url.Action("Index","Message",new { id = item.messageSender_id})" class="list-group-item list-group-item-action">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <!-- Avatar -->
-                                                <img alt="Image placeholder" src="~/Image/Users/@item.User.user_avatar" class="avatar rounded-circle">
-                                            </div>
-                                            <div class="col ml--2">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <h4 class="mb-0 text-sm">@item.User.user_firstName @item.User.user_lastName</h4>
-                                                    </div>
-                                                    <div class="text-right text-muted">
-                                                        <small>@item.message_dateSend</small>
-                                                    </div>
-                                                </div>
-                                                <p class="text-sm mb-0">
-                                                    @if (item.message_content != null && item.message_content.Length > 25)
-                                                    {
-                                                        @item.message_content.Substring(0, 25)
-                                                    }
-                                                    else if (item.message_content != null)
-                                                    {
-                                                        @item.message_content
-                                                    }
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                }
+                            <div class="list-group list-group-flush" id="GetMessage"  style="height: 300px;overflow: scroll;">
+                                
                             </div>
                             <!-- View all -->
                             <span class="dropdown-item text-center text-primary font-weight-bold py-3"><i class="fab fa-facebook-messenger"></i>Tin nhắn</span>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        @{ 
-                            List<Notification> notificationsCount = db.Notifications.Where(n => n.notification_status == false && n.notification_recycleBin == false && n.receiver_id == user_id).ToList();
-                            List<Notification> notifications = db.Notifications.Where(n => n.notification_recycleBin == false && n.receiver_id == user_id).OrderByDescending(n => n.notification_dateCreate).Take(6).ToList();
-                        }
                         <a class="nav-link" href="#" id="notification" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ni ni-bell-55" id="notificationCount">@notificationsCount.Count()</i>
+                            <i class="ni ni-bell-55" id="notificationCount"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
                             <!-- Dropdown header -->
                             <div class="px-3 py-3">
-                                <h6 class="text-sm text-muted m-0">Bạn có <strong class="text-primary">@notificationsCount.Count()</strong> thông báo.</h6>
+                                <h6 class="text-sm text-muted m-0">Hiển thị <strong class="text-primary">16</strong>  thông báo gần nhất.</h6>
                             </div>
                             <!-- List group -->
-                            <div class="list-group list-group-flush">
-                                @foreach (var item in notifications)
-                                {
-                                    <a href="@Url.Action("DetailQuestion","FunctionAtDetailQuestion",new {id = item.question_id})" class="list-group-item list-group-item-action">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <!-- Avatar -->
-                                                <img alt="Image placeholder" src="~/Image/Users/@item.User1.user_avatar" class="avatar rounded-circle">
-                                            </div>
-                                            <div class="col ml--2">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <h4 class="mb-0 text-sm">@item.User1.user_firstName  @item.User1.user_lastName</h4>
-                                                    </div>
-                                                    <div class="text-right text-muted">
-                                                        <small>@item.notification_dateCreate</small>
-                                                    </div>
-                                                </div>
-                                                <p class="text-sm mb-0">@item.notification_content</p>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                }
-
-
+                            <div class="list-group list-group-flush" id="GetNotification" style="height: 300px;overflow: scroll;">
                             </div>
                             <!-- View all -->
                             <a href="@Url.Action("ManagementNotification","UserManagement")" class="dropdown-item text-center text-primary font-weight-bold py-3"><i class="ni ni-bell-55"></i>Tất cả thông báo</a>

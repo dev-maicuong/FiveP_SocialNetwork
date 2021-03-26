@@ -14,6 +14,10 @@ namespace FivePSocialNetwork.Controllers
         // GET: FunctionAtDetailQuestion
         public ActionResult DetailQuestion(int? id ,View_Question view_Question)
         {
+            if(id == null)
+            {
+                return Redirect("/Home/Index");
+            }
             //Neu61 ton62 tai5 cookei
             if (Request.Cookies["user_id"] != null)
             {

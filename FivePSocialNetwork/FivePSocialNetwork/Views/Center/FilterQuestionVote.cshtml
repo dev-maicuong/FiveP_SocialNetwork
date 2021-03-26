@@ -113,7 +113,7 @@
                     <small>Người liên hệ</small>
                 </div>
                 <div class="">
-                    @Html.Action("FriendIndexCenter", "ShareView")
+                    @Html.Action("FriendIndexCenterRealTime", "ShareView")
                     @Html.Action("OfferIndexCenter", "ShareView")
                 </div>
                 <div class="mt-3">
@@ -178,15 +178,6 @@
             }, function (response) {
                 // Second function handles error
                 $scope.content = "Something went wrong";
-            });
-        //show User
-        $http.get("/Message/ListUsers")
-            .then(function (response) {
-                // First function handles success
-                $scope.listUsers = response.data;
-            }, function (response) {
-                // Second function handles error
-                $scope.listUsers = "Something went wrong";
             });
         // show công nghệ phổ biến
         $http.get("/Center/ListTechnologyPopular")

@@ -10,7 +10,6 @@ using FivePSocialNetwork.Models.Json;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
-
 using Twilio.TwiML;
 using Twilio.AspNet.Mvc;
 using System.Web.Helpers;
@@ -112,6 +111,14 @@ namespace FivePSocialNetwork.Controllers
                     );
                     Content(message.Sid);
                 }
+                // đổi trạng thái tin nhắn.
+                List<Message> statusStrMess = db.Messages.Where(n => n.messageRecipients_id == user.user_id && n.messageRecipients_status == "đã gửi.").ToList();
+                foreach(var item in statusStrMess)
+                {
+                    db.Messages.Find(item.message_id).messageRecipients_status = "đã nhận.";
+                    db.SaveChanges();
+                }
+
                 user.user_dateLogin = DateTime.Now;
                 user.user_statusOnline = true;
                 db.SaveChanges();
@@ -254,6 +261,13 @@ namespace FivePSocialNetwork.Controllers
                         Content(message.Sid);
                     }
                     db.SaveChanges();
+                    // đổi trạng thái tin nhắn.
+                    List<Message> statusStrMess = db.Messages.Where(n => n.messageRecipients_id == user.user_id).ToList();
+                    foreach (var item in statusStrMess)
+                    {
+                        db.Messages.Find(item.message_id).messageRecipients_status = "đã nhận.";
+                        db.SaveChanges();
+                    }
                     HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
                     cookie.Expires.AddDays(10);
                     Response.Cookies.Set(cookie);
@@ -317,6 +331,14 @@ namespace FivePSocialNetwork.Controllers
                         Content(message.Sid);
                     }
                     db.SaveChanges();
+                    // đổi trạng thái tin nhắn.
+                    List<Message> statusStrMess = db.Messages.Where(n => n.messageRecipients_id == user.user_id).ToList();
+                    foreach (var item in statusStrMess)
+                    {
+                        db.Messages.Find(item.message_id).messageRecipients_status = "đã nhận.";
+                        db.SaveChanges();
+                    }
+
                     HttpCookie cookie = new HttpCookie("user_id", user.user_id.ToString());
                     cookie.Expires.AddDays(10);
                     Response.Cookies.Set(cookie);

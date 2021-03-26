@@ -1,10 +1,10 @@
 ﻿@using FivePSocialNetwork.Models;
-@model List<Message>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
     int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    var id = int.Parse(TempData["id"].ToString());
 
 }
 <style>
@@ -43,7 +43,6 @@
         display: inline-block;
         text-align: right;
         width: 60%;
-        padding:
     }
 
     .headind_srch {
@@ -237,53 +236,12 @@
                     </div>
                 </div>
             </div>
-            <div class="inbox_chat">
-                <div class="chat_list " ng-repeat="x in listUsers| filter: txtSearch">
-                    <div class="chat_people">
-                        <div class="chat_img"> <img src="~/Image/Users/{{x.user_avatar}}" alt="sunil"> </div>
-                        <div class="chat_ib">
-                            <h5><a ng-href="/Message/Index?id={{x.user_id}}">{{x.user_firstName +" "+ x.user_lastName}}</a> <span class="chat_date">{{x.message_dateSend}}</span></h5>
-                            <p ng-show="x.message_status == false" style="font-weight:800">
-                                {{x.message}}
-                            </p>
-                            <p ng-show="x.message_status == true">
-                                {{x.message}}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <div class="inbox_chat" id="listFiend">
+                
             </div>
         </div>
         <div class="mesgs">
             <div class="msg_history">
-                @foreach (var item in Model)
-                {
-                    if (item.messageSender_id != user_id)
-                    {
-                <div class="incoming_msg">
-                    <div class="incoming_msg_img"> <img src="~/Image/Users/@item.User.user_avatar" alt="sunil"> </div>
-                    <div class="received_msg">
-                        <div class="received_withd_msg">
-                            <p>
-                                @item.message_content
-                            </p>
-                            <span class="time_date"> @item.message_dateSend </span>
-                        </div>
-                    </div>
-                </div>
-                    }
-                    else
-                    {
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>
-                                    @item.message_content
-                                </p>
-                                <span class="time_date"> @item.message_dateSend </span>
-                            </div>
-                        </div>
-                    }
-                }
                 <div id="contentMsg">
 
                 </div>
@@ -292,7 +250,7 @@
                 <div class="input_msg_write">
                     <form id="formMessage">
                         <input type="hidden" name="messageRecipients_id" value="@ViewBag.id"/>
-                        <input type="text" id="txtMessage" ng-click="statusMessage()" name="message_content" required class="write_msg" placeholder="Type a message" />
+                        <input type="text" id="txtMessage" ng-click="statusMessage()" name="message_content" required class="write_msg" placeholder="....." />
                         <button type="button" class="msg_send_btn" id="btnSend"><i class="far fa-paper-plane"></i></button>
                     </form>
                 </div>
@@ -304,58 +262,33 @@
 <script>
     //Lưu tin nhắn
     $(document).ready(function () {
-        $("#btnSend").click(function () {
-            var data = $("#formMessage").serialize();
-            $.ajax({
-                type: "POST",
-                url: "/Message/SaveMessage",
-                data: data,
-                success: function (response) {
-                    window.alert("Sữa thành công");
-                    $(this).show();
-                }
-            })
-        })
+        var input = document.getElementById("txtMessage");
+        input.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                var data = $("#formMessage").serialize();
+                var values = input.value;
+                $.ajax({
+                    type: "POST",
+                    url: "/Message/SaveMessage",
+                    data: data,
+                    complete: function () {
+                        $("#contentMsg").append(
+                            '<div class="outgoing_msg">'
+                           + '<div class= "sent_msg"><p>'
+                            + values + '</p><span class="time_date"> '
+                           + 'đang gửi..'
+                           + '</span></div ></div >'
+                        );
+                        input.value = '';
+                    }
+                })
+            }
+        });
     })
 
-    $(function () {
-        var chat = $.connection.chat;
-        loadClient(chat)
-        $.connection.hub.start().done(function () {
-            $('#btnSend').click(function () {
-                var msg = $('#txtMessage').val();
-                var user_friend_id = @(ViewBag.idFriend);
-                var id = @user_id;
-                chat.server.message(msg, id, user_friend_id);
-                $('#txtMessage').val('').focus();
-            });
-        });
-
-    });
-    function loadClient(chat) {
-        chat.client.message = function (msg, id, user_friend_id) {
-            var today = new Date();
-            if (@user_id == id && @(ViewBag.idFriend) == user_friend_id) {
-                $('#contentMsg').append('<div class="outgoing_msg">' + '<div class= "sent_msg"><p>' + msg + '</p><span class="time_date"> ' + today.getHours() + 'Giờ' + '</span></div ></div >');
-
-            }
-            else if (@user_id != id && @(ViewBag.idFriend) == user_friend_id) {
-                $('#contentMsg').append(
-                    '<div class="incoming_msg"><div class= "incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"> </div><div class="received_msg"><div class="received_withd_msg"><p>' + msg + '</p><span class="time_date">' + today.getHours()+ 'Giờ'+ '</span></div></div>'
-                    );
-            }
-        }
-    }
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("/Message/ListUsers")
-            .then(function (response) {
-                // First function handles success
-                $scope.listUsers = response.data;
-            }, function (response) {
-                // Second function handles error
-                    $scope.listUsers = "Something went wrong";
-            });
         $scope.statusMessage = function () {
             $http.get("/Message/StatusMessage?messageRecipients_id=" + @ViewBag.id)
                 .then(function (response) {
@@ -367,4 +300,161 @@
                 });
         }
     });
+</script>
+<script type="text/javascript">
+    // tin nhắn
+    $(function () {
+
+        // Proxy created on the fly
+        var cus = $.connection.hubMess;
+
+        // Declare a function on the job hub so the server can invoke it
+        cus.client.displayChat = function () {
+            getData5();
+        };
+        
+        // Start the connection
+        $.connection.hub.start();
+        getData5();
+    });
+
+    function getData5() {
+        var $tbl = $('#contentMsg');
+        $.ajax({
+            url: '/Message/GetMessage?id='+@id,
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                $tbl.empty();
+                $.each(data.listChat, function (i, model) {
+                    if (@user_id == model.messageSender_id) {
+                        $tbl.append
+                            (
+                                '<div class="outgoing_msg">'
+                                + '<div class= "sent_msg"><p>'
+                                + model.message_content + '</p><span class="time_date"> '
+                                + model.messageRecipients_status + ' _______ "' + model.message_dateSend + '"'
+                                + '</span></div ></div >'
+                            );
+                    }
+                    else {
+                        $tbl.append
+                            (
+                                '<div class="incoming_msg"><div class= "incoming_msg_img"> <img src="/Image/Users/' + model.messageSender_avatar +'"> </div><div class="received_msg"><div class="received_withd_msg"><p>'
+                                + model.message_content + '</p><span class="time_date">'
+                                + model.message_dateSend
+                                + '</span></div></div>'
+                            );
+                    }
+
+                });
+            }
+        });
+    }
+
+</script>
+
+<script type="text/javascript">
+
+
+    // tin nhắn
+    $(function () {
+
+        // Proxy created on the fly
+        var cus = $.connection.listFriendInMess;
+
+        // Declare a function on the job hub so the server can invoke it
+        cus.client.displayChat = function () {
+            getData8();
+        };
+
+        // Start the connection
+        $.connection.hub.start();
+        getData8();
+    });
+
+    function getData8() {
+        var $tbl = $('#listFiend');
+        $.ajax({
+            url: '/Message/ListFirend',
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                $tbl.empty();
+                $.each(data.listChat, function (i, model) {
+                    if (model.message_status == false) {
+                        if (model.user_statusOnline == false) {
+                            $tbl.append
+                                (
+                                    '<div class="chat_list" style="background-color:#eff0f1">'
+                                    + '<div class= "chat_people" >'
+                                    + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
+                                    + ' <div class="chat_ib">'
+                                    + ' <h5><a href="/Message/Index?id=' + model.user_id+'">' + model.user_firstName + ' ' + model.user_lastName + '  <i class="fas fa-circle" style="font-size:6px"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
+                                    + '  <p style="font-weight:800;color:black">'
+                                    + model.message
+                                    + '   </p>'
+                                    + '  </div>'
+                                    + '  </div>'
+                                    + ' </div >'
+                                );
+                        }
+                        else {
+                            $tbl.append
+                                (
+                                    '<div class="chat_list" style="background-color:#eff0f1">'
+                                    + '<div class= "chat_people" >'
+                                    + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
+                                    + ' <div class="chat_ib">'
+                                    + ' <h5><a href="/Message/Index?id=' + model.user_id +'">' + model.user_firstName + ' ' + model.user_lastName + '  <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
+                                    + '  <p style="font-weight:800;color:black">'
+                                    + model.message
+                                    + '   </p>'
+                                    + '  </div>'
+                                    + '  </div>'
+                                    + ' </div >'
+                                );
+                        }
+                        
+                    }
+                    else {
+                        if (model.user_statusOnline == false) {
+                            $tbl.append
+                                (
+                                    '<div class="chat_list ">'
+                                    + '<div class= "chat_people" >'
+                                    + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
+                                    + ' <div class="chat_ib">'
+                                    + ' <h5><a href="/Message/Index?id=' + model.user_id +'">' + model.user_firstName + ' ' + model.user_lastName + ' <i class="fas fa-circle" style="font-size:6px"></i> '  + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
+                                    + '  <p>'
+                                    + model.message
+                                    + '   </p>'
+                                    + '  </div>'
+                                    + '  </div>'
+                                    + ' </div >'
+                                );
+                        }
+                        else {
+                            $tbl.append
+                                (
+                                    '<div class="chat_list ">'
+                                    + '<div class= "chat_people" >'
+                                    + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
+                                    + ' <div class="chat_ib">'
+                                    + ' <h5><a href="/Message/Index?id=' + model.user_id +'">' + model.user_firstName + ' ' + model.user_lastName + '   <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i> '  + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
+                                    + '  <p>'
+                                    + model.message
+                                    + '   </p>'
+                                    + '  </div>'
+                                    + '  </div>'
+                                    + ' </div >'
+                                );
+                        }
+                        
+                    }
+                });
+            }
+        });
+    }
+
 </script>

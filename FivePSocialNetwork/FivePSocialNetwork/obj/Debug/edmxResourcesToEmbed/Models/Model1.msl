@@ -149,6 +149,7 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Message">
         <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="messageRecipients_status" ColumnName="messageRecipients_status" />
           <ScalarProperty Name="message_status" ColumnName="message_status" />
           <ScalarProperty Name="message_id" ColumnName="message_id" />
           <ScalarProperty Name="message_content" ColumnName="message_content" />

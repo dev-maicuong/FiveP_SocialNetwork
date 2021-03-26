@@ -63,7 +63,7 @@ namespace FivePSocialNetwork.Controllers
             return Json(listQuestions, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult AddFriend([Bind(Include = "friend_id,userRequest_id,userResponse_id,friend_status,friend_dateRequest,friend_dateResponse,friend_dateUnfriend,friend_recycleBin")] Friend friend, Message message)
+        public ActionResult AddFriend([Bind(Include = "friend_id,userRequest_id,userResponse_id,friend_status,friend_dateRequest,friend_dateResponse,friend_dateUnfriend,friend_recycleBin")] Friend friend, Message message, Notification notification)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -132,6 +132,15 @@ namespace FivePSocialNetwork.Controllers
                     message.messageRecipients_id = friend2.userResponse_id;
                     db.Messages.Add(message);
                 }
+                //thông báo
+                notification.receiver_id = friend2.userRequest_id;
+                notification.impactUser_id = user_id;
+                notification.notification_recycleBin = false;
+                notification.notification_dateCreate = DateTime.Now;
+                notification.notification_content ="Bạn và "+ friend2.User1.user_firstName + friend2.User1.user_lastName+" đã là bạn bè";
+                notification.notification_status = false;
+                db.Notifications.Add(notification);
+                // lưu bạn bình thường
                 db.Friends.Find(friend2.friend_id).friend_status = true;
                 db.Friends.Find(friend2.friend_id).friend_dateResponse = DateTime.Now;
                 db.SaveChanges();

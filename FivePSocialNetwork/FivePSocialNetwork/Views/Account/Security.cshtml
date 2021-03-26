@@ -246,7 +246,7 @@
                         List<User_IP> user_IPs = db.User_IP.Where(n => n.user_id == user_id).OrderByDescending(n=>n.userIP_dateLogin).ToList();
                     }
                     <div class="row">
-                        <div class="col-xl-9 card">
+                        <div class="col-xl-9 card" style="height: 200px;overflow: scroll;">
                             @foreach(var item in user_IPs)
                             {
                                 <div>IP : @item.userIP_IP &nbsp;&nbsp;&nbsp;/ Ngày đăng nhập : @item.userIP_dateLogin</div>

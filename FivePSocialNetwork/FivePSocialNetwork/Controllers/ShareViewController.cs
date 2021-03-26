@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FivePSocialNetwork.Hubs;
 using FivePSocialNetwork.Models;
 using FivePSocialNetwork.Models.Json;
 
@@ -23,6 +27,155 @@ namespace FivePSocialNetwork.Controllers
             
             return PartialView();
         }
+        //-----------------------thông báo tin nhắn ---------------------
+        public JsonResult GetMessage()
+        {
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(@"SELECT [message_id],[message_content],[messageSender_id],[messageRecipients_id],[message_dateSend],[message_recycleBin],[message_status]FROM [dbo].[Message]", connection))
+                {
+                    // Make sure the command object does not already have
+                    // a notification object associated with it.
+                    command.Notification = null;
+
+                    SqlDependency dependency = new SqlDependency(command);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                    //.OrderByDescending(n => n.message_dateSend)
+                    List<Message> messages = db.Messages.Where(n => n.messageRecipients_id == user_id && n.message_recycleBin == false).OrderByDescending(n => n.message_dateSend).Take(16).ToList();
+                    List<ListMessage> listChat = messages.Select(n => new ListMessage
+                    {
+                        message_content = n.message_content,
+                        messageSender_id = n.messageSender_id,
+                        messageRecipients_id = n.messageRecipients_id,
+                        message_dateSend = n.message_dateSend.ToString(),
+                        messageSender_avatar = n.User.user_avatar,
+                        messageSender_firstName = n.User.user_firstName,
+                        messageSender_lastName = n.User.user_lastName
+                    }).ToList();
+                    return Json(new { listChat = listChat }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+        //-----------------------thông báo ----------------------------
+        public JsonResult GetNotification()
+        {
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(@"SELECT [notification_id],[notification_content],[receiver_id],[impactUser_id],[question_id],[notification_status],[notification_dateCreate],[notification_recycleBin]FROM [dbo].[Notification]", connection))
+                {
+                    // Make sure the command object does not already have
+                    // a notification object associated with it.
+                    command.Notification = null;
+
+                    SqlDependency dependency = new SqlDependency(command);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange_notification);
+
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    //.Where(n => n.notification_recycleBin == false && n.receiver_id == user_id)
+                    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                    List<Notification> notifications = db.Notifications.Where(n=>n.receiver_id == user_id && n.notification_recycleBin == false).OrderByDescending(n => n.notification_dateCreate).Take(4).ToList();
+                    List<ListNotification> listChat = notifications.Select(n => new ListNotification
+                    {
+                        notification_id = n.notification_id,
+                        notification_content = n.notification_content,
+                        impactUser_id = n.impactUser_id,
+                        impactUser_avatar = n.User1.user_avatar,
+                        impactUser_user_firstName = n.User1.user_firstName,
+                        impactUser_user_lastName = n.User1.user_lastName,
+                        notification_dateCreate = n.notification_dateCreate.ToString(),
+                        question_id = n.question_id
+                    }).ToList();
+                    return Json(new { listChat = listChat }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        private void dependency_OnChange_notification(object sender, SqlNotificationEventArgs e)
+        {
+            DemoNotification.Notification();
+        }
+
+        //-----------------------đếm thông báo----------------------------
+        public JsonResult CountNotification()
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(@"SELECT [notification_id],[notification_content],[receiver_id],[impactUser_id],[question_id],[notification_status],[notification_dateCreate],[notification_recycleBin]FROM [dbo].[Notification]", connection))
+                {
+                    // Make sure the command object does not already have
+                    // a notification object associated with it.
+                    command.Notification = null;
+
+                    SqlDependency dependency = new SqlDependency(command);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange_CountN);
+
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    List<Notification> notificationsCount = db.Notifications.Where(n => n.notification_status == false && n.notification_recycleBin == false && n.receiver_id == user_id).ToList();
+                    return Json(notificationsCount.Count(), JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        private void dependency_OnChange_CountN(object sender, SqlNotificationEventArgs e)
+        {
+            DemoCountNotification.CountNotification();
+        }
+
+        //-----------------------đếm tin nhắn----------------------------
+        public JsonResult CountMessage()
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(@"SELECT [message_id],[message_content],[messageSender_id],[messageRecipients_id],[message_dateSend],[message_recycleBin],[message_status]FROM [dbo].[Message]", connection))
+                {
+                    // Make sure the command object does not already have
+                    // a notification object associated with it.
+                    command.Notification = null;
+
+                    SqlDependency dependency = new SqlDependency(command);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange_CountMess);
+
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    List<Message> messagesCount = db.Messages.Where(n => n.messageRecipients_id == user_id && n.message_status == false && n.message_recycleBin == false).ToList();
+
+                    return Json(messagesCount.Count(), JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        private void dependency_OnChange_CountMess(object sender, SqlNotificationEventArgs e)
+        {
+            DemoCountMess.CountMess();
+        }
+
+        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        {
+            DemoChat.Message();
+        }
         //--------------------------đồi trạng thái tin nhắn ---------------------------
         public ActionResult StatusMessage()
         {
@@ -33,8 +186,9 @@ namespace FivePSocialNetwork.Controllers
                 foreach (var item in checkMessages)
                 {
                     db.Messages.Find(item.message_id).message_status = true;
+                    db.Messages.Find(item.message_id).messageRecipients_status = "đã xem.";
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
             }
             return View();
         }
@@ -74,7 +228,100 @@ namespace FivePSocialNetwork.Controllers
         {
             return PartialView();
         }
-        
+        public PartialViewResult FriendIndexCenterRealTime()
+        {
+            return PartialView();
+        }
+        //-----------------------trạng thái online----------------------------
+        public JsonResult StatusOnlineFriend()
+        {
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(@"SELECT [user_id],[user_pass],[user_firstName],[user_lastName],[user_email],[user_token]
+      ,[role_id],[user_code],[user_avatar],[user_coverImage],[user_activate],[user_recycleBin],[user_dateCreate],[user_dateEdit]
+      ,[user_dateLogin],[user_emailAuthentication],[user_verifyPhoneNumber],[user_loginAuthentication],[provincial_id]
+      ,[district_id],[commune_id],[user_addressRemaining],[sex_id],[user_linkFacebook],[user_linkGithub],[user_anotherWeb],[user_hobbyWork],[user_hobby],[user_birthday],[user_popular],[user_goldMedal],[user_silverMedal],[user_brozeMedal]
+      ,[user_vipMedal],[user_phone],[user_statusOnline],[user_SecurityAccount]FROM [dbo].[User]", connection))
+                {
+                    // Make sure the command object does not already have
+                    // a notification object associated with it.
+                    command.Notification = null;
+
+                    SqlDependency dependency = new SqlDependency(command);
+                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange_statusOnlineFriend);
+
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    //Kiểm tra cookie
+                    if (Request.Cookies["user_id"] != null)
+                    {
+                        int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+                        List<Friend> friends = db.Friends.Where(n => (n.userResponse_id == user_id || n.userRequest_id == user_id) && n.friend_recycleBin == false && n.friend_status == true).ToList();
+                        List<ListUsers> fiterUsers = new List<ListUsers>();
+                        foreach (var item in friends)
+                        {
+                            if (item.userRequest_id != user_id)
+                            {
+                                fiterUsers.Add(new ListUsers
+                                {
+                                    user_statusOnline = item.User.user_statusOnline,
+                                    user_id = (int)item.userRequest_id,
+                                    user_firstName = item.User.user_firstName,
+                                    user_lastName = item.User.user_lastName,
+                                    user_vipMedal = item.User.user_vipMedal,
+                                    user_goldMedal = item.User.user_goldMedal,
+                                    user_silverMedal = item.User.user_silverMedal,
+                                    user_brozeMedal = item.User.user_brozeMedal,
+                                    user_avatar = item.User.user_avatar
+                                });
+                            }
+                            else if (item.userResponse_id != user_id)
+                            {
+                                fiterUsers.Add(new ListUsers
+                                {
+                                    user_statusOnline = item.User1.user_statusOnline,
+                                    user_id = (int)item.userResponse_id,
+                                    user_firstName = item.User1.user_firstName,
+                                    user_lastName = item.User1.user_lastName,
+                                    user_vipMedal = item.User1.user_vipMedal,
+                                    user_goldMedal = item.User1.user_goldMedal,
+                                    user_silverMedal = item.User1.user_silverMedal,
+                                    user_brozeMedal = item.User1.user_brozeMedal,
+                                    user_avatar = item.User1.user_avatar
+                                });
+                            }
+                        }
+                        List<ListUsers> listUsers = fiterUsers.Select(n => new ListUsers
+                        {
+                            user_id = n.user_id,
+                            user_statusOnline = n.user_statusOnline,
+                            user_firstName = n.user_firstName,
+                            user_lastName = n.user_lastName,
+                            user_avatar = n.user_avatar,
+                            user_vipMedal = n.user_vipMedal,
+                            user_goldMedal = n.user_goldMedal,
+                            user_silverMedal = n.user_silverMedal,
+                            user_brozeMedal = n.user_brozeMedal,
+                            //message_status = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_status,
+                            //message = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_content,
+                            //message_dateSend = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_dateSend.ToString()
+                        }).OrderByDescending(n=>n.user_statusOnline == true).ToList();
+                        return Json(new { listChat = listUsers }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    return Json("Hello bạn !", JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        private void dependency_OnChange_statusOnlineFriend(object sender, SqlNotificationEventArgs e)
+        {
+            StatusOnline.StatusOnlineFriend();
+        }
+
         //----------------------------------------------các đề xuất cho trang indexcenter ------------------------------
         public PartialViewResult OfferIndexCenter()
         {

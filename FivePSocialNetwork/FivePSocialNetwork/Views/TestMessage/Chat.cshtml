@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_LayoutCenter.cshtml";
+}
+<style>
+    .scrolling-box {
+        background-color: #eaeaea;
+        display: block;
+        height: 200px;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        text-align: center;
+        width: 200px;
+    }
+
+    section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+</style>
+<nav>
+    <a href="#3">3</a>
+</nav>
+
+<div class="scrolling-box">
+    <section id="3">This is the third section</section>
+</div>

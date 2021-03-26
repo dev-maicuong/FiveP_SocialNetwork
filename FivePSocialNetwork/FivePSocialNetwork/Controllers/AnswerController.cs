@@ -189,6 +189,7 @@ namespace FivePSocialNetwork.Controllers
                     notification.notification_content = user.user_firstName + user.user_lastName + " Đã comment bài viết " + db.Questions.Find(question_id).question_title;
                     notification.notification_status = false;
                     db.Notifications.Add(notification);
+                    db.SaveChanges();
                 }
             }
             //Thông báo cho ai là người đăng câu trả lời này
@@ -203,6 +204,7 @@ namespace FivePSocialNetwork.Controllers
                 notification.notification_content = user.user_firstName + user.user_lastName + " Đã comment bài viết " + db.Questions.Find(question_id).question_title;
                 notification.notification_status = false;
                 db.Notifications.Add(notification);
+                db.SaveChanges();
             }
             comment_Answer.commentAnswer_dateCreate = DateTime.Now;
             comment_Answer.commentAnswer_dateEdit = DateTime.Now;
@@ -221,6 +223,7 @@ namespace FivePSocialNetwork.Controllers
                 foreach (var item in checkAnswerMedal)
                 {
                     db.Users.Find(item.user_id).user_popular += 1;
+                    db.SaveChanges();
                 }
             }
             db.Comment_Answer.Add(comment_Answer);

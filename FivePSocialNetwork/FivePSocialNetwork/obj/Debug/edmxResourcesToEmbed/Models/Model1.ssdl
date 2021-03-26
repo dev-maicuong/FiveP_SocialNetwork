@@ -146,6 +146,7 @@
     <Property Name="message_dateSend" Type="datetime" />
     <Property Name="message_recycleBin" Type="bit" />
     <Property Name="message_status" Type="bit" />
+    <Property Name="messageRecipients_status" Type="nvarchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Notification">
     <Key>

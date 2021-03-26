@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnswerController.cs" />
     <Compile Include="Controllers\CenterController.cs" />
+    <Compile Include="Controllers\ControllerFramword\TestMessageController.cs" />
     <Compile Include="Controllers\FunctionAtDetailQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -202,6 +203,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\Chat.cs" />
+    <Compile Include="Hubs\DemoChat.cs" />
+    <Compile Include="Hubs\DemoCountMess.cs" />
+    <Compile Include="Hubs\DemoCountNotification.cs" />
+    <Compile Include="Hubs\DemoNotification.cs" />
+    <Compile Include="Hubs\HubMess.cs" />
+    <Compile Include="Hubs\ListFriendInMess.cs" />
+    <Compile Include="Hubs\StatusOnline.cs" />
     <Compile Include="Models\Advertisement.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -227,6 +235,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Json\ComuneAdmin.cs" />
+    <Compile Include="Models\Json\Count.cs" />
     <Compile Include="Models\Json\DenounceAdmin.cs" />
     <Compile Include="Models\Json\DistrictAdmin.cs" />
     <Compile Include="Models\Json\IndexCemterStatistical.cs" />
@@ -234,6 +243,7 @@
     <Compile Include="Models\Json\ListCommune.cs" />
     <Compile Include="Models\Json\ListDistrict.cs" />
     <Compile Include="Models\Json\ListFriend.cs" />
+    <Compile Include="Models\Json\ListMessage.cs" />
     <Compile Include="Models\Json\ListNotification.cs" />
     <Compile Include="Models\Json\ListProvincial.cs" />
     <Compile Include="Models\Json\ListTags.cs" />
@@ -4345,11 +4355,12 @@
     <Content Include="Views\Account\AuthenticationChangeEmail.cshtml" />
     <Content Include="Views\Account\AuthenticationSecurityAccount.cshtml" />
     <Content Include="Views\Account\AuthenticationChangePhone.cshtml" />
+    <Content Include="Views\TestMessage\Chat.cshtml" />
+    <Content Include="Views\ShareView\FriendIndexCenterRealTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Controllers\ControllerFramword\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

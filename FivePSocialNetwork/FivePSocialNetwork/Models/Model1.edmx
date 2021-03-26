@@ -151,6 +151,7 @@
           <Property Name="message_dateSend" Type="datetime" />
           <Property Name="message_recycleBin" Type="bit" />
           <Property Name="message_status" Type="bit" />
+          <Property Name="messageRecipients_status" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1452,6 +1453,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Message_User" FromRole="Message" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Message_User1" FromRole="Message" ToRole="User" />
           <Property Name="message_status" Type="Boolean" />
+          <Property Name="messageRecipients_status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -2809,6 +2811,7 @@
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Message">
               <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="messageRecipients_status" ColumnName="messageRecipients_status" />
                 <ScalarProperty Name="message_status" ColumnName="message_status" />
                 <ScalarProperty Name="message_id" ColumnName="message_id" />
                 <ScalarProperty Name="message_content" ColumnName="message_content" />

@@ -21,6 +21,7 @@ namespace FivePSocialNetwork.Models
         public Nullable<System.DateTime> message_dateSend { get; set; }
         public Nullable<bool> message_recycleBin { get; set; }
         public Nullable<bool> message_status { get; set; }
+        public string messageRecipients_status { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

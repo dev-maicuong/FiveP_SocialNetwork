@@ -170,6 +170,7 @@
     <NavigationProperty Name="User" Relationship="Self.FK_Message_User" FromRole="Message" ToRole="User" />
     <NavigationProperty Name="User1" Relationship="Self.FK_Message_User1" FromRole="Message" ToRole="User" />
     <Property Name="message_status" Type="Boolean" />
+    <Property Name="messageRecipients_status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Notification">
     <Key>

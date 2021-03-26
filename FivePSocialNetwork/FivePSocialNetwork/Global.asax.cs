@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -18,6 +20,13 @@ namespace FivePSocialNetwork
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            SqlDependency.Start(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString);
+
+        }
+        protected void Application_End()
+        {
+            SqlDependency.Stop(ConfigurationManager.ConnectionStrings["FivePSocialNetWork"].ConnectionString);
         }
     }
 }
