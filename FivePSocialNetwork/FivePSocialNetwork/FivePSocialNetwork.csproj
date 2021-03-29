@@ -4103,6 +4103,7 @@
     <Content Include="Image\Advertisement\khoa-hoc-machine-learning-khtn.png" />
     <Content Include="Image\Advertisement\TB1yBdxr9slXu8jSZFuXXXg7FXa.jpg" />
     <Content Include="Image\Users\coverImage.png" />
+    <Content Include="Image\Users\DangSoan.gif" />
     <Content Include="Image\Users\Girl.png" />
     <Content Include="Image\Users\Man.png" />
     <Content Include="Image\Users\user.png" />
@@ -4361,6 +4362,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Content\Add\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

@@ -75,11 +75,8 @@
                                         </a>
                                         <div class="media-body">
                                             <a ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
-                                                <span class="name mb-0 text-sm" ng-show="x.question_title.length > 50">
-                                                    {{x.question_title.substring(0, 50) + "..."}}
-                                                </span>
-                                                <span class="name mb-0 text-sm" ng-show="x.question_title.length < 50">
-                                                    {{x.question_title}}
+                                                <span class="name mb-0 text-sm">
+                                                    {{x.notification_content}}
                                                 </span>
                                             </a> 
                                         </div>

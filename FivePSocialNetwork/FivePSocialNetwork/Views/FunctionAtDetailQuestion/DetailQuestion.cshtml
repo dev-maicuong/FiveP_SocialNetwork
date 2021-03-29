@@ -584,7 +584,7 @@
                 <small>Người liên hệ</small>
             </div>
             <div class="">
-                @Html.Action("FriendIndexCenter", "ShareView")
+                @Html.Action("FriendIndexCenterRealTime", "ShareView")
                 <hr />
                 <div class="mt-4">
                     <small>Thẻ câu hỏi</small>
@@ -643,6 +643,13 @@
             </div>
         </footer>
     </div>
+    @if (Session["doneReply"] != null)
+    {
+        <script>
+            alert("Đã trả lời, nếu có ý tưởng mới xin hay cập nhập vào câu trả lời trước!");
+        </script>
+        Session["doneReply"] = null;
+    }
     <script>
         ClassicEditor
             .create(document.querySelector('#message'), {

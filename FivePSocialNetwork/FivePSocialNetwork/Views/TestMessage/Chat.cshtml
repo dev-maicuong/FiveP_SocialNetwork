@@ -4,27 +4,25 @@
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
 <style>
-    .scrolling-box {
-        background-color: #eaeaea;
-        display: block;
-        height: 200px;
-        overflow-y: scroll;
-        scroll-behavior: smooth;
-        text-align: center;
-        width: 200px;
+    .scrolling-area {
+        max-width: 250px;
+        max-height: 250px;
+        overflow: auto;
+        padding: 1rem;
+        background: white;
+        transform: rotate(180deg);
     }
 
-    section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
+    .scrolling-element-inside {
+        transform: rotate(-180deg);
     }
 </style>
-<nav>
-    <a href="#3">3</a>
-</nav>
-
-<div class="scrolling-box">
-    <section id="3">This is the third section</section>
+<div class="scrolling-area">
+    <div class="scrolling-element-inside">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi ipsum blanditiis optio officiis quia fugiat ut eius expedita rerum nostrum id quas, iusto reprehenderit. Nesciunt porro praesentium eum eius ex!</p>
+        <p>Illo ducimus atque repudiandae, hic dicta soluta nihil laboriosam. Minus, alias aliquam aperiam maxime porro itaque fuga doloribus quas ex et veritatis labore cupiditate at, enim, repellat tempora quod soluta.</p>
+        <p>Aut quaerat sit dolores excepturi odio. Non totam voluptatum aut similique suscipit ullam dolorum dolore doloremque omnis recusandae inventore dolores quos, quo dolorem, voluptatibus quasi quisquam corporis porro rem soluta.</p>
+        <p>Porro animi corrupti accusamus tenetur harum minima cum unde ullam, ea consectetur et impedit ad ipsum odit laboriosam, reprehenderit autem accusantium voluptate tempore. Aliquam odit mollitia, ipsam cum quam necessitatibus.</p>
+        <p>Non modi maiores molestiae ut ex esse commodi, eos deserunt, nisi, magnam perferendis neque ipsa. Inventore beatae, autem corporis, doloribus modi fugit ab ipsam sit recusandae sequi tempore quo in?</p>
+    </div>
 </div>

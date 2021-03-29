@@ -59,6 +59,7 @@ namespace FivePSocialNetwork.Controllers
             Answer checkAnswer = db.Answers.FirstOrDefault(n => n.user_id == user_id && n.question_id == answer.question_id);
             if(checkAnswer != null)
             {
+                Session["doneReply"] = "Đã trả lời, nếu có ý tưởng mới xin hay cập nhập vào câu trả lời trước!";
                 return Redirect(Request.UrlReferrer.ToString());
             }
             //kiểm tra xem user trả lời có dc vote 4 chưa để tự động công điểm.

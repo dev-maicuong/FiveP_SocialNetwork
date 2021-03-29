@@ -24,7 +24,6 @@ namespace FivePSocialNetwork.Controllers
         //panel trên cùng của indexcenter
         public PartialViewResult PanelCenter()
         {
-            
             return PartialView();
         }
         //-----------------------thông báo tin nhắn ---------------------
@@ -180,14 +179,30 @@ namespace FivePSocialNetwork.Controllers
         public ActionResult StatusMessage()
         {
             int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-            List<Message> checkMessages = db.Messages.Where(n => n.messageRecipients_id == user_id && n.message_status == false).ToList();
-            if(checkMessages != null)
+            List<Message> checkMessages = db.Messages.Where(n => n.messageRecipients_id == user_id && n.message_status == false).OrderByDescending(n=>n.message_dateSend).ToList();
+            int dk = 1;
+            if (checkMessages != null)
             {
                 foreach (var item in checkMessages)
                 {
-                    db.Messages.Find(item.message_id).message_status = true;
-                    db.Messages.Find(item.message_id).messageRecipients_status = "đã xem.";
-                    db.SaveChanges();
+                    if (dk == 0 && item.message_status == false)
+                    {
+                        item.message_status = true;
+                        item.messageRecipients_status = " ";
+                        db.SaveChanges();
+                    }
+                    else if (dk == 1 && item.message_status == false)
+                    {
+                        item.message_status = true;
+                        item.messageRecipients_status = "đã xem.";
+                        db.SaveChanges();
+                        dk = 0;
+                    }
+                    else
+                    {
+                        item.messageRecipients_status = " ";
+                        db.SaveChanges();
+                    }
                 }
             }
             return View();

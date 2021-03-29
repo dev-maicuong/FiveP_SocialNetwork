@@ -63,7 +63,7 @@ namespace FivePSocialNetwork.Controllers
                     SqlDataReader reader = command.ExecuteReader();
                     //.Where(n => n.notification_recycleBin == false && n.receiver_id == user_id)
                     int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-                    List<Message> messages = db.Messages.Where(n => ((n.messageSender_id == user_id && n.messageRecipients_id == id)||(n.messageSender_id == id && n.messageRecipients_id == user_id)) && n.message_recycleBin == false).OrderByDescending(n => n.message_dateSend).Take(6).ToList();
+                    List<Message> messages = db.Messages.Where(n => ((n.messageSender_id == user_id && n.messageRecipients_id == id)||(n.messageSender_id == id && n.messageRecipients_id == user_id)) && n.message_recycleBin == false).OrderByDescending(n => n.message_dateSend).Take(11).ToList();
                     List<ListMessage> listChat = messages.OrderBy(n => n.message_dateSend).Select(n => new ListMessage
                     {
                         message_content = n.message_content,
@@ -75,7 +75,6 @@ namespace FivePSocialNetwork.Controllers
                         messageSender_firstName = n.User.user_firstName,
                         messageSender_lastName = n.User.user_lastName
                     }).ToList();
-                    System.Threading.Thread.Sleep(1000);
                     return Json(new { listChat = listChat }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -85,7 +84,6 @@ namespace FivePSocialNetwork.Controllers
         {
             HubMess.Message();
         }
-
         [HttpPost]
         public ActionResult SaveMessage(Message message,string message_content, int messageRecipients_id)
         {
@@ -216,9 +214,25 @@ namespace FivePSocialNetwork.Controllers
                             user_silverMedal = n.user_silverMedal,
                             user_brozeMedal = n.user_brozeMedal,
                             message_status = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_status,
-                            message = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_content,
-                            message_dateSend = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_dateSend.ToString()
-                        }).OrderByDescending(n=>n.message_dateSend).ToList();
+                            message = db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id && m.messageRecipients_id == user_id).message_content,
+                            temporaryDate = (DateTime)db.Messages.OrderByDescending(m => m.message_dateSend).FirstOrDefault(m => m.messageSender_id == n.user_id).message_dateSend
+                        }).OrderByDescending(n=> n.message_dateSend).ToList();
+                        DateTime dateTime = DateTime.Now;
+                        foreach(var item in listUsers)
+                        {
+                            if(item.temporaryDate.ToShortDateString() == dateTime.ToShortDateString() && item.temporaryDate.Hour == dateTime.Hour)
+                            {
+                                item.hoursSend = dateTime.Minute - item.temporaryDate.Minute;
+                                item.message_dateSend = item.temporaryDate.ToString();
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                item.hoursSend = 66;
+                                item.message_dateSend = item.temporaryDate.ToString();
+                                db.SaveChanges();
+                            }
+                        }
                         return Json(new { listChat = listUsers }, JsonRequestBehavior.AllowGet);
                     }
                     return Json("Hello bạn !", JsonRequestBehavior.AllowGet);

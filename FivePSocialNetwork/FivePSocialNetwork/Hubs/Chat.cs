@@ -14,9 +14,9 @@ namespace FivePSocialNetwork.Hubs
         {
             Clients.All.hello();
         }
-        public void Message(string message, int id, int user_friend_id)
+        public void Message(int id, int user_friend_id)
         {
-            Clients.All.message(message, id, user_friend_id);
+            Clients.All.message(id, user_friend_id);
         }
     }
 }
