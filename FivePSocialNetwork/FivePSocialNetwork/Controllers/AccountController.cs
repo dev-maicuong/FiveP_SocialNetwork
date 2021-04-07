@@ -21,6 +21,9 @@ namespace FivePSocialNetwork.Controllers
     {
         private FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
         String HomeCenter = "/Center/IndexCenter";
+        //------------------------------------------TEST--------------------------------
+        
+        //----------------------------------------MAIN--------------------------------
         public ActionResult Login()
         {
             return View();
@@ -46,7 +49,7 @@ namespace FivePSocialNetwork.Controllers
             User userActivate = db.Users.Where(n => n.user_activate == false).SingleOrDefault(n => n.user_email == user_email && n.user_pass == user_pass);
             if(userActivate != null)
             {
-                ViewBag.checkLogin = "Tài khoản của bạn đã bị khóa, do vi phạm các điều lệ trong 5p!";
+                ViewBag.checkLogin = "Tài khoản đã bị khóa!";
                 return View(userActivate);
             }
             //kiểm tra admin
@@ -127,7 +130,7 @@ namespace FivePSocialNetwork.Controllers
                 Response.Cookies.Set(cookie);
                 return Redirect(HomeCenter);
             }
-            ViewBag.checkLogin = "Email'SDT' hoặc mật khẩu sai! Vui lòng nhập lại!";
+            ViewBag.checkLogin = "Tài khoản hoặc mật khẩu không đúng!";
             return View(user);
         }
         public ActionResult AuthenticationOption()
@@ -800,7 +803,7 @@ namespace FivePSocialNetwork.Controllers
             else
             {
                 ViewBag.statusCode = "Mã code sai! Vui long nhập lại";
-                return Redirect(Request.UrlReferrer.ToString());
+                return View();
             }
             return RedirectToAction("Security");
         }
@@ -849,9 +852,6 @@ namespace FivePSocialNetwork.Controllers
             {
                 return Redirect(HomeCenter);
             }
-            // khi tồn tại cookies
-            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-            
             return View();
         }
         [HttpPost]
@@ -870,6 +870,10 @@ namespace FivePSocialNetwork.Controllers
                 db.SaveChanges();
                 Session["confirmemail"] = null;
                 return RedirectToAction("SettingAccount");
+            }
+            else
+            {
+                ViewBag.statusCode = "Nhap sai mã";
             }
             return View();
         }
@@ -959,7 +963,7 @@ namespace FivePSocialNetwork.Controllers
             else
             {
                 ViewBag.statusCode = "Mã code sai! Vui long nhập lại";
-                return Redirect(Request.UrlReferrer.ToString());
+                return View();
             }
             return RedirectToAction("Security");
         }
@@ -1227,7 +1231,7 @@ namespace FivePSocialNetwork.Controllers
             else
             {
                 ViewBag.statusCode = "Mã code sai! Vui long nhập lại";
-                return Redirect(Request.UrlReferrer.ToString());
+                return View();
             }
             return RedirectToAction("Security");
         }
@@ -1404,7 +1408,7 @@ namespace FivePSocialNetwork.Controllers
             }
             else
             {
-                ViewBag.forgotPassword = "Phương thức của bạn chưa xác thực, Vui lòng chọn phương thức khác!";
+                ViewBag.forgotPassword = "Phương thức chưa xác thực!";
             }
             return View();
         }

@@ -10,197 +10,13 @@
     string friendFirstName = friend.user_firstName;
 
 }
-<style>
-    .container {
-        max-width: 1170px;
-        margin: auto;
-    }
-    img {
-        max-width: 100%;
-    }
-    .inbox_people {
-        background: #f8f8f8 none repeat scroll 0 0;
-        float: left;
-        overflow: hidden;
-        width: 40%;
-    }
-    .inbox_msg {
-        clear: both;
-        overflow: hidden;
-    }
-    .top_spac {
-        margin: 20px 0 0;
-    }
-    .recent_heading {
-        float: left;
-        width: 40%;
-    }
-    .srch_bar {
-        display: inline-block;
-        text-align: right;
-        width: 60%;
-    }
-    .headind_srch {
-        padding: 10px 29px 10px 20px;
-        overflow: hidden;
-    }
-    .recent_heading h4 {
-        color: #05728f;
-        font-size: 21px;
-        margin: auto;
-    }
-    .srch_bar input {
-        border: 1px solid #cdcdcd;
-        border-width: 0 0 1px 0;
-        width: 80%;
-        padding: 2px 0 4px 6px;
-        background: none;
-    }
-    .srch_bar .input-group-addon button {
-        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-        border: medium none;
-        padding: 0;
-        color: #707070;
-        font-size: 18px;
-    }
-    .srch_bar .input-group-addon {
-        margin: 0 0 0 -27px;
-    }
-    .chat_ib h5 {
-        font-size: 15px;
-        color: #464646;
-        margin: 0 0 8px 0;
-    }
-    .chat_ib h5 span {
-        font-size: 13px;
-        float: right;
-    }
-    .chat_ib p {
-        font-size: 14px;
-        color: #989898;
-        margin: auto
-    }
-    .chat_img {
-        float: left;
-        width: 11%;
-    }
-    .chat_ib {
-        float: left;
-        padding: 0 0 0 15px;
-        width: 88%;
-    }
-    .chat_people {
-        overflow: hidden;
-        clear: both;
-    }
-    .chat_list {
-        margin: 0;
-        padding: 18px 16px 10px;
-    }
-    .inbox_chat {
-        height: 550px;
-        overflow-y: scroll;
-    }
-    .active_chat {
-        background: #ebebeb;
-    }
-    .incoming_msg_img {
-        display: inline-block;
-        width: 6%;
-    }
-    .received_msg {
-        display: inline-block;
-        padding: 0 0 0 10px;
-        vertical-align: top;
-        width: 92%;
-    }
-    .received_withd_msg p {
-        background: #ebebeb none repeat scroll 0 0;
-        border-radius: 3px;
-        color: #646464;
-        font-size: 14px;
-        margin: 0;
-        padding: 5px 10px 5px 12px;
-        width: 100%;
-    }
-    .time_date {
-        color: #747474;
-        display: block;
-        font-size: 12px;
-        margin: 8px 0 0;
-    }
-    .received_withd_msg {
-        width: 57%;
-    }
-    .mesgs {
-        float: left;
-        padding: 30px 15px 0 25px;
-        width: 60%;
-    }
-    .sent_msg p {
-        background: #05728f none repeat scroll 0 0;
-        border-radius: 3px;
-        font-size: 14px;
-        margin: 0;
-        color: #fff;
-        padding: 5px 10px 5px 12px;
-        width: 100%;
-    }
-    .outgoing_msg {
-        overflow: hidden;
-        margin: 26px 0 26px;
-    }
-    .sent_msg {
-        float: right;
-        width: 46%;
-    }
-    .input_msg_write input {
-        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-        border: medium none;
-        color: #4c4c4c;
-        font-size: 15px;
-        min-height: 48px;
-        width: 100%;
-    }
-    .type_msg {
-        border-bottom: 1px solid #c4c4c4;
-        border-left: 1px solid #c4c4c4;
-        position: relative;
-    }
-    .msg_send_btn {
-        background: #05728f none repeat scroll 0 0;
-        border: medium none;
-        border-radius: 50%;
-        color: #fff;
-        cursor: pointer;
-        font-size: 17px;
-        height: 33px;
-        position: absolute;
-        right: 0;
-        top: 11px;
-        width: 33px;
-    }
-    .messaging {
-        padding: 0 0 50px 0;
-    }
-    .msg_history {
-        height: 516px;
-        overflow-y: auto;
-        transform: rotate(180deg);
-    }
-    .scrolling-element-inside {
-        transform: rotate(-180deg);
-    }
-    input:focus {
-        outline: none !important;
-    }
-</style>
+<link href="~/Content/Add/Mess.css" rel="stylesheet" />
 <div class="messaging mt-2" ng-app="myApp">
     <div class="inbox_msg" ng-controller="myCtrl">
         <div class="inbox_people">
             <div class="headind_srch">
                 <div class="recent_heading">
-                    <h4>Người liên hệ</h4>
+                    <h4>Người liên hệ </h4>
                 </div>
                 <div class="srch_bar">
                     <div class="stylish-input-group">
@@ -212,20 +28,43 @@
                 </div>
             </div>
             <div class="inbox_chat" id="listFiend">
-                
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 border-bottom">
+                <img src="~/Image/Users/Man.png" style="width:10%" class="" />
+                @friendFirstName @friendLastName <span id="statusFriend"></span>
+            </div>
+            <div class="col-xl-6">
+                @if (db.Users.Find(user_id).user_statusOnline == true)
+                {
+                    <label class="custom-toggle float-right" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hoạt động">
+                        <input type="checkbox" checked ng-click="statusUser()">
+                        <span class="custom-toggle-slider rounded-circle"></span>
+                    </label>
+                }
+                else
+                {
+                    <label class="custom-toggle float-right" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hoạt động">
+                        <input type="checkbox" ng-click="statusUser()">
+                        <span class="custom-toggle-slider rounded-circle"></span>
+                    </label>
+                }
+
             </div>
         </div>
         <div class="mesgs">
-            <div class="msg_history">
+            <div class="msg_history" >
                 <div class="scrolling-element-inside" style="display: none" id="statusReply">
-                    <img src="~/Image/Users/DangSoan.gif" style="width:30%;height:50px"/>
+                    <img src="~/Image/Users/DangSoan.gif" style="width:30%;height:50px" />
                 </div>
                 <div id="contentMsg" class="scrolling-element-inside"></div>
             </div>
             <div class="type_msg">
                 <div class="input_msg_write">
                     <form id="formMessage">
-                        <input type="hidden" name="messageRecipients_id" value="@ViewBag.id"/>
+                        <input type="hidden" name="messageRecipients_id" value="@ViewBag.id" />
                         <input type="text" id="txtMessage" ng-click="statusMessage()" name="message_content" required class="write_msg" placeholder="@(friendFirstName +" "+ friendLastName) ....." />
                         <button type="button" class="msg_send_btn" id="btnSend"><i class="far fa-paper-plane"></i></button>
                     </form>
@@ -233,59 +72,9 @@
             </div>
         </div>
     </div>
-    <p class="text-center top_spac"> Design by <a target="_blank" href="#">Sunil Rajput</a></p>
-    
 </div>
 <script>
-    //trạng thái dang chat
-    $(function () {
-        var chat = $.connection.chat;
-        loadClient(chat)
-        $.connection.hub.start().done(function () {
-            $('#txtMessage').keyup(function () {
-                var user_friend_id = @(ViewBag.idFriend);
-                var id = @user_id;
-                chat.server.message(id, user_friend_id);
-            });
-        });
-    });
-    function loadClient(chat) {
-        chat.client.message = function (id, user_friend_id) {
-            if (@user_id != id && @(ViewBag.idFriend) == user_friend_id) {
-                let statusReply = document.getElementById('statusReply');
-                statusReply.style.display = 'block';
-                setTimeout(function () { statusReply.style.display = 'none' }, 2500);
-            }            //debugger
-            //$('#statusReply').append(
-            //    5555555555
-            //);
-            @*if (@user_id != id && @(ViewBag.idFriend) == user_friend_id) {
-                $('#contentMsg').append(
-                    '<div class="incoming_msg"><div class= "incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"> </div><div class="received_msg"><div class="received_withd_msg"><p>' + msg + '</p><span class="time_date">' + today.getHours()+ 'Giờ'+ '</span></div></div>'
-                    );
-            }*@
-        }
-    }
-</script>
-<script>
-    
-
-    var app = angular.module('myApp', []);
-    app.controller('myCtrl', function ($scope, $http) {
-        $scope.statusMessage = function () {
-            $http.get("/Message/StatusMessage?messageRecipients_id=" + @ViewBag.id)
-                .then(function (response) {
-                    // First function handles success
-                    $scope.listUsers = response.data;
-                }, function (response) {
-                    // Second function handles error
-                    $scope.listUsers = "Something went wrong";
-                });
-        }
-    });
-</script>
-<script type="text/javascript">
-    //Lưu tin nhắn
+    // lưu tin nhắn
     var count = 0;
     $(document).ready(function () {
         var input = document.getElementById("txtMessage");
@@ -320,8 +109,49 @@
             }
         });
     })
-
-    // tin nhắn
+</script>
+<script>
+    //trạng thái dang chat
+    $(function () {
+        var chat = $.connection.chat;
+        loadClient(chat)
+        $.connection.hub.start().done(function () {
+            $('#txtMessage').keyup(function () {
+                var user_friend_id = @(ViewBag.idFriend);
+                var id = @user_id;
+                chat.server.message(id, user_friend_id);
+            });
+        });
+    });
+    function loadClient(chat) {
+        chat.client.message = function (id, user_friend_id) {
+            if (@user_id != id && @(ViewBag.idFriend) == user_friend_id) {
+                let statusReply = document.getElementById('statusReply');
+                statusReply.style.display = 'block';
+                setTimeout(function () { statusReply.style.display = 'none' }, 2500);
+            }
+        }
+    }
+</script>
+<script>
+    // Trạng thái tin nhắn
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope, $http) {
+        $scope.statusMessage = function () {
+            $http.get("/Message/StatusMessage?messageRecipients_id=" + @ViewBag.id)
+                .then(function () {
+                    // First function handles success
+                }, function () {
+                    // Second function handles error
+                });
+        }
+        $scope.statusUser = function () {
+            $http.get("/Message/StatusUser");
+        }
+    });
+</script>
+<script type="text/javascript">
+    // real time tin nhắn
     $(function () {
 
         // Proxy created on the fly
@@ -331,7 +161,7 @@
         cus.client.displayChat = function () {
             getData5();
         };
-        
+
         // Start the connection
         $.connection.hub.start();
         getData5();
@@ -352,7 +182,7 @@
                                 '<div class="outgoing_msg">'
                                 + '<div class= "sent_msg"><p>'
                                 + model.message_content + '</p><span class="time_date"> '
-                                + model.messageRecipients_status + ' _______ "' + model.message_dateSend + '"'
+                                + model.messageRecipients_status + ' _______ ' + model.message_dateSend + ' | <a href="#" onclick="MessageRetrieval(' + model.message_id+')">Thu hồi</a>'
                                 + '</span></div ></div >'
                             );
                     }
@@ -370,10 +200,16 @@
             }
         });
     }
+    function MessageRetrieval(id) {
+        $.ajax({
+            url: '/Message/MessageRetrieval?id='+id,
+            type: 'GET',
+        });
+    }
 
 </script>
 <script type="text/javascript">
-    // tin nhắn
+    // real time danh sách bạn bè
     $(function () {
 
         // Proxy created on the fly
@@ -408,8 +244,8 @@
                                         + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
                                         + ' <div class="chat_ib">'
                                         + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + '  <i class="fas fa-circle" style="font-size:6px"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
-                                        + '  <p style="font-weight:800;color:black">'
-                                        + model.message
+                                        + '  <p style="font-weight:800;color:black;font-family:Arial">'
+                                        + model.message + ' | ' + model.messageRecipients_status
                                         + '   </p>'
                                         + '  </div>'
                                         + '  </div>'
@@ -424,7 +260,7 @@
                                         + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
                                         + ' <div class="chat_ib">'
                                         + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + '  <i class="fas fa-circle" style="font-size:6px"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
-                                        + '  <p style="font-weight:800;color:black">'
+                                        + '  <p style="font-weight:800;color:black;font-family:Arial">'
                                         + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend + '</span> phút trước.'
                                         + '   </p>'
                                         + '  </div>'
@@ -448,18 +284,18 @@
                                     + '<div class= "chat_people" >'
                                     + ' <div class="chat_img"> <img src="/Image/Users/' + model.user_avatar + '" alt="sunil"> </div>'
                                     + ' <div class="chat_ib">'
-                                    + ' <h5><a href="/Message/Index?id=' + model.user_id +'">' + model.user_firstName + ' ' + model.user_lastName + '  <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
-                                    + '  <p style="font-weight:800;color:black">'
-                                    + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend +'</span> phút trước.'
+                                    + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + '  <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
+                                    + '  <p style="font-weight:800;color:black;font-family:Arial">'
+                                    + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend + '</span> phút trước.' + ' | ' + model.messageRecipients_status
                                     + '   </p>'
                                     + '  </div>'
                                     + '  </div>'
                                     + ' </div >'
-                            );
+                                );
                             var value = model.hoursSend;
-                            setInterval(function () { document.getElementById('timeSendMess' + i).innerHTML = value++;  }, 60000);
+                            setInterval(function () { document.getElementById('timeSendMess' + i).innerHTML = value++; }, 60000);
                         }
-                        
+
                     }
                     else {
                         if (model.user_statusOnline == false) {
@@ -472,7 +308,7 @@
                                         + ' <div class="chat_ib">'
                                         + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + ' <i class="fas fa-circle" style="font-size:6px"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
                                         + '  <p>'
-                                        + model.message
+                                        + model.message + ' | ' + model.messageRecipients_status
                                         + '   </p>'
                                         + '  </div>'
                                         + '  </div>'
@@ -488,7 +324,7 @@
                                         + ' <div class="chat_ib">'
                                         + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + ' <i class="fas fa-circle" style="font-size:6px"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
                                         + '  <p>'
-                                        + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend + '</span> phút trước.'
+                                        + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend + '</span> phút trước.' + ' | ' + model.messageRecipients_status
                                         + '   </p>'
                                         + '  </div>'
                                         + '  </div>'
@@ -497,7 +333,7 @@
                                 var value = model.hoursSend;
                                 setInterval(function () { document.getElementById('timeSendMess' + i).innerHTML = value++; }, 60000);
                             }
-                            
+
                         }
                         else {
                             if (model.hoursSend == 66) {
@@ -509,7 +345,7 @@
                                         + ' <div class="chat_ib">'
                                         + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + '   <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
                                         + '  <p>'
-                                        + model.message
+                                        + model.message + ' | ' + model.messageRecipients_status
                                         + '   </p>'
                                         + '  </div>'
                                         + '  </div>'
@@ -525,7 +361,7 @@
                                         + ' <div class="chat_ib">'
                                         + ' <h5><a href="/Message/Index?id=' + model.user_id + '">' + model.user_firstName + ' ' + model.user_lastName + '   <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i> ' + '</a> <span class="chat_date">' + model.message_dateSend + '</span></h5>'
                                         + '  <p>'
-                                        + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend + '</span> phút trước.'
+                                        + model.message + ' --- <span id="timeSendMess' + i + '">' + model.hoursSend + '</span> phút trước.' + ' | ' + model.messageRecipients_status
                                         + '   </p>'
                                         + '  </div>'
                                         + '  </div>'
@@ -540,4 +376,49 @@
             }
         });
     }
+</script>
+<script type="text/javascript">
+    // real time tin nhắn
+    $(function () {
+
+        // Proxy created on the fly
+        var cus = $.connection.statusFriendInMess;
+
+        // Declare a function on the job hub so the server can invoke it
+        cus.client.displayChat = function () {
+            getData9();
+        };
+
+        // Start the connection
+        $.connection.hub.start();
+        getData9();
+    });
+
+    function getData9() {
+        var $tbl = $('#statusFriend');
+        $.ajax({
+            url: '/Message/StatusFriend?id='+@id,
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                $tbl.empty();
+                $.each(data.statusFriend, function (i, model) {
+                    if (model.user_statusOnline == false) {
+                        $tbl.append
+                            (
+                                ' /  Không hoạt động <i class="fas fa-circle" style="font-size:6px"></i>'
+                            );
+                    }
+                    else {
+                        $tbl.append
+                            (
+                                ' /  Đang hoạt động <i class="fas fa-circle" style="font-size:6px;color:#1ec72c"></i>'
+                            );
+                    }
+
+                });
+            }
+        });
+    }
+
 </script>

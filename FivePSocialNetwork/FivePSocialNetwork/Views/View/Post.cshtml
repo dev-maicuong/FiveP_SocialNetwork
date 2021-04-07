@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="~/Content/Add/MessGroup.css" rel="stylesheet" />
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -26,7 +28,7 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-xl-12">
-                    <img src="~/Image/Advertisement/TB1yBdxr9slXu8jSZFuXXXg7FXa.jpg" class="w-100 h-75 card"/>
+                    <img src="~/Image/Advertisement/TB1yBdxr9slXu8jSZFuXXXg7FXa.jpg" class="w-100 h-75 card" />
                 </div>
 
             </div>
@@ -55,7 +57,7 @@
 
                 <div class="border p-2">
                     <!-- post header -->
-                    
+
                     <div class="row">
                         <div class="col-2">
                             <center>
@@ -130,74 +132,110 @@
                 </div>
             </section>
             <!-- Post Ends -->
-            
             <!--TRả lời-->
             phân trang
             <!-- Post Ends -->
         </div>
         <div class="col-xl-4">
-            <div class="">
-                <img src="~/Image/Advertisement/khoa-hoc-machine-learning-khtn.png" class="w-100 h-100 card"/>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body p-3">
+            <div class="message-box">
+                <div class="head-box-1">
 
-                    <h5 class="card-title m-0">Thẻ câu hỏi</h5>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action text-primary">
-                            <div class="row">
-                                <div class="col-2 mr--1">
-                                    <i class="fab fa-usps"></i>
-                                </div>
-                                <div class="col-xl-10 ml--3">
-                                    ..
-                                </div>
+                    <ul class="msg-box list-inline text-left d-inline-block float-left">
+                        <li> <i class="fas fa-arrow-left" id="back"></i> </li>
+                        <li> <img src="https://i.ibb.co/fCzfFJw/person.jpg" alt="" width="40px"> <span> Vikas chaurasia </span> <br> <small class="timee"> 12:45 Pm </small> </li>
+                    </ul>
+
+                    <ul class="flat-icon list-inline text-right d-inline-block float-right">
+                        <li> <a href="JavaScript:Void(0);" id="video_chat"> <i class="fas fa-video"></i> </a> </li>
+                        <li> <a href="JavaScript:Void(0);" id="open_camera"> <i class="fas fa-camera"></i> </a> </li>
+                        <li>
+                            <a href="JavaScript:Void(0);" id="dset"> <i class="fas fa-ellipsis-v"></i> </a>
+                            <div class="setting-drop">
+                                <ul class="list-inline">
+                                    <li> <a href="#"> My Profile</a> </li>
+                                    <li> <a href="#"> Setting </a> </li>
+                                    <li> <a href="#"> Privacy Policy </a> </li>
+                                    <li> <a href="#"> Logout </a> </li>
+                                </ul>
                             </div>
-                        </a>
+                        </li>
+                    </ul>
 
-                        <a href="" class="btn btn-sm btn-primary">View All</a>
+                </div>
+
+                <div class="msg_history">
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>Lorem Ipsum is simply dummy text</p>
+                                <span class="time_date"> 11:01 AM    |    June 9</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Lorem Ipsum is simply dummy text</p>
+                            <span class="time_date"> 11:01 AM    |    June 9</span>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>Lorem Ipsum is simply dummy text</p>
+                                <span class="time_date"> 11:01 AM    |    Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p> ok </p>
+                            <span class="time_date"> 11:01 AM    |    Today</span>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p> Lorem Ipsum is simply dummy text</p>
+                                <span class="time_date"> 11:01 AM    |    Today</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body p-3">
-
-                    <h5 class="card-title m-0">Các câu hỏi liên quan</h5>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action text-primary">
-                            <div class="row">
-                                <div class="col-2 mr--1">
-                                    <i class="fab fa-usps"></i>
+                <div class="video_box" id="video_section">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="video-chat-top">
+                                <div class="video_section">
+                                    <img src="https://i.ibb.co/2vtJ3XR/user.png" height="280px" width="280px" />
                                 </div>
-                                <div class="col-xl-10 ml--3">
-                                    ..
-                                </div>
-                            </div>
-                        </a>
+                                <div class="video_chat_box">
+                                    <ul>
+                                        <li><i class="fa fa-phone" aria-hidden="true"></i></li>
+                                        <li><i class="fa fa-phone close_video_chat" aria-hidden="true"></i></li>
+                                        <li><i class="fa fa-microphone-slash" aria-hidden="true"></i></li>
 
-                        <a href="" class="btn btn-sm btn-primary">View All</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body p-3">
-
-                    <h5 class="card-title m-0">Các bài viết liên quan</h5>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action text-primary">
-                            <div class="row">
-                                <div class="col-2 mr--1">
-                                    <i class="fab fa-usps"></i>
-                                </div>
-                                <div class="col-xl-10 ml--3">
-                                    ..
+                                    </ul>
                                 </div>
                             </div>
-                        </a>
 
-                        <a href="" class="btn btn-sm btn-primary">View All</a>
+                        </div>
                     </div>
                 </div>
+                <div class="send-message">
+                    <form action="" method="">
+                        <input type="text" class="form-control" name="" valu="" id="" placeholder="Type your message here ..." />
+
+                        <ul class="list-inline">
+                            <li>
+                                <a href="JavaScript:Void(0);" id="attach">  <i class="fas fa-paperclip"></i> </a>
+
+                            </li>
+                            <li> <i class="fas fa-paper-plane"></i> </li>
+                        </ul>
+                    </form>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -230,15 +268,25 @@
 </div>
 
 <script>
-        var app = angular.module('myApp', ['ngSanitize']);
-        app.controller('myCtrl', function ($scope, $http) {
-            $http.get("/Center/QuestionsJson")
-                .then(function (response) {
-                    // First function handles success
-                    $scope.listQuestions = response.data;
-                }, function (response) {
-                    // Second function handles error
-                    $scope.listQuestions = "Something went wrong";
-                });
-            
+    $(document).ready(function () {
+
+        $("#dset").click(function () {
+            $(".setting-drop").toggle('1000');
+        });
+        $("#video_chat").click(function () {
+            $("#video_section").toggle('slow');
+            $(".msg_history").toggle(' ');
+        });
+    });
+    var app = angular.module('myApp', ['ngSanitize']);
+    app.controller('myCtrl', function ($scope, $http) {
+        $http.get("/Center/QuestionsJson")
+            .then(function (response) {
+                // First function handles success
+                $scope.listQuestions = response.data;
+            }, function (response) {
+                // Second function handles error
+                $scope.listQuestions = "Something went wrong";
+            });
+
 </script>

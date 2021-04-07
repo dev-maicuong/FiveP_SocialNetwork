@@ -3,13 +3,36 @@
     ViewBag.Title = "ManagementAcceptAnswer";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
+<style>
+    .scroll_text {
+        height: 450px;
+        overflow: auto;
+        padding: 0px 15px;
+    }
 
-<div class="header pb-6" style="background-color:orange">
+        .scroll_text::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll_text::-webkit-scrollbar-track {
+            background-color: #E7E7E7
+        }
+
+        .scroll_text::-webkit-scrollbar-thumb {
+            border: 1px solid rgba(92, 92, 92, 0.5);
+            border-radius: 10px;
+        }
+
+            .scroll_text::-webkit-scrollbar-thumb:hover {
+                background-color: #000;
+            }
+</style>
+<div class="header pb-6" style="">
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">Danh sách câu trả lời đã duyệt</h6>
+                    <h6 class="h2 text-dark d-inline-block mb-0">Danh sách câu trả lời đã duyệt</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
@@ -27,78 +50,87 @@
     </div>
 </div>
 <!-- Page content -->
-<div class="container-fluid mt--6" ng-app="myApp">
+<div class="container-fluid mt--7" ng-app="myApp">
     <div class="row" ng-controller="myCtrl">
-        <div class="col">
-            <div class="card">
-                <!-- Card header -->
-                <div class="card-header border-0">
-                    <h3 class="mb-0"><i class="fas fa-list-ol"></i> Danh sách</h3>
-                </div>
-                @*<div class="float-right" style="padding: 10px;">
+        <div class="col-xl-12 mb-3">
+            <img src="~/Image/Advertisement/thiet-ke-website.jpg" class="img-fluid" />
+        </div>
+        <div class="col-xl-8">
+            <div class="">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0"><i class="fas fa-list-ol"></i> Danh sách</h3>
+                    </div>
+                    @*<div class="float-right" style="padding: 10px;">
                         <a href="#" style="margin-left: 5px;">Nổi tiếng &nbsp;&nbsp;&nbsp; </a>
                         <a href="#" style="margin-left: 5px;">Trả lời &nbsp;&nbsp;&nbsp;</a>
                         <a href="#" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp; <i class="fas fa-undo-alt"></i></a>
                     </div>*@
-                <div class="form-group mb-0">
-                    <div class="input-group input-group-alternative input-group-merge">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <div class="form-group mb-0">
+                        <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" ng-model="txtSearch" placeholder="Tìm ..." type="text">
                         </div>
-                        <input class="form-control" ng-model="txtSearch" placeholder="Tìm ..." type="text">
+                    </div>
+
+                    <!-- Light table -->
+
+                    <div class="table-responsive">
+                        <table class="w-100 mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center"> Stt</th>
+                                    <th scope="col" class="sort" data-sort="name">Câu trả lời</th>
+                                    <th scope="col" class="text-center">
+                                        Bỏ duyệt
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+
+                                <tr ng-repeat="x in filteredTodos| filter: txtSearch">
+                                    <td class="text-center">
+                                        {{$index}}
+                                    </td>
+                                    <td scope="row" class="w-75">
+                                        <div class="media align-items-center">
+                                            <a href="@Url.Action("IndexDetailQuestion","DetailQuestion")" class="mr-2">
+
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                            <div class="media-body">
+                                                <a ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
+                                                    <span class="name mb-0 text-sm" ng-show="x.answer_content.length > 50">
+                                                        {{x.answer_content.substring(0, 50) + "..."}}
+                                                    </span>
+                                                    <span class="name mb-0 text-sm" ng-show="x.answer_content.length < 50">
+                                                        {{x.answer_content}}
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="budget text-center">
+                                        <a href="#"><i class="fas fa-times" style="font-size:23px"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <!-- Light table -->
-
-                <div class="table-responsive">
-                    <table class="w-100 mt-3">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-center"> Stt</th>
-                                <th scope="col" class="sort" data-sort="name">Câu trả lời</th>
-                                <th scope="col" class="text-center">
-                                    Bỏ duyệt
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="list">
-
-                            <tr ng-repeat="x in filteredTodos| filter: txtSearch">
-                                <td class="text-center">
-                                    {{$index}}
-                                </td>
-                                <td scope="row" class="w-75">
-                                    <div class="media align-items-center">
-                                        <a href="@Url.Action("IndexDetailQuestion","DetailQuestion")" class="mr-2">
-
-                                            <i class="fas fa-info-circle"></i>
-                                        </a>
-                                        <div class="media-body">
-                                            <a ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
-                                                <span class="name mb-0 text-sm" ng-show="x.answer_content.length > 50">
-                                                    {{x.answer_content.substring(0, 50) + "..."}}
-                                                </span>
-                                                <span class="name mb-0 text-sm" ng-show="x.answer_content.length < 50">
-                                                    {{x.answer_content}}
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="budget text-center">
-                                    <a href="#"><i class="fas fa-times" style="font-size:23px"></i></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <pagination ng-model="currentPage"
+                            total-items="list.length"
+                            max-size="maxSize"
+                            boundary-links="true">
+                </pagination>
             </div>
-            <pagination ng-model="currentPage"
-                        total-items="list.length"
-                        max-size="maxSize"
-                        boundary-links="true">
-            </pagination>
+        </div>
+        <div class="col-xl-4">
+            <small>Liên hệ <i class="fas fa-phone"></i></small>
+            @Html.Action("FriendIndexCenterRealTime", "ShareView")
         </div>
     </div>
 </div>

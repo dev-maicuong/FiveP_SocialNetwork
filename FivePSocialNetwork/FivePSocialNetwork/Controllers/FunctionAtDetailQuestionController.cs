@@ -629,6 +629,7 @@ namespace FivePSocialNetwork.Controllers
             {
                 question_title = n.question_title,
                 question_id = n.question_id,
+                question_popular = n.question_popular
             }).Take(8).ToList();
             return Json(listTags, JsonRequestBehavior.AllowGet);
         }

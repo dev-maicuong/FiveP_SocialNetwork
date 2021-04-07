@@ -50,6 +50,7 @@ namespace FivePSocialNetwork.Models.Json
         public Nullable<bool> message_status { get; set; }
         public DateTime temporaryDate { get; set; }
         public int hoursSend { get; set; }
+        public string messageRecipients_status { get; set; }
 
     }
 }

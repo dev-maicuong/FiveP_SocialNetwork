@@ -90,32 +90,32 @@
                                 Show_Activate_Question checkShow_Activate_Question = db.Show_Activate_Question.SingleOrDefault(n => n.user_id == user_id && n.question_id == Model.question_id);
                                 <center>
                                     <form ng-submit="rateQuestionT()" method="post" class="changSizeButtonRatePost">
-                                        <button type="submit" onclick="btnRateQuestionT()" class="btn btn-sm"><i id="imgRateQuestionT" style="font-size:200%;color:@if (checkRate_Question != null && checkRate_Question.rateQuestion_rateStatus == true) { @varColororangered } else { @varColorMain }" class="fa fa-chevron-up"></i></button>
+                                        <button type="submit" onclick="btnRateQuestionT()" class="btn btn-sm" data-toggle="tooltip" data-placement="right" title="Vote câu hỏi"><i id="imgRateQuestionT" style="font-size:200%;color:@if (checkRate_Question != null && checkRate_Question.rateQuestion_rateStatus == true) { @varColororangered } else { @varColorMain }" class="fa fa-chevron-up"></i></button>
                                     </form>
                                 </center>
                                 <center>
                                     <div style="text-align: center">
-                                        <p style="margin-top:6px;font-size:15px;" id="totalRateQuestion">@Model.question_totalRate</p>
+                                        <p style="margin-top:6px;font-size:15px;" id="totalRateQuestion"  data-toggle="tooltip" data-placement="right" title="Điểm vote">@Model.question_totalRate</p>
                                     </div>
                                 </center>
                                 <center>
                                     <form ng-submit="rateQuestionF()" class="changSizeButtonRatePost">
-                                        <button type="submit" onclick="btnRateQuestionF()" class="btn btn-sm"><i id="imgRateQuestionF" class="fa fa-chevron-down" style="font-size:200%;color:@if (checkRate_Question != null && checkRate_Question.rateQuestion_rateStatus == false) { @varColororangered } else { @varColorMain }"></i></button>
+                                        <button type="submit" onclick="btnRateQuestionF()" class="btn btn-sm" data-toggle="tooltip" data-placement="right" title="Vote câu hỏi"><i id="imgRateQuestionF" class="fa fa-chevron-down" style="font-size:200%;color:@if (checkRate_Question != null && checkRate_Question.rateQuestion_rateStatus == false) { @varColororangered } else { @varColorMain }"></i></button>
                                     </form>
                                 </center>
                                 <!--đánh dấu-->
                                 <center>
                                     <form ng-submit="tickQuestion()" class="changSizeButtonRatePost">
-                                        <button type="submit" onclick="btnTickQuestion()" class="btn btn-sm"><i id="imgTickQuestion" class="ni ni-book-bookmark" style="font-size:200%;color:@if (checkTick_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
+                                        <button type="submit" onclick="btnTickQuestion()" class="btn btn-sm" data-toggle="tooltip" data-placement="right" title="Đánh dấu"><i id="imgTickQuestion" class="ni ni-book-bookmark" style="font-size:200%;color:@if (checkTick_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
                                     </form>
                                 </center>
                                 <center>
-                                    <span id="totalTickQuestion" class="text-center border-bottom" style="font-size:11px">@Model.question_totalTick</span>
+                                    <span id="totalTickQuestion" class="text-center border-bottom" style="font-size:11px"  data-toggle="tooltip" data-placement="right" title="Lượt đánh dấu">@Model.question_totalTick</span>
                                 </center>
                                 <!--show hoạt động-->
                                 <center>
                                     <form ng-submit="showActivateQuestion()" class="changSizeButtonRatePost">
-                                        <button type="submit" ng-click="btnShowActivate()" class="btn btn-sm mt-2"><i id="imgShowActivate" class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
+                                        <button type="submit" ng-click="btnShowActivate()" class="btn btn-sm mt-2" data-toggle="tooltip" data-placement="right" title="Hiển thị hoạt động"><i id="imgShowActivate" class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
                                     </form>
                                 </center>
                             }
@@ -148,7 +148,7 @@
                             }
 
                             <center>
-                                <span class="text-center border-bottom" style="font-size:11px">
+                                <span class="text-center border-bottom" style="font-size:11px"  data-toggle="tooltip" data-placement="right" title="Trạng thái">
                                     @if (Model.question_userStatus == true)
                                     {<i class="fas fa-globe-europe" style="font-size:120%;"></i>}
                                     else
@@ -294,17 +294,17 @@
 
                                         <center>
                                             <form ng-submit="rateAnswerT(@(item.answer_id))" class="changSizeButtonRatePost">
-                                                <button type="submit" onclick="btnRateAnswerT@(item.answer_id)()" class="btn btn-sm"><i id="imgRateAnswerT@(item.answer_id)" class="fa fa-chevron-up" style="font-size:200%;color:@if (checkRate_Answer != null && checkRate_Answer.rateAnswer_rateStatus == true) { @varColororangered} else { @varColorMain}"></i></button>
+                                                <button type="submit" onclick="btnRateAnswerT@(item.answer_id)()" class="btn btn-sm"  data-toggle="tooltip" data-placement="right" title="Vote câu trả lời"><i id="imgRateAnswerT@(item.answer_id)" class="fa fa-chevron-up" style="font-size:200%;color:@if (checkRate_Answer != null && checkRate_Answer.rateAnswer_rateStatus == true) { @varColororangered} else { @varColorMain}"></i></button>
                                             </form>
                                         </center>
                                         <center>
                                             <div style="text-align: center">
-                                                <p style="margin-top:6px;font-size:15px;" id="totalRateAnswer@(item.answer_id)">@item.answer_totalRate</p>
+                                                <p style="margin-top:6px;font-size:15px;" id="totalRateAnswer@(item.answer_id)"  data-toggle="tooltip" data-placement="right" title="Trung bình vote">@item.answer_totalRate</p>
                                             </div>
                                         </center>
                                         <center>
                                             <form ng-submit="rateAnswerF(@(item.answer_id))" class="changSizeButtonRatePost">
-                                                <button type="submit" onclick="btnRateAnswerF@(item.answer_id)()" class="btn btn-sm"><i id="imgRateAnswerF@(item.answer_id)" class="fa fa-chevron-down" style="font-size:200%;color:@if (checkRate_Answer != null && checkRate_Answer.rateAnswer_rateStatus == false) { @varColororangered} else { @varColorMain}"></i></button>
+                                                <button type="submit" onclick="btnRateAnswerF@(item.answer_id)()" class="btn btn-sm"  data-toggle="tooltip" data-placement="right" title="Vote câu trả lời"><i id="imgRateAnswerF@(item.answer_id)" class="fa fa-chevron-down" style="font-size:200%;color:@if (checkRate_Answer != null && checkRate_Answer.rateAnswer_rateStatus == false) { @varColororangered} else { @varColorMain}"></i></button>
                                             </form>
                                         </center>
                                         <!--show hoạt động
@@ -312,7 +312,7 @@
                                         <center>
                                             <form action="@Url.Action("ShowActivateQuestion", "FunctionAtDetailQuestion")" method="post" class="changSizeButtonRatePost">
                                                 <input type="hidden" name="question_id" value="@Model.question_id" />
-                                                <button type="submit" class="btn btn-sm mt-2"><i class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
+                                                <button type="submit" class="btn btn-sm mt-2"  data-toggle="tooltip" data-placement="right" title="Đánh dấu hoạt động"><i class="ni ni-compass-04" style="font-size:200%;color:@if (checkShow_Activate_Question != null) {@varColororangered } else { @varColorMain}"></i></button>
                                             </form>
                                         </center>
                                         <script>
@@ -372,13 +372,13 @@
                                         if (item.answer_correct == true)
                                         {
                                             <center>
-                                                <button type="button" class="btn btn-sm" onclick="btnAnswerCorrect@(item.answer_id)()" ng-click="answerCorrect(@(item.answer_id))"><i id="imgAnswerCorresct@(item.answer_id)" class="fas fa-check" style="font-size:25px;color:green"></i></button>
+                                                <button type="button" class="btn btn-sm" onclick="btnAnswerCorrect@(item.answer_id)()" ng-click="answerCorrect(@(item.answer_id))" data-toggle="tooltip" data-placement="right" title="Câu trả lời đúng nhất"><i id="imgAnswerCorresct@(item.answer_id)" class="fas fa-check" style="font-size:25px;color:green"></i></button>
                                             </center>
                                         }
                                         else
                                         {
                                             <center>
-                                                <button type="button" class="btn btn-sm" onclick="btnAnswerCorrect@(item.answer_id)()" ng-click="answerCorrect(@(item.answer_id))"><i id="imgAnswerCorresct@(item.answer_id)" class="fas fa-check" style="font-size:25px;color:#172b4d"></i></button>
+                                                <button type="button" class="btn btn-sm" onclick="btnAnswerCorrect@(item.answer_id)()" ng-click="answerCorrect(@(item.answer_id))" data-toggle="tooltip" data-placement="right" title="Câu trả lời đúng nhất"><i id="imgAnswerCorresct@(item.answer_id)" class="fas fa-check" style="font-size:25px;color:#172b4d"></i></button>
                                             </center>
                                         }
                                         <script>
@@ -398,7 +398,7 @@
                                     else if (item.answer_correct == true)
                                     {
                                         <center>
-                                            <i class="fas fa-check" style="font-size:25px;color:green"></i>
+                                            <i class="fas fa-check" style="font-size:25px;color:green" data-toggle="tooltip" data-placement="right" title="Câu trả lời đúng nhất"></i>
                                         </center>
                                     }
                                 </div>
@@ -491,7 +491,7 @@
                                                     <div class="d-flex">
                                                         <div class="">
                                                             <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = itemComment.user_id })">
-                                                                <img class="profile-pic" src="~/Image/Users/@itemComment.User.user_avatar" width="40" height="40" alt="...">
+                                                                <img class="profile-pic" src="~/Image/Users/@itemComment.User.user_avatar" width="27" height="27" alt="...">
                                                             </a>
                                                         </div>
                                                         <div class="flex-grow-1 pl-2">
@@ -515,7 +515,7 @@
                                                     <!-- comment header -->
                                                     <!-- comment body -->
                                                     <div class="card-body p-0">
-                                                        <p class="card-text h7 mb-1">@itemComment.commentAnswer_content</p>
+                                                        <p class="card-text h9 mb-1">@itemComment.commentAnswer_content</p>
                                                     </div>
                                                 </div>
                                             </section>
@@ -601,7 +601,7 @@
                         <a ng-repeat="x in listQuestionRelationship" ng-href="/FunctionAtDetailQuestion/DetailQuestion?id={{x.question_id}}">
                             <div class="row">
                                 <div class="col-2 mr--1">
-                                    <i class="fas fa-info-circle"></i>
+                                    <span class="bg-info text-white" style="border-radius:5px "><small class="p-1">+{{x.question_popular}}</small></span>
                                 </div>
                                 <div class="col-xl-10 ml--3">
                                     {{x.question_title}}
