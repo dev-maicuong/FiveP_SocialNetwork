@@ -4,6 +4,10 @@
     ViewBag.Title = "PageUser";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
+    int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+    Friend friend1 = db.Friends.FirstOrDefault(n => n.userRequest_id == user_id && n.userResponse_id == Model.user_id && n.friend_status == false);
+    Friend friend2 = db.Friends.FirstOrDefault(n => n.userRequest_id == Model.user_id && n.userResponse_id == user_id && n.friend_status == false);
+    Friend friend3 = db.Friends.FirstOrDefault(n => ((n.userRequest_id == Model.user_id && n.userResponse_id == user_id) || (n.userRequest_id == user_id && n.userResponse_id == Model.user_id)) && n.friend_status == true);
 }
 <style>
     .scroll_text {
@@ -65,11 +69,6 @@
                                 <form action="@Url.Action("AddFriend","UserManagement")" method="post">
                                     <input type="hidden" name="userResponse_id" value="@Model.user_id" />
                                     @{
-                                        int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
-                                        Friend friend1 = db.Friends.FirstOrDefault(n => n.userRequest_id == user_id && n.userResponse_id == Model.user_id && n.friend_status == false);
-                                        Friend friend2 = db.Friends.FirstOrDefault(n => n.userRequest_id == Model.user_id && n.userResponse_id == user_id && n.friend_status == false);
-                                        Friend friend3 = db.Friends.FirstOrDefault(n => ((n.userRequest_id == Model.user_id && n.userResponse_id == user_id) || (n.userRequest_id == user_id && n.userResponse_id == Model.user_id)) && n.friend_status == true);
-
                                         if (friend1 != null)
                                         {
                                             <button type="submit" class="btn btn-sm btn-info ml-4 float-left"><i class="fas fa-user-minus"></i> Hủy lời mời</button>
@@ -80,7 +79,7 @@
                                         }
                                         else if (friend3 != null)
                                         {
-                                            <button type="submit" class="btn btn-sm btn-info ml-4 float-left"><i class="fas fa-user-friends"></i> Bạn bè</button>
+                                            <button type="submit" class="btn btn-sm btn-info ml-4 float-left" data-toggle="tooltip" data-placement="top" title="Hủy kết bạn"><i class="fas fa-user-friends"></i> Bạn bè</button>
                                         }
                                         else
                                         {
@@ -92,7 +91,7 @@
                             }
                         </div>
                     </div>
-                    <div class="card-body pt-0 mt--4">
+                    <div class="card-body pt-0 mt-4">
                         <div class="row">
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center">
@@ -115,30 +114,52 @@
                             </div>
                         </div>
                         <div class="text-center">
+                            @if (Request.Cookies["user_id"] != null && friend3 != null)
+                            {
+                                if (int.Parse(Request.Cookies["user_id"].Value.ToString()) == friend3.userResponse_id && friend3.friend_follow == true)
+                                {
+                                    <div>
+                                        <label class="custom-toggle" data-toggle="tooltip" data-placement="top" title="Theo dõi..">
+                                            <input type="checkbox" ng-click="friendFollow(@(friend3.friend_id))" checked>
+                                            <span class="custom-toggle-slider rounded-circle"></span>
+                                        </label>
+                                    </div>
+                                }
+                                else if (int.Parse(Request.Cookies["user_id"].Value.ToString()) == friend3.userResponse_id && (friend3.friend_follow == false || friend3.friend_follow == null))
+                                {
+                                    <div>
+                                        <label class="custom-toggle" data-toggle="tooltip" data-placement="top" title="Theo dõi..">
+                                            <input type="checkbox" ng-click="friendFollow(@(friend3.friend_id))">
+                                            <span class="custom-toggle-slider rounded-circle"></span>
+                                        </label>
+                                    </div>
+                                }
+                                else if (int.Parse(Request.Cookies["user_id"].Value.ToString()) == friend3.userRequest_id && friend3.friend_follow2_Response == true)
+                                {
+                                    <div>
+                                        <label class="custom-toggle" data-toggle="tooltip" data-placement="top" title="Theo dõi..">
+                                            <input type="checkbox" ng-click="friend_follow2_Response(@(friend3.friend_id))" checked>
+                                            <span class="custom-toggle-slider rounded-circle"></span>
+                                        </label>
+                                    </div>
+                                }
+                                else if (int.Parse(Request.Cookies["user_id"].Value.ToString()) == friend3.userRequest_id && (friend3.friend_follow2_Response == false || friend3.friend_follow2_Response == null))
+                                {
+                                    <div>
+                                        <label class="custom-toggle" data-toggle="tooltip" data-placement="top" title="Theo dõi..">
+                                            <input type="checkbox" ng-click="friend_follow2_Response(@(friend3.friend_id))">
+                                            <span class="custom-toggle-slider rounded-circle"></span>
+                                        </label>
+                                    </div>
+                                }
+
+                            }
                             <div class="h9 text-muted">@Model.user_firstName @Model.user_lastName , @Model.user_popular<i class="fas fa-fire" style="color:red"></i></div>
                             <div class="h7 text-muted">@Model.user_vipMedal <i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i>  &nbsp; @Model.user_goldMedal <i class="fas fa-award" style="color:yellow;font-size:11px"></i>  &nbsp; @Model.user_silverMedal <i class="fas fa-award" style="color:silver;font-size:11px"></i>&nbsp; @Model.user_brozeMedal <i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </div>
                             <div class="h5 font-weight-300">
 
                                 <i class="ni location_pin mr-2"></i>
                                 <span style="padding:1%">@Model.user_phone</span>
-                            </div>
-                            <div>
-                                <center>
-                                    @if (Request.Cookies["user_id"] !=null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == Model.user_id && Model.user_statusOnline == true)
-                                    {
-                                        <label class="custom-toggle" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hoạt động">
-                                            <input type="checkbox" checked ng-click="statusUser()">
-                                            <span class="custom-toggle-slider rounded-circle"></span>
-                                        </label>
-                                    }
-                                    else if(Request.Cookies["user_id"] != null && int.Parse(Request.Cookies["user_id"].Value.ToString()) == Model.user_id && Model.user_statusOnline == false)
-                                    {
-                                        <label class="custom-toggle" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hoạt động">
-                                            <input type="checkbox" ng-click="statusUser()">
-                                            <span class="custom-toggle-slider rounded-circle"></span>
-                                        </label>
-                                    }
-                                </center>
                             </div>
                             <div class="h5 mt-2">
                                 <i class="ni business_briefcase-24 mr-2"></i><i class="fas fa-envelope-open-text"></i>&nbsp; Email : @Model.user_email
@@ -263,6 +284,12 @@
                                                     </div>
                                                     <div>
                                                         <small style="font-size:12px">{{x.question_Answer}} đáp án</small>
+                                                    </div>
+                                                    <div ng-show="x.question_userStatus == true" style="font-size:12px" data-toggle="tooltip" data-placement="right" title="Mọi người xem">
+                                                        <i class="fas fa-globe-europe" style="font-size:120%;" ></i>
+                                                    </div>
+                                                    <div ng-show="x.question_userStatus == false" style="font-size:12px" data-toggle="tooltip" data-placement="right" title="Chỉ mình bạn xem">
+                                                        <i class="fas fa-user" style="font-size:120%;"></i>
                                                     </div>
                                                 </div>
                                             </center>
@@ -461,8 +488,14 @@
                 // Second function handles error
                 $scope.listSuggestiotMakeFriends = "Something went wrong";
             });
-        $scope.statusUser = function () {
-            $http.get("/Message/StatusUser");
+        // chế độ theo dõi user
+        $scope.friendFollow = function (id) {
+            $http.get("/UserManagement/FriendFollow?id="+ id);
         }
+        // chế độ theo dõi user
+        $scope.friend_follow2_Response = function (id) {
+            $http.get("/UserManagement/friend_follow2_Response?id=" + id);
+        }
+        
     });
 </script>

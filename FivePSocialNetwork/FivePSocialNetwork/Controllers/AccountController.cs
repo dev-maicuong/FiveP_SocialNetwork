@@ -477,6 +477,28 @@ namespace FivePSocialNetwork.Controllers
             db.SaveChanges();
             return View(user);
         }
+        // -------------------------------------Nhận thông báo các câu hỏi liên quan đến công nghệ của bạn---
+        public ActionResult GetNotification()
+        {
+            int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
+            Functions_User check = db.Functions_User.FirstOrDefault(n => n.user_id == user_id);
+            if (check == null)
+            {
+                Functions_User functions_User = new Functions_User()
+                {
+                    user_id = user_id,
+                    notification_question_technology = true
+                };
+                db.Functions_User.Add(functions_User);
+                db.SaveChanges();
+            }
+            else
+            {
+                check.notification_question_technology = !check.notification_question_technology;
+                db.SaveChanges();
+            }
+            return View();
+        }
         //-------------------------------------------------lưu giới tính user----------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]

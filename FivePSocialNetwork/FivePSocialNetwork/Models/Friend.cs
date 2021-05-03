@@ -22,6 +22,8 @@ namespace FivePSocialNetwork.Models
         public Nullable<System.DateTime> friend_dateResponse { get; set; }
         public Nullable<System.DateTime> friend_dateUnfriend { get; set; }
         public Nullable<bool> friend_recycleBin { get; set; }
+        public Nullable<bool> friend_follow { get; set; }
+        public Nullable<bool> friend_follow2_Response { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

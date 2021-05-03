@@ -64,7 +64,11 @@ namespace FivePSocialNetwork.Controllers
                 }
             }
             Question question = db.Questions.SingleOrDefault(n => n.question_id == id && n.question_activate == true && n.question_recycleBin == false && n.question_admin_recycleBin == false);
-            if(question.question_userStatus == true)
+            if (question == null)
+            {
+                return Redirect("/Home/Index");
+            }
+            else if(question.question_userStatus == true)
             {
                 return View(question);
             }
@@ -624,7 +628,7 @@ namespace FivePSocialNetwork.Controllers
         {
             Teachnology_Question teachnology_Questions = db.Teachnology_Question.FirstOrDefault(n => n.question_id == id);
 
-            List<Question> questions = db.Teachnology_Question.Where(n=>n.technology_id == teachnology_Questions.technology_id).Select(n=>n.Question).ToList();
+            List<Question> questions = db.Teachnology_Question.Where(n=>n.technology_id == teachnology_Questions.technology_id && n.Question.question_admin_recycleBin == false && n.Question.question_recycleBin == false && n.Question.question_userStatus == true).Select(n=>n.Question).ToList();
             List<ListQuestions> listTags = questions.Select(n => new ListQuestions
             {
                 question_title = n.question_title,

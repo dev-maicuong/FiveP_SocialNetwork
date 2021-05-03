@@ -99,6 +99,16 @@
           <Property Name="friend_dateResponse" Type="datetime" />
           <Property Name="friend_dateUnfriend" Type="datetime" />
           <Property Name="friend_recycleBin" Type="bit" />
+          <Property Name="friend_follow" Type="bit" />
+          <Property Name="friend_follow2_Response" Type="bit" />
+        </EntityType>
+        <EntityType Name="Functions_User">
+          <Key>
+            <PropertyRef Name="functionsUser_id" />
+          </Key>
+          <Property Name="functionsUser_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="notification_question_technology" Type="bit" />
         </EntityType>
         <EntityType Name="Image_Advertisement">
           <Key>
@@ -572,6 +582,18 @@
             </Principal>
             <Dependent Role="Friend">
               <PropertyRef Name="userResponse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Functions_User_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Functions_User" Type="Self.Functions_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Functions_User">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1051,6 +1073,7 @@
           <EntitySet Name="Denounce_User" EntityType="Self.Denounce_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Friend" EntityType="Self.Friend" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Functions_User" EntityType="Self.Functions_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image_Advertisement" EntityType="Self.Image_Advertisement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Letters" EntityType="Self.Letters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Letters_Idea" EntityType="Self.Letters_Idea" Schema="dbo" store:Type="Tables" />
@@ -1121,6 +1144,10 @@
           <AssociationSet Name="FK_Friend_User1" Association="Self.FK_Friend_User1">
             <End Role="User" EntitySet="User" />
             <End Role="Friend" EntitySet="Friend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Functions_User_User" Association="Self.FK_Functions_User_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Functions_User" EntitySet="Functions_User" />
           </AssociationSet>
           <AssociationSet Name="FK_Image_Advertisement_Advertisement" Association="Self.FK_Image_Advertisement_Advertisement">
             <End Role="Advertisement" EntitySet="Advertisement" />
@@ -1394,6 +1421,8 @@
           <Property Name="friend_recycleBin" Type="Boolean" />
           <NavigationProperty Name="User" Relationship="Self.FK_Friend_User" FromRole="Friend" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Friend_User1" FromRole="Friend" ToRole="User" />
+          <Property Name="friend_follow" Type="Boolean" />
+          <Property Name="friend_follow2_Response" Type="Boolean" />
         </EntityType>
         <EntityType Name="Image_Advertisement">
           <Key>
@@ -1788,6 +1817,7 @@
           <Property Name="user_statusOnline" Type="Boolean" />
           <NavigationProperty Name="User_IP" Relationship="FivePSocialNetWorkModel.FK_User_IP_User" FromRole="User" ToRole="User_IP" />
           <Property Name="user_SecurityAccount" Type="Boolean" />
+          <NavigationProperty Name="Functions_User" Relationship="FivePSocialNetWorkModel.FK_Functions_User_User" FromRole="User" ToRole="Functions_User" />
         </EntityType>
         <EntityType Name="View_Post">
           <Key>
@@ -2634,6 +2664,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="User_IP" EntitySet="User_IP" />
           </AssociationSet>
+          <EntitySet Name="Functions_User" EntityType="FivePSocialNetWorkModel.Functions_User" />
+          <AssociationSet Name="FK_Functions_User_User" Association="FivePSocialNetWorkModel.FK_Functions_User_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Functions_User" EntitySet="Functions_User" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User_IP">
           <Key>
@@ -2653,6 +2688,27 @@
               <PropertyRef Name="user_id" />
             </Principal>
             <Dependent Role="User_IP">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Functions_User">
+          <Key>
+            <PropertyRef Name="functionsUser_id" />
+          </Key>
+          <Property Name="functionsUser_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="notification_question_technology" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="FivePSocialNetWorkModel.FK_Functions_User_User" FromRole="Functions_User" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Functions_User_User">
+          <End Type="FivePSocialNetWorkModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="FivePSocialNetWorkModel.Functions_User" Role="Functions_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Functions_User">
               <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -2754,6 +2810,8 @@
           <EntitySetMapping Name="Friends">
             <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Friend">
               <MappingFragment StoreEntitySet="Friend">
+                <ScalarProperty Name="friend_follow2_Response" ColumnName="friend_follow2_Response" />
+                <ScalarProperty Name="friend_follow" ColumnName="friend_follow" />
                 <ScalarProperty Name="friend_id" ColumnName="friend_id" />
                 <ScalarProperty Name="userRequest_id" ColumnName="userRequest_id" />
                 <ScalarProperty Name="userResponse_id" ColumnName="userResponse_id" />
@@ -3132,6 +3190,15 @@
                 <ScalarProperty Name="userIP_dateLogin" ColumnName="userIP_dateLogin" />
                 <ScalarProperty Name="userIP_IP" ColumnName="userIP_IP" />
                 <ScalarProperty Name="userIP_id" ColumnName="userIP_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Functions_User">
+            <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Functions_User">
+              <MappingFragment StoreEntitySet="Functions_User">
+                <ScalarProperty Name="notification_question_technology" ColumnName="notification_question_technology" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="functionsUser_id" ColumnName="functionsUser_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

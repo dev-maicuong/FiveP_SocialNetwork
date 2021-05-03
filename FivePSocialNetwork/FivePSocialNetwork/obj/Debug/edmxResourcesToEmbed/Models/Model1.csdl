@@ -111,6 +111,8 @@
     <Property Name="friend_recycleBin" Type="Boolean" />
     <NavigationProperty Name="User" Relationship="Self.FK_Friend_User" FromRole="Friend" ToRole="User" />
     <NavigationProperty Name="User1" Relationship="Self.FK_Friend_User1" FromRole="Friend" ToRole="User" />
+    <Property Name="friend_follow" Type="Boolean" />
+    <Property Name="friend_follow2_Response" Type="Boolean" />
   </EntityType>
   <EntityType Name="Image_Advertisement">
     <Key>
@@ -505,6 +507,7 @@
     <Property Name="user_statusOnline" Type="Boolean" />
     <NavigationProperty Name="User_IP" Relationship="FivePSocialNetWorkModel.FK_User_IP_User" FromRole="User" ToRole="User_IP" />
     <Property Name="user_SecurityAccount" Type="Boolean" />
+    <NavigationProperty Name="Functions_User" Relationship="FivePSocialNetWorkModel.FK_Functions_User_User" FromRole="User" ToRole="Functions_User" />
   </EntityType>
   <EntityType Name="View_Post">
     <Key>
@@ -1351,6 +1354,11 @@
       <End Role="User" EntitySet="Users" />
       <End Role="User_IP" EntitySet="User_IP" />
     </AssociationSet>
+    <EntitySet Name="Functions_User" EntityType="FivePSocialNetWorkModel.Functions_User" />
+    <AssociationSet Name="FK_Functions_User_User" Association="FivePSocialNetWorkModel.FK_Functions_User_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Functions_User" EntitySet="Functions_User" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="User_IP">
     <Key>
@@ -1370,6 +1378,27 @@
         <PropertyRef Name="user_id" />
       </Principal>
       <Dependent Role="User_IP">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Functions_User">
+    <Key>
+      <PropertyRef Name="functionsUser_id" />
+    </Key>
+    <Property Name="functionsUser_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="notification_question_technology" Type="Boolean" />
+    <NavigationProperty Name="User" Relationship="FivePSocialNetWorkModel.FK_Functions_User_User" FromRole="Functions_User" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Functions_User_User">
+    <End Type="FivePSocialNetWorkModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="FivePSocialNetWorkModel.Functions_User" Role="Functions_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Functions_User">
         <PropertyRef Name="user_id" />
       </Dependent>
     </ReferentialConstraint>

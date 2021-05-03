@@ -41,7 +41,7 @@ namespace FivePSocialNetwork.Controllers
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
         [ValidateInput(false)]
-        public ActionResult PostQuestion([Bind(Include = "question_id,question_content,question_dateCreate,question_dateEdit,user_id,question_activate,question_title,question_Answer,question_totalComment,question_view,question_totalRate,question_medalCalculator,question_recycleBin,question_userStatus,question_popular,question_admin_recycleBin,question_keywordSearch,question_totalTick")] Question question, string strTagsQuestion, int[] technologyQuestion)
+        public ActionResult PostQuestion([Bind(Include = "question_id,question_content,question_dateCreate,question_dateEdit,user_id,question_activate,question_title,question_Answer,question_totalComment,question_view,question_totalRate,question_medalCalculator,question_recycleBin,question_userStatus,question_popular,question_admin_recycleBin,question_keywordSearch,question_totalTick")] Question question, string strTagsQuestion, int[] technologyQuestion, Notification notification)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -275,6 +275,70 @@ namespace FivePSocialNetwork.Controllers
                     question_id = lastQuestion.question_id
                 });
                 db.SaveChanges();
+                // tự động thông báo cho user có cùng công nghệ với câu hỏi..
+                List<Functions_User> functions_Users = db.Functions_User.Where(n => n.notification_question_technology == true).ToList();
+                if (functions_Users != null)
+                {
+                    foreach (var item in functions_Users)
+                    {
+                        foreach (var item2 in technologyQuestion)
+                        {
+                            Teachnology_User teachnology_User = db.Teachnology_User.FirstOrDefault(n => n.user_id == item.user_id && n.technology_id == item2);
+                            if (teachnology_User != null)
+                            {
+                                notification.receiver_id = item.user_id;
+                                notification.impactUser_id = user_id;
+                                notification.question_id = lastQuestion.question_id;
+                                notification.notification_recycleBin = false;
+                                notification.notification_dateCreate = DateTime.Now;
+                                notification.notification_content = "Câu hỏi mới: " + lastQuestion.question_title;
+                                notification.notification_status = false;
+                                db.Notifications.Add(notification);
+                                db.SaveChanges();
+                                break;
+                            }
+                        }
+                    }
+                }
+                // Thông báo cho user theo dõi mình
+                List<Friend> friends = db.Friends.Where(n => ((n.userRequest_id == user_id && n.friend_follow == true) || (n.userResponse_id == user_id && n.friend_follow2_Response == true)) && n.friend_status == true).ToList();
+                if(friends != null)
+                {
+                    List<Friend> tempFriend = new List<Friend>();
+                    foreach(var item in friends)
+                    {
+                        if(item.userRequest_id != user_id)
+                        {
+                            tempFriend.Add(new Friend
+                            {
+                                userResponse_id = item.userRequest_id,
+                                userRequest_id = item.userResponse_id
+
+                            });
+                        }
+                        else
+                        {
+                            tempFriend.Add(new Friend
+                            {
+                                userResponse_id = item.userResponse_id,
+                                userRequest_id = item.userRequest_id
+                            });
+                        }
+                    }
+                    foreach(var item in tempFriend)
+                    {
+                        notification.receiver_id = item.userResponse_id;
+                        notification.impactUser_id = item.userRequest_id;
+                        notification.question_id = lastQuestion.question_id;
+                        notification.notification_recycleBin = false;
+                        notification.notification_dateCreate = DateTime.Now;
+                        notification.notification_content = user.user_firstName + user.user_lastName + " vừa đặt câu hỏi: "+question.question_title;
+                        notification.notification_status = false;
+                        db.Notifications.Add(notification);
+                        db.SaveChanges();
+                    }
+
+                }
                 return View(question);
             }
             else

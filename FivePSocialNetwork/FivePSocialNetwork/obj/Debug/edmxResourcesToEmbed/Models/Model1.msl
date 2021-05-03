@@ -92,6 +92,8 @@
     <EntitySetMapping Name="Friends">
       <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Friend">
         <MappingFragment StoreEntitySet="Friend">
+          <ScalarProperty Name="friend_follow2_Response" ColumnName="friend_follow2_Response" />
+          <ScalarProperty Name="friend_follow" ColumnName="friend_follow" />
           <ScalarProperty Name="friend_id" ColumnName="friend_id" />
           <ScalarProperty Name="userRequest_id" ColumnName="userRequest_id" />
           <ScalarProperty Name="userResponse_id" ColumnName="userResponse_id" />
@@ -470,6 +472,15 @@
           <ScalarProperty Name="userIP_dateLogin" ColumnName="userIP_dateLogin" />
           <ScalarProperty Name="userIP_IP" ColumnName="userIP_IP" />
           <ScalarProperty Name="userIP_id" ColumnName="userIP_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Functions_User">
+      <EntityTypeMapping TypeName="FivePSocialNetWorkModel.Functions_User">
+        <MappingFragment StoreEntitySet="Functions_User">
+          <ScalarProperty Name="notification_question_technology" ColumnName="notification_question_technology" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="functionsUser_id" ColumnName="functionsUser_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

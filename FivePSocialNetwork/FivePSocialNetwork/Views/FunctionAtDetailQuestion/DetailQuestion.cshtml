@@ -148,11 +148,11 @@
                             }
 
                             <center>
-                                <span class="text-center border-bottom" style="font-size:11px"  data-toggle="tooltip" data-placement="right" title="Trạng thái">
+                                <span class="text-center border-bottom" style="font-size:11px">
                                     @if (Model.question_userStatus == true)
-                                    {<i class="fas fa-globe-europe" style="font-size:120%;"></i>}
+                                    {<i class="fas fa-globe-europe" style="font-size:120%;" data-toggle="tooltip" data-placement="right" title="Mọi người xem"></i>}
                                     else
-                                    {<i class="fas fa-user" style="font-size:120%;"></i>}
+                                    {<i class="fas fa-user" style="font-size:120%;" data-toggle="tooltip" data-placement="right" title="Chỉ mình bạn xem"></i>}
                                 </span>
                             </center>
                         </div>
@@ -165,7 +165,7 @@
                                 </div>
                                 <div class="flex-grow-1 pl-2">
                                     <a class="text-decoration-none" href="@Url.Action("PageUser","UserManagement", new {id = Model.user_id })">
-                                        <h2 class="text-capitalize h5 mb-0">@Model.User.user_firstName @Model.User.user_lastName @Model.question_popular <i class="fas fa-fire" style="color:red"></i></h2>
+                                        <h2 class="text-capitalize h5 mb-0">@Model.User.user_firstName @Model.User.user_lastName @Model.User.user_popular <i class="fas fa-fire" style="color:red"></i></h2>
                                     </a>
                                     <p class="small text-dark m-0 mt-1">@Model.User.user_vipMedal<i class="fab fa-galactic-senate" style="color:orangered;font-size:24px"></i> @Model.User.user_goldMedal<i class="fas fa-award" style="color:yellow"></i>@Model.User.user_silverMedal<i class="fas fa-award" style="color:silver"></i> @Model.User.user_brozeMedal<i class="fas fa-award" style="color:#e88d15"></i>  </p>
 

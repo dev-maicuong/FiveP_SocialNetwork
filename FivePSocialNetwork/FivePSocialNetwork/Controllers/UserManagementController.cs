@@ -63,7 +63,7 @@ namespace FivePSocialNetwork.Controllers
             return Json(listQuestions, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult AddFriend([Bind(Include = "friend_id,userRequest_id,userResponse_id,friend_status,friend_dateRequest,friend_dateResponse,friend_dateUnfriend,friend_recycleBin")] Friend friend, Message message, Notification notification)
+        public ActionResult AddFriend([Bind(Include = "friend_id,userRequest_id,userResponse_id,friend_status,friend_dateRequest,friend_dateResponse,friend_dateUnfriend,friend_recycleBin,friend_follow,friend_follow2_Response")] Friend friend, Message message, Notification notification)
         {
             //nếu ko có cookies cho về trang tất cả câu hỏi.
             if (Request.Cookies["user_id"] == null)
@@ -80,6 +80,19 @@ namespace FivePSocialNetwork.Controllers
 
             if (friend5 != null)
             {
+                User user = db.Users.Find(user_id);
+                //thông báo
+                notification.receiver_id = friend.userResponse_id;
+                notification.impactUser_id = user_id;
+                notification.question_id = 1;
+                notification.notification_recycleBin = false;
+                notification.notification_dateCreate = DateTime.Now;
+                notification.notification_content = user.user_firstName + user.user_lastName + " muốn làm bạn với bạn.";
+                notification.notification_status = false;
+                db.Notifications.Add(notification);
+                db.SaveChanges();
+
+                // friend
                 db.Friends.Find(friend5.friend_id).friend_id = friend5.friend_id;
                 db.Friends.Find(friend5.friend_id).userRequest_id = user_id;
                 db.Friends.Find(friend5.friend_id).userResponse_id = friend.userResponse_id;
@@ -97,6 +110,18 @@ namespace FivePSocialNetwork.Controllers
             }
             else if (friend3 != null)
             {
+                User user = db.Users.Find(user_id);
+                //thông báo
+                notification.receiver_id = friend.userResponse_id;
+                notification.impactUser_id = user_id;
+                notification.question_id = 1;
+                notification.notification_recycleBin = false;
+                notification.notification_dateCreate = DateTime.Now;
+                notification.notification_content = user.user_firstName + user.user_lastName + " muốn làm bạn với bạn.";
+                notification.notification_status = false;
+                db.Notifications.Add(notification);
+                db.SaveChanges();
+                //fiend
                 db.Friends.Find(friend3.friend_id).friend_status = false;
                 db.Friends.Find(friend3.friend_id).friend_dateRequest = DateTime.Now;
                 db.SaveChanges();
@@ -135,6 +160,7 @@ namespace FivePSocialNetwork.Controllers
                 //thông báo
                 notification.receiver_id = friend2.userRequest_id;
                 notification.impactUser_id = user_id;
+                notification.question_id = 1;
                 notification.notification_recycleBin = false;
                 notification.notification_dateCreate = DateTime.Now;
                 notification.notification_content ="Bạn và "+ friend2.User1.user_firstName + friend2.User1.user_lastName+" đã là bạn bè";
@@ -142,12 +168,25 @@ namespace FivePSocialNetwork.Controllers
                 db.Notifications.Add(notification);
                 // lưu bạn bình thường
                 db.Friends.Find(friend2.friend_id).friend_status = true;
+                db.Friends.Find(friend2.friend_id).friend_follow = true;
+                db.Friends.Find(friend2.friend_id).friend_follow2_Response = true;
                 db.Friends.Find(friend2.friend_id).friend_dateResponse = DateTime.Now;
                 db.SaveChanges();
                 return Redirect(Request.UrlReferrer.ToString());
             }
             else
             {
+                User user = db.Users.Find(user_id);
+                //thông báo
+                notification.receiver_id = friend.userResponse_id;
+                notification.impactUser_id = user_id;
+                notification.question_id = 1;
+                notification.notification_recycleBin = false;
+                notification.notification_dateCreate = DateTime.Now;
+                notification.notification_content = user.user_firstName + user.user_lastName + " muốn làm bạn với bạn.";
+                notification.notification_status = false;
+                db.Notifications.Add(notification);
+                // lưu bạn
                 friend.userRequest_id = user_id;
                 friend.friend_status = false;
                 friend.friend_dateRequest = DateTime.Now;
@@ -157,6 +196,20 @@ namespace FivePSocialNetwork.Controllers
                 return Redirect(Request.UrlReferrer.ToString());
             }
         }
+        // Chế độ theo dõi
+        public ActionResult FriendFollow(int? id)
+        {
+            db.Friends.Find(id).friend_follow = !db.Friends.Find(id).friend_follow;
+            db.SaveChanges();
+            return View();
+        }
+        public ActionResult friend_follow2_Response(int? id)
+        {
+            db.Friends.Find(id).friend_follow2_Response = !db.Friends.Find(id).friend_follow2_Response;
+            db.SaveChanges();
+            return View();
+        }
+
         //---------------------------------------------user Quản lý câu hỏi --------------------------------
         public JsonResult ListQuestions(int? user_id)
         {

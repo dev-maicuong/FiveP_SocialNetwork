@@ -3,6 +3,7 @@
     ViewBag.Title = "ManagementTick";
     Layout = "~/Views/Shared/_LayoutCenter.cshtml";
 }
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style>
     .scroll_text {
         height: 600px;
@@ -26,6 +27,9 @@
             .scroll_text::-webkit-scrollbar-thumb:hover {
                 background-color: #000;
             }
+    .mySlides {
+        display: none;
+    }
 </style>
 
 <div class="header pb-6" style="">
@@ -43,8 +47,6 @@
                     </nav>
                 </div>
                 <div class="col-lg-6 col-5 text-right">
-                    @*<a href="@Url.Action("PostQuestion","Question")" class="btn btn-sm btn-neutral"><i class="far fa-paper-plane"></i> Đặt câu hỏi?</a>
-                        <a href="#" class="btn btn-sm btn-neutral"><i class="far fa-edit"></i> Đăng bài viết </a>*@
                 </div>
             </div>
         </div>
@@ -54,7 +56,11 @@
 <div class="container-fluid mt--7" ng-app="myApp">
     <div class="row" ng-controller="myCtrl">
         <div class="col-xl-12 mb-3">
-            <img src="~/Image/Advertisement/thiet-ke-website.jpg" class="img-fluid" />
+            <div class="w3-section">
+                <img class="mySlides w3-animate-left" src="~/Image/Advertisement/code-hay-upload-kiem-tien.jpg" style="width:100%">
+                <img class="mySlides w3-animate-left" src="~/Image/Advertisement/share-code-clould-vps.jpg" style="width:100%">
+                <img class="mySlides w3-animate-left" src="~/Image/Advertisement/thiet-ke-website.jpg" style="width:100%">
+            </div>
         </div>
         <div class="col-xl-8">
             <div class="">
@@ -117,8 +123,8 @@
 
                                         </div>
                                     </td>
-                                    <td class="budget ">
-                                        <a onclick="return window.confirm('Bạn có chắc muốn xóa comment này!')" ng-click="unTick(x.tickQuestion_id,$index)" data-toggle="tooltip" data-placement="top" title="Bỏ đánh dấu"><i class="far fa-check-circle" style="font-size:23px"></i></a>
+                                    <td class="budget">
+                                        <a href="#" onclick="return window.confirm('Bạn có chắc muốn bỏ đánh dấu bài viết này!')" ng-click="unTick(x.tickQuestion_id,$index)" data-toggle="tooltip" data-placement="top" title="Bỏ đánh dấu"><i class="far fa-check-circle" style="font-size:23px"></i></a>
                                     </td>
                                     <td class="text-right">
                                         {{$index+1}}
@@ -183,4 +189,20 @@
                 $scope.listSuggestiotMakeFriends = "Something went wrong";
             });
     });
+</script>
+<script>
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) { myIndex = 1 }
+        x[myIndex - 1].style.display = "block";
+        setTimeout(carousel, 4500);
+    }
 </script>

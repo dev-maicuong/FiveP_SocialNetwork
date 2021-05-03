@@ -94,6 +94,16 @@
     <Property Name="friend_dateResponse" Type="datetime" />
     <Property Name="friend_dateUnfriend" Type="datetime" />
     <Property Name="friend_recycleBin" Type="bit" />
+    <Property Name="friend_follow" Type="bit" />
+    <Property Name="friend_follow2_Response" Type="bit" />
+  </EntityType>
+  <EntityType Name="Functions_User">
+    <Key>
+      <PropertyRef Name="functionsUser_id" />
+    </Key>
+    <Property Name="functionsUser_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+    <Property Name="notification_question_technology" Type="bit" />
   </EntityType>
   <EntityType Name="Image_Advertisement">
     <Key>
@@ -567,6 +577,18 @@
       </Principal>
       <Dependent Role="Friend">
         <PropertyRef Name="userResponse_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Functions_User_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Functions_User" Type="Self.Functions_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="Functions_User">
+        <PropertyRef Name="user_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1046,6 +1068,7 @@
     <EntitySet Name="Denounce_User" EntityType="Self.Denounce_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Friend" EntityType="Self.Friend" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Functions_User" EntityType="Self.Functions_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Image_Advertisement" EntityType="Self.Image_Advertisement" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Letters" EntityType="Self.Letters" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Letters_Idea" EntityType="Self.Letters_Idea" Schema="dbo" store:Type="Tables" />
@@ -1116,6 +1139,10 @@
     <AssociationSet Name="FK_Friend_User1" Association="Self.FK_Friend_User1">
       <End Role="User" EntitySet="User" />
       <End Role="Friend" EntitySet="Friend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Functions_User_User" Association="Self.FK_Functions_User_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Functions_User" EntitySet="Functions_User" />
     </AssociationSet>
     <AssociationSet Name="FK_Image_Advertisement_Advertisement" Association="Self.FK_Image_Advertisement_Advertisement">
       <End Role="Advertisement" EntitySet="Advertisement" />

@@ -219,8 +219,8 @@ input:focus {
 }
 
 .custom-toggle-slider:before {
-    bottom: 0.7px;
-    left: 0px;
+    bottom: 0px;
+    left: 1px;
     width: 22px;
-    height: 18px;
+    height: 19px;
 }

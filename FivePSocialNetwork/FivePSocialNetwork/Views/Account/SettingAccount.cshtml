@@ -9,10 +9,18 @@
     int user_id = int.Parse(Request.Cookies["user_id"].Value.ToString());
     FivePSocialNetWorkEntities db = new FivePSocialNetWorkEntities();
     User user = db.Users.Find(user_id);
+    Functions_User functions_User = db.Functions_User.FirstOrDefault(n => n.user_id == user_id);
     string selected = "selected";
 }
+<style>
+    .custom-toggle-slider:before {
+        bottom: 0.7px;
+        left: 1px;
+        width: 22px;
+        height: 19px;
+    }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
-
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <div class="main-content" id="panel">
@@ -53,6 +61,24 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <center>
+                                @if (user.user_statusOnline == true)
+                                {
+                                    <label class="custom-toggle" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hoạt động">
+                                        <input type="checkbox" checked id="statusUser">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                }
+                                else if (user.user_statusOnline == false)
+                                {
+                                    <label class="custom-toggle" data-toggle="tooltip" data-placement="bottom" title="Trạng thái hoạt động">
+                                        <input type="checkbox" id="statusUser">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                }
+                            </center>
                         </div>
                         <div class="text-center">
                             <div class="h7 text-muted">@user.user_vipMedal <i class="fab fa-galactic-senate" style="color:orangered;font-size:18px"></i>  &nbsp; @user.user_goldMedal <i class="fas fa-award" style="color:yellow;font-size:11px"></i>  &nbsp; @user.user_silverMedal <i class="fas fa-award" style="color:silver;font-size:11px"></i>&nbsp; @user.user_brozeMedal <i class="fas fa-award" style="color:#e88d15;font-size:11px"></i> </div>
@@ -539,6 +565,24 @@
                 success: function (response) {
                     $("#commune").html(response);
                 }
+            })
+        })
+    })
+    //Nhận thông báo các câu hỏi liên quan đến công nghệ của bạn
+    $(document).ready(function () {
+        $("#getNotification").click(function () {
+            $.ajax({
+                type: "get",
+                url: "/Account/GetNotification"
+            })
+        })
+    })
+    // TRạng thái hoạt động user
+    $(document).ready(function () {
+        $("#statusUser").click(function () {
+            $.ajax({
+                type: "get",
+                url: "/Message/StatusUser"
             })
         })
     })

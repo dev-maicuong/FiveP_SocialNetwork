@@ -59,5 +59,6 @@ namespace FivePSocialNetwork.Models
         public virtual DbSet<View_Post> View_Post { get; set; }
         public virtual DbSet<View_Question> View_Question { get; set; }
         public virtual DbSet<User_IP> User_IP { get; set; }
+        public virtual DbSet<Functions_User> Functions_User { get; set; }
     }
 }
